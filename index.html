@@ -3,43 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tagbanan - Répertoire & Quêtes</title>
+  <title>Tagbanan App</title>
 
-  <!-- Redirection automatique si le slash final manque (évite le bug 404 GitHub Pages) -->
   <script>
     if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
       window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
     }
   </script>
 
-  <!-- PWA & Liens d'icônes -->
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon.png">
-  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="manifest" href="manifest.json?v=4">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=4">
+  <link rel="apple-touch-icon" href="icon.png?v=4">
+  <link rel="shortcut icon" href="icon.png?v=4">
 
-  <meta name="theme-color" content="#d97706">
+  <meta name="theme-color" content="#1e40af">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Tagbanan">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Tagbanan App">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --primary: #d97706;
-      --primary-dark: #b45309;
-      --duo-green: #58cc02;
-      --duo-green-shadow: #46a302;
-      --duo-red: #ea2b2b;
-      --duo-red-shadow: #b81b1b;
-      --bg: #fdfbf7;
-      --card-bg: #ffffff;
-      --text: #27272a;
-      --text-muted: #71717a;
-      --border: #e4e4e7;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent-cyan: #06b6d4;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --bg: #0b1329;
+      --card-bg: #131f3d;
+      --card-sub: #0f172a;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #1e293b;
       --radius: 16px;
     }
 
@@ -53,27 +53,33 @@
       flex-direction: column;
     }
 
-    /* Bannière d'installation PWA native */
-    #installBanner {
+    /* Écran d'accueil Auth */
+    #authOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 19, 41, 0.96);
+      backdrop-filter: blur(10px);
+      z-index: 300;
       display: none;
-      background: #18181b;
-      color: white;
-      padding: 0.75rem 1rem;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      justify-content: center;
+      padding: 1rem;
     }
-    #installBanner button {
-      background: var(--duo-green);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      font-weight: 800;
-      cursor: pointer;
+    .auth-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      padding: 2.25rem 1.75rem;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }
+    .auth-card img {
+      width: 76px;
+      height: 76px;
+      border-radius: 18px;
+      margin-bottom: 1rem;
     }
 
     header {
@@ -100,16 +106,17 @@
       height: 44px;
       border-radius: 12px;
       object-fit: cover;
+      border: 1px solid var(--border);
     }
     .brand h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.35rem;
-      color: #18181b;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #ffffff;
       line-height: 1.1;
     }
     .brand span {
       font-size: 0.75rem;
-      color: var(--text-muted);
+      color: var(--accent-cyan);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -117,7 +124,7 @@
 
     .mode-nav {
       display: flex;
-      background: #f4f4f5;
+      background: #0b1329;
       padding: 4px;
       border-radius: 14px;
       gap: 4px;
@@ -139,28 +146,38 @@
     }
     .mode-btn.active {
       background: var(--card-bg);
-      color: #18181b;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-    }
-    .mode-btn.duo-tab.active {
-      color: var(--duo-green);
+      color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
 
-    .stats-badge {
+    .user-profile-badge {
       display: flex;
       align-items: center;
-      gap: 6px;
-      background: #fef3c7;
-      color: #92400e;
-      padding: 6px 12px;
+      gap: 10px;
+      background: #1e293b;
+      padding: 6px 14px;
       border-radius: 20px;
-      font-weight: 800;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .streak-badge {
+      color: #f97316;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .admin-pill {
+      background: #064e3b;
+      color: #34d399;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
     }
 
     main {
       flex: 1;
-      max-width: 960px;
+      max-width: 980px;
       margin: 0 auto;
       width: 100%;
       padding: 1.5rem 1rem 4rem;
@@ -180,7 +197,7 @@
       gap: 0.75rem;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
     .search-box {
       flex: 1;
@@ -190,11 +207,12 @@
     .search-box input {
       width: 100%;
       padding: 0.8rem 1rem 0.8rem 2.6rem;
-      border: 2px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 12px;
       font-size: 0.95rem;
       outline: none;
       background: var(--card-bg);
+      color: #ffffff;
     }
     .search-box input:focus { border-color: var(--primary); }
     .search-box svg {
@@ -219,8 +237,9 @@
     }
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-dark); }
-    .btn-secondary { background: #f4f4f5; color: #3f3f46; }
-    .btn-secondary:hover { background: #e4e4e7; }
+    .btn-secondary { background: #1e293b; color: #cbd5e1; }
+    .btn-secondary:hover { background: #334155; }
+    .btn-admin { background: #312e81; color: #a5b4fc; }
 
     .category-chips {
       display: flex;
@@ -241,104 +260,135 @@
       white-space: nowrap;
     }
     .chip.active {
-      background: #18181b;
+      background: var(--primary);
       color: white;
-      border-color: #18181b;
+      border-color: var(--primary);
     }
 
     .word-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.25rem;
     }
     .word-card {
       background: var(--card-bg);
       border-radius: var(--radius);
-      border: 2px solid var(--border);
-      padding: 1.25rem;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 0.75rem;
       transition: transform 0.15s, border-color 0.15s;
     }
     .word-card:hover {
       transform: translateY(-2px);
-      border-color: var(--primary);
+      border-color: var(--accent-cyan);
     }
-    .word-head {
+    .card-img-banner {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      background: #0a0f1d;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-body {
+      padding: 1.25rem;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex: 1;
     }
     .tagbanan-term {
       font-size: 1.35rem;
       font-weight: 800;
-      color: #18181b;
+      color: #ffffff;
     }
     .phonetic {
       font-size: 0.85rem;
-      color: var(--text-muted);
+      color: var(--accent-cyan);
       font-style: italic;
     }
+    .grammar-tag {
+      font-size: 0.7rem;
+      background: #0284c7;
+      color: white;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-left: 6px;
+    }
+    .mastery-indicator {
+      display: flex;
+      gap: 3px;
+      margin-top: 4px;
+    }
+    .mastery-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #334155;
+    }
+    .mastery-dot.active { background: #22c55e; }
+
     .audio-btn {
-      background: #fef3c7;
-      color: #b45309;
+      background: #1e293b;
+      color: #38bdf8;
       border: none;
-      width: 38px;
-      height: 38px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
-      transition: transform 0.1s, background 0.2s;
+      font-size: 1.2rem;
+      transition: transform 0.1s;
     }
-    .audio-btn:hover { background: #fde68a; }
-    .audio-btn:active { transform: scale(0.92); }
     .audio-btn.has-voice {
-      background: #dcfce7;
-      color: #15803d;
+      background: #064e3b;
+      color: #34d399;
     }
-    .audio-btn.has-voice:hover { background: #bbf7d0; }
+    .audio-btn:active { transform: scale(0.9); }
 
     .word-trans {
       font-size: 1.05rem;
       font-weight: 600;
-      color: #3f3f46;
+      color: #e2e8f0;
     }
     .word-example {
       font-size: 0.85rem;
-      background: #fdfaf2;
+      background: #0b1329;
       border-left: 3px solid var(--primary);
       padding: 6px 10px;
       border-radius: 4px;
-      color: #52525b;
+      color: #94a3b8;
     }
     .word-card-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 0.5rem;
-      padding-top: 0.5rem;
-      border-top: 1px dashed var(--border);
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid var(--border);
+      background: rgba(0,0,0,0.15);
       font-size: 0.75rem;
       color: var(--text-muted);
     }
     .del-btn {
       background: none;
       border: none;
-      color: #ef4444;
+      color: #f87171;
       cursor: pointer;
       padding: 4px;
       font-size: 0.8rem;
+      font-weight: 700;
     }
 
+    /* Modal Formulaire */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.75);
       display: none;
       align-items: center;
       justify-content: center;
@@ -346,37 +396,39 @@
       padding: 1rem;
     }
     .modal {
-      background: white;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
       width: 100%;
       max-width: 520px;
       border-radius: 20px;
       padding: 1.5rem;
-      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
       max-height: 90vh;
       overflow-y: auto;
     }
-    .form-group { margin-bottom: 1rem; }
+    .form-group { margin-bottom: 1rem; text-align: left; }
     .form-group label {
       display: block;
       font-size: 0.85rem;
       font-weight: 700;
       margin-bottom: 0.3rem;
-      color: #3f3f46;
+      color: #cbd5e1;
     }
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
-      padding: 0.7rem;
+      padding: 0.75rem;
       border: 1.5px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       font-family: inherit;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      background: #0b1329;
+      color: white;
     }
 
     .voice-recorder-box {
       border: 2px dashed var(--border);
       border-radius: 12px;
       padding: 1rem;
-      background: #fafafa;
+      background: #0b1329;
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
@@ -394,7 +446,6 @@
       gap: 8px;
       background: #ef4444;
       color: white;
-      transition: all 0.2s;
     }
     .rec-btn.recording {
       animation: pulseRec 1s infinite alternate;
@@ -405,14 +456,15 @@
       to { transform: scale(1.06); }
     }
 
-    .duo-container {
+    /* QUÊTES D'APPRENTISSAGE */
+    .quest-container {
       max-width: 600px;
       margin: 1.5rem auto;
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
     }
-    .duo-header {
+    .quest-header {
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -420,56 +472,43 @@
     .progress-bar {
       flex: 1;
       height: 16px;
-      background: #e4e4e7;
+      background: #1e293b;
       border-radius: 10px;
       overflow: hidden;
     }
     .progress-fill {
       height: 100%;
       width: 0%;
-      background: var(--duo-green);
-      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: var(--accent-cyan);
+      transition: width 0.3s ease;
     }
-    .duo-question {
-      background: white;
-      border: 2px solid var(--border);
+    .quest-question {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
       border-radius: 20px;
       padding: 2rem;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     }
-    .duo-prompt {
-      font-size: 1rem;
+    .quest-prompt {
+      font-size: 0.9rem;
       color: var(--text-muted);
       font-weight: 700;
       margin-bottom: 0.5rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-    .duo-word-row {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-    }
-    .duo-word-display {
+    .quest-word-display {
       font-size: 2.25rem;
       font-weight: 800;
-      color: #18181b;
-    }
-    .duo-phonetic {
-      font-size: 1rem;
-      color: var(--primary);
-      font-style: italic;
-      margin-top: 0.25rem;
+      color: #ffffff;
     }
     .options-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 0.75rem;
     }
-    .duo-option {
-      background: white;
+    .quest-option {
+      background: var(--card-bg);
       border: 2px solid var(--border);
       border-bottom: 4px solid var(--border);
       border-radius: 14px;
@@ -478,44 +517,44 @@
       font-weight: 700;
       text-align: left;
       cursor: pointer;
-      color: #27272a;
+      color: #ffffff;
       transition: all 0.1s;
     }
-    .duo-option:hover {
-      background: #fbfbfb;
-      border-color: #cbd5e1;
+    .quest-option.selected {
+      border-color: var(--primary);
+      background: #1e3a8a;
     }
-    .duo-option:active {
-      transform: translateY(2px);
-      border-bottom-width: 2px;
+    .quest-option.correct {
+      border-color: var(--success) !important;
+      background: #064e3b !important;
+      color: #a7f3d0 !important;
     }
-    .duo-option.selected {
-      border-color: #3b82f6;
-      border-bottom-color: #1d4ed8;
-      background: #eff6ff;
-      color: #1d4ed8;
+    .quest-option.wrong {
+      border-color: var(--danger) !important;
+      background: #7f1d1d !important;
+      color: #fecaca !important;
     }
-    .duo-option.correct {
-      border-color: var(--duo-green) !important;
-      border-bottom-color: var(--duo-green-shadow) !important;
-      background: #f0fdf4 !important;
-      color: #15803d !important;
+
+    /* Format Paires (Matching) */
+    .matching-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
-    .duo-option.wrong {
-      border-color: var(--duo-red) !important;
-      border-bottom-color: var(--duo-red-shadow) !important;
-      background: #fef2f2 !important;
-      color: #b91c1c !important;
+    .match-item {
+      padding: 14px 10px;
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
     }
-    .duo-footer {
-      background: white;
-      border-top: 2px solid var(--border);
-      padding: 1rem 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .duo-btn {
+    .match-item.selected { border-color: var(--accent-cyan); background: #0e3a53; }
+    .match-item.matched { opacity: 0; pointer-events: none; transform: scale(0.8); transition: all 0.3s; }
+
+    .quest-btn {
       width: 100%;
       padding: 1rem;
       font-size: 1.1rem;
@@ -524,50 +563,44 @@
       border: none;
       border-radius: 16px;
       cursor: pointer;
-      background: var(--duo-green);
+      background: var(--primary);
       color: white;
-      border-bottom: 4px solid var(--duo-green-shadow);
-      transition: all 0.1s;
+      border-bottom: 4px solid var(--primary-dark);
     }
-    .duo-btn:active {
-      transform: translateY(2px);
-      border-bottom-width: 2px;
-    }
-    .duo-btn:disabled {
-      background: #e4e4e7;
-      border-bottom-color: #d4d4d8;
-      color: #a1a1aa;
+    .quest-btn:disabled {
+      background: #334155;
+      border-bottom-color: #1e293b;
+      color: #64748b;
       cursor: not-allowed;
     }
-
-    /* Boîte de vérification santé PWA (en bas) */
-    .pwa-health {
-      margin-top: 3rem;
-      padding: 1rem;
-      background: #f4f4f5;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      color: #52525b;
-      line-height: 1.6;
-    }
-    .health-ok { color: #16a34a; font-weight: 700; }
-    .health-err { color: #dc2626; font-weight: 700; }
   </style>
 </head>
 <body>
 
-  <!-- Bannière d'installation directe -->
-  <div id="installBanner">
-    <span>📲 Installer l'application sur votre téléphone</span>
-    <button onclick="triggerInstall()">Installer</button>
+  <!-- Écran de création de profil -->
+  <div id="authOverlay">
+    <div class="auth-card">
+      <img src="icon.png?v=4" alt="Tagbanan Logo">
+      <h2>Bienvenue sur Tagbanan</h2>
+      <p>Entrez votre prénom ou nom pour activer votre carnet d'apprentissage personnel.</p>
+      <form onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label>Votre nom</label>
+          <input type="text" id="regName" required placeholder="Ex: Jean, Aïcha, Paul..." autofocus>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:0.9rem; font-size:1rem; margin-top:0.5rem;">
+          Commencer l'apprentissage
+        </button>
+      </form>
+    </div>
   </div>
 
   <header>
     <div class="brand">
-      <img id="appLogoImg" src="icon.png" alt="Tagbanan Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\' fill=\'%23d97706\'><circle cx=\'50\' cy=\'50\' r=\'45\'/><text x=\'50\' y=\'65\' font-size=\'40\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\'>T</text></svg>'">
+      <img src="icon.png?v=4" alt="Tagbanan Logo">
       <div>
-        <h1>Tagbanan</h1>
-        <span>Répertoire & Quêtes</span>
+        <h1>Tagbanan App</h1>
+        <span id="rankTitle">Apprenti</span>
       </div>
     </div>
 
@@ -575,13 +608,17 @@
       <button class="mode-btn active" id="tabDict" onclick="switchMode('dict')">
         📖 Dictionnaire
       </button>
-      <button class="mode-btn duo-tab" id="tabDuo" onclick="switchMode('duo')">
-        ⚡ Quêtes Duolingo
+      <button class="mode-btn" id="tabQuest" onclick="switchMode('quest')">
+        ⚡ Quêtes
       </button>
     </div>
 
-    <div class="stats-badge">
-      <span>🔥</span> <span id="xpCount">0 XP</span>
+    <div class="user-profile-badge">
+      <span id="userNameDisplay">Profil</span>
+      <span class="streak-badge">🔥 <span id="streakCount">0</span>j</span>
+      <span id="adminBadge" class="admin-pill" style="display:none;">Admin</span>
+      <span>⭐ <span id="xpCount">0 XP</span></span>
+      <button onclick="logout()" title="Changer de compte" style="background:none; border:none; cursor:pointer; color:var(--text-muted); font-size:0.9rem; margin-left:4px;">🚪</button>
     </div>
   </header>
 
@@ -590,36 +627,51 @@
       <div class="actions-bar">
         <div class="search-box">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"></circle><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line></svg>
-          <input type="text" id="searchInput" placeholder="Chercher en Tagbanan ou français..." oninput="renderDict()">
+          <input type="text" id="searchInput" placeholder="Recherche par mot, français ou grammaire..." oninput="renderDict()">
         </div>
-        <button class="btn btn-primary" onclick="openModal()">+ Ajouter un mot</button>
+
+        <button class="btn btn-primary" onclick="requestAdminAuth('add')">
+          🔒 + Ajouter un mot
+        </button>
+
         <button class="btn btn-secondary" onclick="exportData()">💾 Exporter JSON</button>
-        <button class="btn btn-secondary" onclick="exportCSV()">📊 Export Excel</button>
-        <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">📥 Importer</button>
+        <button class="btn btn-secondary" onclick="exportCSV()">📊 Export CSV</button>
+        <button class="btn btn-admin" onclick="requestAdminAuth('import')">🔒 Importer</button>
         <input type="file" id="fileInput" accept=".json" style="display:none" onchange="importData(event)">
       </div>
 
       <div class="category-chips" id="catChips"></div>
       <div class="word-grid" id="wordGrid"></div>
-
-      <!-- Diagnostic visuel PWA -->
-      <div class="pwa-health" id="pwaHealthBox">
-        <strong>Vérification technique de l'application :</strong>
-        <div id="checkManifest">⏳ Vérification de manifest.json...</div>
-        <div id="checkIcon">⏳ Vérification de icon.png...</div>
-        <div id="checkSW">⏳ Vérification du Service Worker (sw.js)...</div>
-      </div>
     </section>
 
-    <section id="duoView" class="view-panel">
-      <div id="duoContent"></div>
+    <section id="questView" class="view-panel">
+      <div id="questContent"></div>
     </section>
   </main>
 
-  <!-- Modal Ajout Mot -->
+  <!-- Modal Admin pour mot de passe créateur -->
+  <div class="modal-backdrop" id="adminAuthModal">
+    <div class="modal" style="max-width:380px; text-align:center;">
+      <h3 style="margin-bottom:0.5rem; color:white;">Accès Créateur</h3>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.25rem;">
+        L'approvisionnement et la modification du lexique sont réservés au créateur.
+      </p>
+      <form onsubmit="verifyAdminPass(event)">
+        <div class="form-group">
+          <input type="password" id="adminPassInput" placeholder="Mot de passe administrateur" required autofocus>
+        </div>
+        <div style="display:flex; justify-content:center; gap:8px;">
+          <button type="button" class="btn btn-secondary" onclick="closeAdminModal()">Annuler</button>
+          <button type="submit" class="btn btn-primary">Déverrouiller</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Ajout Mot Enrichi -->
   <div class="modal-backdrop" id="wordModal">
     <div class="modal">
-      <h2 style="margin-bottom: 1rem; font-family:'Playfair Display', serif;">Enrichir le lexique</h2>
+      <h2 style="margin-bottom: 1rem; color: white;">Ajouter un mot au répertoire</h2>
       <form id="wordForm" onsubmit="saveWord(event)">
         <div class="form-group">
           <label>Mot en Tagbanan *</label>
@@ -629,477 +681,33 @@
           <label>Traduction en français *</label>
           <input type="text" id="fTrans" required placeholder="ex: Eau">
         </div>
-        <div class="form-group">
-          <label>Prononciation / Phonétique</label>
-          <input type="text" id="fPhonetic" placeholder="ex: [da-noum]">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+          <div class="form-group">
+            <label>Phonétique</label>
+            <input type="text" id="fPhonetic" placeholder="ex: [da-noum]">
+          </div>
+          <div class="form-group">
+            <label>Classe grammaticale</label>
+            <select id="fGrammar">
+              <option value="Nom">Nom</option>
+              <option value="Verbe">Verbe</option>
+              <option value="Adjectif">Adjectif</option>
+              <option value="Expression">Expression</option>
+              <option value="Particule">Particule / Affixe</option>
+            </select>
+          </div>
         </div>
 
         <div class="form-group">
-          <label>Enregistrement vocal (votre vraie voix)</label>
+          <label>Illustration / Photo</label>
+          <input type="file" id="fImageFile" accept="image/*" onchange="handleImageUpload(event)">
+          <img id="imagePreview" style="display:none; width:100%; height:120px; object-fit:cover; border-radius:10px; margin-top:8px;">
+        </div>
+
+        <div class="form-group">
+          <label>Enregistrement vocal</label>
           <div class="voice-recorder-box">
             <button type="button" class="rec-btn" id="recordToggleBtn" onclick="toggleRecording()">
               <span id="recIcon">🎙️</span> <span id="recText">Enregistrer la prononciation</span>
             </button>
-            <div id="recStatus" style="font-size:0.8rem; color:var(--text-muted);">Appuyez pour enregistrer</div>
-            <audio id="audioPreview" controls style="display:none; width: 100%; margin-top: 6px;"></audio>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Catégorie</label>
-          <select id="fCat">
-            <option value="Quotidien">Quotidien</option>
-            <option value="Nature">Nature</option>
-            <option value="Famille">Famille</option>
-            <option value="Nourriture">Nourriture</option>
-            <option value="Verbes">Verbes</option>
-            <option value="Expressions">Expressions</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Exemple d'usage</label>
-          <textarea id="fExample" rows="2" placeholder="Phrase d'exemple..."></textarea>
-        </div>
-        <div style="display:flex; justify-content: flex-end; gap: 8px; margin-top: 1.5rem;">
-          <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
-          <button type="submit" class="btn btn-primary">Enregistrer le mot</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    // -------------------------------------------------------------
-    // GESTIONNAIRE D'INSTALLATION PWA NATIVE
-    // -------------------------------------------------------------
-    let deferredPrompt = null;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      const banner = document.getElementById('installBanner');
-      if (banner) banner.style.display = 'flex';
-    });
-
-    function triggerInstall() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            document.getElementById('installBanner').style.display = 'none';
-          }
-          deferredPrompt = null;
-        });
-      } else {
-        alert("Pour installer : ouvrez le menu de Chrome (3 points en haut à droite) et appuyez sur 'Installer l\\'application'.");
-      }
-    }
-
-    // -------------------------------------------------------------
-    // DIAGNOSTIC EN DIRECT DES FICHIERS REQUIS
-    // -------------------------------------------------------------
-    window.addEventListener('load', () => {
-      // 1. Tester icon.png
-      fetch('icon.png', { method: 'HEAD' })
-        .then(res => {
-          document.getElementById('checkIcon').innerHTML = res.ok 
-            ? '<span class="health-ok">✓ icon.png</span> est bien trouvé et accessible.'
-            : '<span class="health-err">✗ icon.png</span> est introuvable (Erreur 404). Téléversez-le sur GitHub !';
-        })
-        .catch(() => {
-          document.getElementById('checkIcon').innerHTML = '<span class="health-err">✗ icon.png</span> inaccessible.';
-        });
-
-      // 2. Tester manifest.json
-      fetch('manifest.json')
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('checkManifest').innerHTML = '<span class="health-ok">✓ manifest.json</span> est valide.';
-        })
-        .catch(() => {
-          document.getElementById('checkManifest').innerHTML = '<span class="health-err">✗ manifest.json</span> est manquant ou contient une erreur.';
-        });
-
-      // 3. Tester sw.js
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js')
-          .then(() => {
-            document.getElementById('checkSW').innerHTML = '<span class="health-ok">✓ sw.js</span> Service Worker actif.';
-          })
-          .catch((err) => {
-            document.getElementById('checkSW').innerHTML = '<span class="health-err">✗ sw.js</span> Erreur : ' + err.message;
-          });
-      }
-    });
-
-    // -------------------------------------------------------------
-    // LOGIQUE DE L'APPLICATION
-    // -------------------------------------------------------------
-    const soundPlayer = new Audio();
-    const defaultWords = [
-      { id: 1, word: "Danum", trans: "Eau", phonetic: "[da-noum]", cat: "Nature", example: "Mïninum ka et danum (Bois de l'eau).", audio: null },
-      { id: 2, word: "Apoy", trans: "Feu", phonetic: "[a-poy]", cat: "Nature", example: "Kaanen et apoy (Le feu est grand).", audio: null },
-      { id: 3, word: "Bagas", trans: "Riz décortiqué", phonetic: "[ba-gas]", cat: "Nourriture", example: "Mengkankan aku et bagas (Je mange du riz).", audio: null },
-      { id: 4, word: "Balay", trans: "Maison", phonetic: "[ba-lay]", cat: "Quotidien", example: "Mag-uli aku sa balay (Je rentre à la maison).", audio: null },
-      { id: 5, word: "Aldaw", trans: "Soleil / Jour", phonetic: "[al-daw]", cat: "Nature", example: "Maslag et aldaw (Le soleil brille).", audio: null }
-    ];
-
-    let dictionary = JSON.parse(localStorage.getItem('tagbanan_dict')) || defaultWords;
-    let xp = parseInt(localStorage.getItem('tagbanan_xp')) || 0;
-    let selectedCat = 'ALL';
-
-    function saveState() {
-      localStorage.setItem('tagbanan_dict', JSON.stringify(dictionary));
-      localStorage.setItem('tagbanan_xp', xp.toString());
-      document.getElementById('xpCount').innerText = `${xp} XP`;
-    }
-
-    let mediaRecorder = null;
-    let audioChunks = [];
-    let recordedBase64 = null;
-    let isRecording = false;
-
-    async function toggleRecording() {
-      const btn = document.getElementById('recordToggleBtn');
-      const status = document.getElementById('recStatus');
-      const preview = document.getElementById('audioPreview');
-
-      if (!isRecording) {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          mediaRecorder = new MediaRecorder(stream);
-          audioChunks = [];
-          mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
-          mediaRecorder.onstop = () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-            const reader = new FileReader();
-            reader.readAsDataURL(audioBlob);
-            reader.onloadend = () => {
-              recordedBase64 = reader.result;
-              preview.src = recordedBase64;
-              preview.style.display = 'block';
-              status.innerHTML = `<span style="color:#15803d; font-weight:700;">✓ Enregistrement prêt !</span>`;
-            };
-          };
-          mediaRecorder.start();
-          isRecording = true;
-          btn.classList.add('recording');
-          document.getElementById('recIcon').innerText = '⏹️';
-          document.getElementById('recText').innerText = 'Arrêter la capture';
-          status.innerText = "Parlez maintenant dans le micro...";
-        } catch (err) {
-          alert("Microphone inaccessible : " + err.message);
-        }
-      } else {
-        mediaRecorder.stop();
-        mediaRecorder.stream.getTracks().forEach(track => track.stop());
-        isRecording = false;
-        btn.classList.remove('recording');
-        document.getElementById('recIcon').innerText = '🎙️';
-        document.getElementById('recText').innerText = 'Réenregistrer';
-      }
-    }
-
-    function playAudio(wordObj) {
-      if (wordObj && wordObj.audio) {
-        soundPlayer.src = wordObj.audio;
-        soundPlayer.play().catch(e => console.error("Erreur audio", e));
-      } else if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(wordObj.word);
-        utter.rate = 0.85;
-        const voices = window.speechSynthesis.getVoices();
-        const naturalVoice = voices.find(v => v.lang.startsWith('fil') || v.lang.startsWith('tl') || v.lang.startsWith('id') || v.lang.startsWith('es'));
-        if (naturalVoice) utter.voice = naturalVoice;
-        window.speechSynthesis.speak(utter);
-      }
-    }
-
-    function switchMode(mode) {
-      document.getElementById('dictView').classList.toggle('active', mode === 'dict');
-      document.getElementById('duoView').classList.toggle('active', mode === 'duo');
-      document.getElementById('tabDict').classList.toggle('active', mode === 'dict');
-      document.getElementById('tabDuo').classList.toggle('active', mode === 'duo');
-      if (mode === 'duo') startQuizSession();
-      else renderDict();
-    }
-
-    function renderDict() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const grid = document.getElementById('wordGrid');
-      grid.innerHTML = '';
-
-      const categories = ['ALL', ...new Set(dictionary.map(w => w.cat))];
-      const chipsContainer = document.getElementById('catChips');
-      chipsContainer.innerHTML = categories.map(c => `
-        <button class="chip ${c === selectedCat ? 'active' : ''}" onclick="selectCategory('${c}')">
-          ${c === 'ALL' ? 'Tout voir' : c}
-        </button>
-      `).join('');
-
-      const filtered = dictionary.filter(w => {
-        const matchesQuery = w.word.toLowerCase().includes(q) || w.trans.toLowerCase().includes(q);
-        const matchesCat = selectedCat === 'ALL' || w.cat === selectedCat;
-        return matchesQuery && matchesCat;
-      });
-
-      if (filtered.length === 0) {
-        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #71717a; padding: 2rem;">Aucun mot trouvé.</p>`;
-        return;
-      }
-
-      filtered.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'word-card';
-        const hasCustomVoice = Boolean(item.audio);
-
-        card.innerHTML = `
-          <div>
-            <div class="word-head">
-              <div>
-                <span class="tagbanan-term">${item.word}</span>
-                ${item.phonetic ? `<div class="phonetic">${item.phonetic}</div>` : ''}
-              </div>
-              <button class="audio-btn ${hasCustomVoice ? 'has-voice' : ''}" onclick='playAudio(${JSON.stringify(item)})'>
-                ${hasCustomVoice ? '🗣️' : '🔊'}
-              </button>
-            </div>
-            <div class="word-trans" style="margin-top:0.4rem;">${item.trans}</div>
-            ${item.example ? `<div class="word-example" style="margin-top:0.5rem;">${item.example}</div>` : ''}
-          </div>
-          <div class="word-card-footer">
-            <span>🏷️ ${item.cat} ${hasCustomVoice ? '• <i>Voix enregistrée</i>' : ''}</span>
-            <button class="del-btn" onclick="deleteWord(${item.id})">Supprimer</button>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function selectCategory(cat) {
-      selectedCat = cat;
-      renderDict();
-    }
-
-    function openModal() {
-      recordedBase64 = null;
-      document.getElementById('audioPreview').style.display = 'none';
-      document.getElementById('recStatus').innerText = "Appuyez pour enregistrer";
-      document.getElementById('wordModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-      if (isRecording) toggleRecording();
-      document.getElementById('wordModal').style.display = 'none';
-    }
-
-    function saveWord(e) {
-      e.preventDefault();
-      const newWord = {
-        id: Date.now(),
-        word: document.getElementById('fWord').value.trim(),
-        trans: document.getElementById('fTrans').value.trim(),
-        phonetic: document.getElementById('fPhonetic').value.trim(),
-        cat: document.getElementById('fCat').value,
-        example: document.getElementById('fExample').value.trim(),
-        audio: recordedBase64
-      };
-      dictionary.unshift(newWord);
-      saveState();
-      document.getElementById('wordForm').reset();
-      closeModal();
-      renderDict();
-    }
-
-    function deleteWord(id) {
-      if (confirm("Supprimer ce mot ?")) {
-        dictionary = dictionary.filter(w => w.id !== id);
-        saveState();
-        renderDict();
-      }
-    }
-
-    function exportData() {
-      const blob = new Blob([JSON.stringify(dictionary, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `tagbanan_${new Date().toISOString().split('T')[0]}.json`;
-      a.click();
-    }
-
-    function exportCSV() {
-      let csv = "Mot Tagbanan;Traduction;Phonetique;Categorie;Exemple\n";
-      dictionary.forEach(w => {
-        csv += `"${w.word}";"${w.trans}";"${w.phonetic || ''}";"${w.cat}";"${(w.example || '').replace(/"/g, '""')}"\n`;
-      });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `tagbanan_${new Date().toISOString().split('T')[0]}.csv`;
-      a.click();
-    }
-
-    function importData(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = ev => {
-        try {
-          const imported = JSON.parse(ev.target.result);
-          if (Array.isArray(imported)) {
-            dictionary = imported;
-            saveState();
-            renderDict();
-            alert("Données importées avec succès !");
-          }
-        } catch(err) {
-          alert("Erreur de lecture du fichier JSON.");
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    let quizState = { queue: [], currentIndex: 0, selectedAnswer: null, isChecked: false };
-
-    function startQuizSession() {
-      const container = document.getElementById('duoContent');
-      if (dictionary.length < 4) {
-        container.innerHTML = `
-          <div style="text-align: center; padding: 3rem 1rem; background: white; border-radius: 24px; border: 2px dashed var(--border);">
-            <h3>Pas assez de mots !</h3>
-            <p style="color: var(--text-muted); margin: 0.5rem 0 1.5rem;">Ajoutez au moins 4 mots dans le dictionnaire pour débloquer les quêtes.</p>
-            <button class="btn btn-primary" onclick="switchMode('dict'); openModal();">+ Ajouter des mots</button>
-          </div>
-        `;
-        return;
-      }
-
-      const shuffled = [...dictionary].sort(() => 0.5 - Math.random());
-      const sessionWords = shuffled.slice(0, Math.min(5, dictionary.length));
-
-      quizState.queue = sessionWords.map(correctItem => {
-        const wrongPool = dictionary.filter(w => w.id !== correctItem.id);
-        const wrongAnswers = wrongPool.sort(() => 0.5 - Math.random()).slice(0, 3).map(w => w.trans);
-        const choices = [...wrongAnswers, correctItem.trans].sort(() => 0.5 - Math.random());
-
-        return {
-          item: correctItem,
-          questionWord: correctItem.word,
-          phonetic: correctItem.phonetic,
-          correctAnswer: correctItem.trans,
-          choices: choices
-        };
-      });
-
-      quizState.currentIndex = 0;
-      quizState.selectedAnswer = null;
-      quizState.isChecked = false;
-      renderCurrentQuestion();
-    }
-
-    function renderCurrentQuestion() {
-      const container = document.getElementById('duoContent');
-      const q = quizState.queue[quizState.currentIndex];
-      const progress = (quizState.currentIndex / quizState.queue.length) * 100;
-      const hasVoice = Boolean(q.item.audio);
-
-      container.innerHTML = `
-        <div class="duo-container">
-          <div class="duo-header">
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: ${progress}%"></div>
-            </div>
-            <span style="font-weight:700; font-size:0.85rem; color: #a1a1aa;">
-              ${quizState.currentIndex + 1} / ${quizState.queue.length}
-            </span>
-          </div>
-
-          <div class="duo-question">
-            <div class="duo-prompt">Quelle est la traduction française ?</div>
-            <div class="duo-word-row">
-              <span class="duo-word-display">${q.questionWord}</span>
-              <button class="audio-btn ${hasVoice ? 'has-voice' : ''}" style="width:40px; height:40px;" onclick='playAudio(${JSON.stringify(q.item)})'>
-                ${hasVoice ? '🗣️' : '🔊'}
-              </button>
-            </div>
-            ${q.phonetic ? `<div class="duo-phonetic">${q.phonetic}</div>` : ''}
-          </div>
-
-          <div class="options-grid">
-            ${q.choices.map(choice => `
-              <button class="duo-option" onclick="selectOption('${choice.replace(/'/g, "\\'")}', this)">
-                ${choice}
-              </button>
-            `).join('')}
-          </div>
-
-          <div class="duo-footer">
-            <button class="duo-btn" id="duoActionBtn" disabled onclick="checkOrNext()">Vérifier</button>
-          </div>
-        </div>
-      `;
-    }
-
-    function selectOption(text, el) {
-      if (quizState.isChecked) return;
-      quizState.selectedAnswer = text;
-      document.querySelectorAll('.duo-option').forEach(btn => btn.classList.remove('selected'));
-      el.classList.add('selected');
-      document.getElementById('duoActionBtn').disabled = false;
-    }
-
-    function checkOrNext() {
-      const btn = document.getElementById('duoActionBtn');
-      const q = quizState.queue[quizState.currentIndex];
-
-      if (!quizState.isChecked) {
-        quizState.isChecked = true;
-        const options = document.querySelectorAll('.duo-option');
-        const isCorrect = (quizState.selectedAnswer === q.correctAnswer);
-
-        options.forEach(opt => {
-          if (opt.innerText.trim() === q.correctAnswer) opt.classList.add('correct');
-          else if (opt.classList.contains('selected')) opt.classList.add('wrong');
-        });
-
-        if (isCorrect) {
-          xp += 10;
-          saveState();
-          btn.innerText = "Continuer 🎉";
-          btn.style.background = "var(--duo-green)";
-        } else {
-          btn.innerText = "Continuer";
-          btn.style.background = "#3f3f46";
-        }
-      } else {
-        quizState.currentIndex++;
-        quizState.selectedAnswer = null;
-        quizState.isChecked = false;
-
-        if (quizState.currentIndex < quizState.queue.length) {
-          renderCurrentQuestion();
-        } else {
-          renderVictoryScreen();
-        }
-      }
-    }
-
-    function renderVictoryScreen() {
-      const container = document.getElementById('duoContent');
-      container.innerHTML = `
-        <div style="text-align: center; padding: 3.5rem 1.5rem; background: white; border-radius: 24px; border: 2px solid var(--border);">
-          <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🏆</div>
-          <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Quête accomplie !</h2>
-          <p>Bravo, vous avez révisé vos mots Tagbanan avec brio (+50 XP) !</p>
-          <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
-            <button class="btn btn-primary" onclick="startQuizSession()">Nouvelle série</button>
-            <button class="btn btn-secondary" onclick="switchMode('dict')">Retour au dictionnaire</button>
-          </div>
-        </div>
-      `;
-    }
-
-    document.getElementById('xpCount').innerText = `${xp} XP`;
-    renderDict();
-  </script>
-</body>
-</html>
+            <div id="r
