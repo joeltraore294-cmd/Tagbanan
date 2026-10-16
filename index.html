@@ -5,11 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tagbanan - Répertoire & Quêtes</title>
 
-  <!-- Liaisons PWA et icônes natives -->
+  <!-- Redirection automatique si le slash final manque (évite le bug 404 GitHub Pages) -->
+  <script>
+    if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+      window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+    }
+  </script>
+
+  <!-- PWA & Liens d'icônes -->
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
-  <link rel="shortcut icon" href="icon.png">
 
   <meta name="theme-color" content="#d97706">
   <meta name="mobile-web-app-capable" content="yes">
@@ -45,6 +51,29 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+    }
+
+    /* Bannière d'installation PWA native */
+    #installBanner {
+      display: none;
+      background: #18181b;
+      color: white;
+      padding: 0.75rem 1rem;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    #installBanner button {
+      background: var(--duo-green);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-weight: 800;
+      cursor: pointer;
     }
 
     header {
@@ -510,9 +539,28 @@
       color: #a1a1aa;
       cursor: not-allowed;
     }
+
+    /* Boîte de vérification santé PWA (en bas) */
+    .pwa-health {
+      margin-top: 3rem;
+      padding: 1rem;
+      background: #f4f4f5;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      color: #52525b;
+      line-height: 1.6;
+    }
+    .health-ok { color: #16a34a; font-weight: 700; }
+    .health-err { color: #dc2626; font-weight: 700; }
   </style>
 </head>
 <body>
+
+  <!-- Bannière d'installation directe -->
+  <div id="installBanner">
+    <span>📲 Installer l'application sur votre téléphone</span>
+    <button onclick="triggerInstall()">Installer</button>
+  </div>
 
   <header>
     <div class="brand">
@@ -553,6 +601,14 @@
 
       <div class="category-chips" id="catChips"></div>
       <div class="word-grid" id="wordGrid"></div>
+
+      <!-- Diagnostic visuel PWA -->
+      <div class="pwa-health" id="pwaHealthBox">
+        <strong>Vérification technique de l'application :</strong>
+        <div id="checkManifest">⏳ Vérification de manifest.json...</div>
+        <div id="checkIcon">⏳ Vérification de icon.png...</div>
+        <div id="checkSW">⏳ Vérification du Service Worker (sw.js)...</div>
+      </div>
     </section>
 
     <section id="duoView" class="view-panel">
@@ -560,6 +616,7 @@
     </section>
   </main>
 
+  <!-- Modal Ajout Mot -->
   <div class="modal-backdrop" id="wordModal">
     <div class="modal">
       <h2 style="margin-bottom: 1rem; font-family:'Playfair Display', serif;">Enrichir le lexique</h2>
@@ -612,6 +669,71 @@
   </div>
 
   <script>
+    // -------------------------------------------------------------
+    // GESTIONNAIRE D'INSTALLATION PWA NATIVE
+    // -------------------------------------------------------------
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const banner = document.getElementById('installBanner');
+      if (banner) banner.style.display = 'flex';
+    });
+
+    function triggerInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            document.getElementById('installBanner').style.display = 'none';
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert("Pour installer : ouvrez le menu de Chrome (3 points en haut à droite) et appuyez sur 'Installer l\\'application'.");
+      }
+    }
+
+    // -------------------------------------------------------------
+    // DIAGNOSTIC EN DIRECT DES FICHIERS REQUIS
+    // -------------------------------------------------------------
+    window.addEventListener('load', () => {
+      // 1. Tester icon.png
+      fetch('icon.png', { method: 'HEAD' })
+        .then(res => {
+          document.getElementById('checkIcon').innerHTML = res.ok 
+            ? '<span class="health-ok">✓ icon.png</span> est bien trouvé et accessible.'
+            : '<span class="health-err">✗ icon.png</span> est introuvable (Erreur 404). Téléversez-le sur GitHub !';
+        })
+        .catch(() => {
+          document.getElementById('checkIcon').innerHTML = '<span class="health-err">✗ icon.png</span> inaccessible.';
+        });
+
+      // 2. Tester manifest.json
+      fetch('manifest.json')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('checkManifest').innerHTML = '<span class="health-ok">✓ manifest.json</span> est valide.';
+        })
+        .catch(() => {
+          document.getElementById('checkManifest').innerHTML = '<span class="health-err">✗ manifest.json</span> est manquant ou contient une erreur.';
+        });
+
+      // 3. Tester sw.js
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+          .then(() => {
+            document.getElementById('checkSW').innerHTML = '<span class="health-ok">✓ sw.js</span> Service Worker actif.';
+          })
+          .catch((err) => {
+            document.getElementById('checkSW').innerHTML = '<span class="health-err">✗ sw.js</span> Erreur : ' + err.message;
+          });
+      }
+    });
+
+    // -------------------------------------------------------------
+    // LOGIQUE DE L'APPLICATION
+    // -------------------------------------------------------------
     const soundPlayer = new Audio();
     const defaultWords = [
       { id: 1, word: "Danum", trans: "Eau", phonetic: "[da-noum]", cat: "Nature", example: "Mïninum ka et danum (Bois de l'eau).", audio: null },
@@ -978,17 +1100,6 @@
 
     document.getElementById('xpCount').innerText = `${xp} XP`;
     renderDict();
-  </script>
-
-  <!-- Enregistrement Service Worker pour installation mobile PWA -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('Service Worker actif !', reg))
-          .catch(err => console.error('Erreur Service Worker :', err));
-      });
-    }
   </script>
 </body>
 </html>
