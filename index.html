@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tagbanan - Répertoire & Quêtes</title>
-  
-  <!-- Favicon et Icônes Mobile (directement intégrées) -->
+
+  <!-- Liaisons PWA et icônes natives -->
+  <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
   <link rel="shortcut icon" href="icon.png">
-  
+
   <meta name="theme-color" content="#d97706">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
-  
+
   <style>
     :root {
       --primary: #d97706;
@@ -52,7 +53,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      padding: 0.75rem 1.5rem;
+      padding: 0.75rem 1.25rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -96,15 +97,15 @@
       border: none;
       outline: none;
       background: transparent;
-      padding: 0.6rem 1.25rem;
+      padding: 0.6rem 1rem;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
       border-radius: 10px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s ease;
     }
     .mode-btn.active {
@@ -176,14 +177,14 @@
     }
 
     .btn {
-      padding: 0.75rem 1.25rem;
+      padding: 0.75rem 1.15rem;
       border-radius: 12px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       border: none;
       transition: all 0.2s;
     }
@@ -255,14 +256,14 @@
       background: #fef3c7;
       color: #b45309;
       border: none;
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 1.1rem;
       transition: transform 0.1s, background 0.2s;
     }
     .audio-btn:hover { background: #fde68a; }
@@ -515,7 +516,7 @@
 
   <header>
     <div class="brand">
-      <img id="appLogoImg" src="icon.png" alt="Tagbanan Logo">
+      <img id="appLogoImg" src="icon.png" alt="Tagbanan Logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\' fill=\'%23d97706\'><circle cx=\'50\' cy=\'50\' r=\'45\'/><text x=\'50\' y=\'65\' font-size=\'40\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\'>T</text></svg>'">
       <div>
         <h1>Tagbanan</h1>
         <span>Répertoire & Quêtes</span>
@@ -527,7 +528,7 @@
         📖 Dictionnaire
       </button>
       <button class="mode-btn duo-tab" id="tabDuo" onclick="switchMode('duo')">
-        ⚡ Mode Quête
+        ⚡ Quêtes Duolingo
       </button>
     </div>
 
@@ -545,6 +546,7 @@
         </div>
         <button class="btn btn-primary" onclick="openModal()">+ Ajouter un mot</button>
         <button class="btn btn-secondary" onclick="exportData()">💾 Exporter JSON</button>
+        <button class="btn btn-secondary" onclick="exportCSV()">📊 Export Excel</button>
         <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">📥 Importer</button>
         <input type="file" id="fileInput" accept=".json" style="display:none" onchange="importData(event)">
       </div>
@@ -576,12 +578,12 @@
         </div>
 
         <div class="form-group">
-          <label>Enregistrement vocal (votre voix)</label>
+          <label>Enregistrement vocal (votre vraie voix)</label>
           <div class="voice-recorder-box">
             <button type="button" class="rec-btn" id="recordToggleBtn" onclick="toggleRecording()">
               <span id="recIcon">🎙️</span> <span id="recText">Enregistrer la prononciation</span>
             </button>
-            <div id="recStatus" style="font-size:0.8rem; color:var(--text-muted);">Cliquez pour parler dans le microphone</div>
+            <div id="recStatus" style="font-size:0.8rem; color:var(--text-muted);">Appuyez pour enregistrer</div>
             <audio id="audioPreview" controls style="display:none; width: 100%; margin-top: 6px;"></audio>
           </div>
         </div>
@@ -610,84 +612,6 @@
   </div>
 
   <script>
-    // -------------------------------------------------------------
-    // GENERATION DYNAMIQUE DE L'ICÔNE (Pour éviter le carré gris)
-    // -------------------------------------------------------------
-    function createInlineIcon() {
-      const canvas = document.createElement('canvas');
-      canvas.width = 512;
-      canvas.height = 512;
-      const ctx = canvas.getContext('2d');
-
-      // Fond médaillon dégradé bois/ocre
-      const grad = ctx.createLinearGradient(0, 0, 512, 512);
-      grad.addColorStop(0, '#d97706');
-      grad.addColorStop(1, '#78350f');
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.roundRect(16, 16, 480, 480, 110);
-      ctx.fill();
-
-      // Bordure dorée
-      ctx.lineWidth = 14;
-      ctx.strokeStyle = '#fef3c7';
-      ctx.stroke();
-
-      // Cercle intérieur
-      ctx.beginPath();
-      ctx.arc(256, 256, 175, 0, Math.PI * 2);
-      ctx.fillStyle = '#b45309';
-      ctx.fill();
-      ctx.lineWidth = 8;
-      ctx.strokeStyle = '#f59e0b';
-      ctx.stroke();
-
-      // Lettre / Glyphe Tagbanan
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 230px "Playfair Display", serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('ᝦ', 256, 230);
-
-      // Texte Tagbanan
-      ctx.font = 'bold 44px "Plus Jakarta Sans", sans-serif';
-      ctx.fillStyle = '#fef3c7';
-      ctx.letterSpacing = '4px';
-      ctx.fillText('TAGBANAN', 256, 400);
-
-      const iconDataUrl = canvas.toDataURL('image/png');
-
-      // Injection dans le manifest dynamique
-      const manifest = {
-        name: "Répertoire Tagbanan",
-        short_name: "Tagbanan",
-        start_url: window.location.href,
-        display: "standalone",
-        background_color: "#fdfbf7",
-        theme_color: "#d97706",
-        icons: [
-          { src: iconDataUrl, sizes: "512x512", type: "image/png", purpose: "any maskable" }
-        ]
-      };
-      const stringManifest = JSON.stringify(manifest);
-      const blob = new Blob([stringManifest], {type: 'application/json'});
-      const manifestURL = URL.createObjectURL(blob);
-      
-      const linkTag = document.createElement('link');
-      linkTag.rel = 'manifest';
-      linkTag.href = manifestURL;
-      document.head.appendChild(linkTag);
-
-      // Met à jour l'icône de l'en-tête si icon.png n'est pas encore téléchargé
-      const img = document.getElementById('appLogoImg');
-      img.onerror = () => { img.src = iconDataUrl; };
-    }
-
-    createInlineIcon();
-
-    // -------------------------------------------------------------
-    // LOGIQUE DE L'APPLICATION
-    // -------------------------------------------------------------
     const soundPlayer = new Audio();
     const defaultWords = [
       { id: 1, word: "Danum", trans: "Eau", phonetic: "[da-noum]", cat: "Nature", example: "Mïninum ka et danum (Bois de l'eau).", audio: null },
@@ -731,7 +655,7 @@
               recordedBase64 = reader.result;
               preview.src = recordedBase64;
               preview.style.display = 'block';
-              status.innerHTML = `<span style="color:#15803d; font-weight:700;">✓ Enregistrement prêt !</span> (Cliquez pour réécouter)`;
+              status.innerHTML = `<span style="color:#15803d; font-weight:700;">✓ Enregistrement prêt !</span>`;
             };
           };
           mediaRecorder.start();
@@ -821,7 +745,7 @@
             ${item.example ? `<div class="word-example" style="margin-top:0.5rem;">${item.example}</div>` : ''}
           </div>
           <div class="word-card-footer">
-            <span>🏷️ ${item.cat} ${hasCustomVoice ? '• <i>Voix</i>' : ''}</span>
+            <span>🏷️ ${item.cat} ${hasCustomVoice ? '• <i>Voix enregistrée</i>' : ''}</span>
             <button class="del-btn" onclick="deleteWord(${item.id})">Supprimer</button>
           </div>
         `;
@@ -837,7 +761,7 @@
     function openModal() {
       recordedBase64 = null;
       document.getElementById('audioPreview').style.display = 'none';
-      document.getElementById('recStatus').innerText = "Cliquez pour parler dans le microphone";
+      document.getElementById('recStatus').innerText = "Appuyez pour enregistrer";
       document.getElementById('wordModal').style.display = 'flex';
     }
 
@@ -880,6 +804,18 @@
       a.click();
     }
 
+    function exportCSV() {
+      let csv = "Mot Tagbanan;Traduction;Phonetique;Categorie;Exemple\n";
+      dictionary.forEach(w => {
+        csv += `"${w.word}";"${w.trans}";"${w.phonetic || ''}";"${w.cat}";"${(w.example || '').replace(/"/g, '""')}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `tagbanan_${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+    }
+
     function importData(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -891,10 +827,10 @@
             dictionary = imported;
             saveState();
             renderDict();
-            alert("Données importées !");
+            alert("Données importées avec succès !");
           }
         } catch(err) {
-          alert("Erreur fichier JSON.");
+          alert("Erreur de lecture du fichier JSON.");
         }
       };
       reader.readAsText(file);
@@ -908,7 +844,7 @@
         container.innerHTML = `
           <div style="text-align: center; padding: 3rem 1rem; background: white; border-radius: 24px; border: 2px dashed var(--border);">
             <h3>Pas assez de mots !</h3>
-            <p style="color: var(--text-muted); margin: 0.5rem 0 1.5rem;">Ajoutez au moins 4 mots pour commencer.</p>
+            <p style="color: var(--text-muted); margin: 0.5rem 0 1.5rem;">Ajoutez au moins 4 mots dans le dictionnaire pour débloquer les quêtes.</p>
             <button class="btn btn-primary" onclick="switchMode('dict'); openModal();">+ Ajouter des mots</button>
           </div>
         `;
@@ -1030,11 +966,11 @@
       container.innerHTML = `
         <div style="text-align: center; padding: 3.5rem 1.5rem; background: white; border-radius: 24px; border: 2px solid var(--border);">
           <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🏆</div>
-          <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Session accomplie !</h2>
-          <p>Félicitations, vous consolidez votre langue Tagbanan !</p>
+          <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Quête accomplie !</h2>
+          <p>Bravo, vous avez révisé vos mots Tagbanan avec brio (+50 XP) !</p>
           <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
-            <button class="btn btn-primary" onclick="startQuizSession()">Nouvelle session</button>
-            <button class="btn btn-secondary" onclick="switchMode('dict')">Retour au lexique</button>
+            <button class="btn btn-primary" onclick="startQuizSession()">Nouvelle série</button>
+            <button class="btn btn-secondary" onclick="switchMode('dict')">Retour au dictionnaire</button>
           </div>
         </div>
       `;
@@ -1042,6 +978,17 @@
 
     document.getElementById('xpCount').innerText = `${xp} XP`;
     renderDict();
+  </script>
+
+  <!-- Enregistrement Service Worker pour installation mobile PWA -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker actif !', reg))
+          .catch(err => console.error('Erreur Service Worker :', err));
+      });
+    }
   </script>
 </body>
 </html>
