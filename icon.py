@@ -1,0 +1,20 @@
+from PIL import Image
+
+# Ouvrir l'image source générée précédemment
+img = Image.open('watermarked_img_11996557276355894734.jpg')
+
+# Découper ou redimensionner en carré 512x512 pour une icône d'application optimale
+# L'image est au format 16:9 (largeur > hauteur), on centre le crop sur le logo
+width, height = img.size
+min_dim = min(width, height)
+left = (width - min_dim) / 2
+top = (height - min_dim) / 2
+right = (width + min_dim) / 2
+bottom = (height + min_dim) / 2
+
+# Recadrer au format carré centré sur le logo
+cropped = img.crop((left, top, right, bottom))
+icon_512 = cropped.resize((512, 512), Image.Resampling.LANCZOS)
+icon_512.save('icon.png', format='PNG')
+
+print("Fichier icon.png créé avec succès")

@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tagbanan — Dictionnaire Vivant & Quêtes SRS</title>
+  
+  <meta name="description" content="Plateforme de revitalisation linguistique Tagbanan : dictionnaire bilingue avec photos et double voix (terme et phrase), apprentissage gamifié SRS avec streaks et flashcards, exports multiples et fonctionnement 100% autonome.">
+  <meta name="theme-color" content="#d97706">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Tagbanan">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Polices Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Outfit"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif']
+          },
+          colors: {
+            brand: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              200: '#fde68a',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#92400e'
+            },
+            forest: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d'
+            },
+            duo: {
+              green: '#58cc02',
+              'green-dark': '#46a302',
+              red: '#ea2b2b',
+              'red-dark': '#b81b1b',
+              blue: '#1cb0f6',
+              'blue-dark': '#1899d6',
+              yellow: '#ffc800'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Boutons 3D avec feedback haptique visuel style Duolingo */
+    .btn-3d {
+      transition: all 0.08s ease-in-out;
+      transform: translateY(0);
+      user-select: none;
+    }
+    .btn-3d:active:not(:disabled) {
+      transform: translateY(3px);
+      box-shadow: none !important;
+    }
+    .btn-3d-green {
+      background-color: #58cc02;
+      box-shadow: 0 4px 0 #46a302;
+    }
+    .btn-3d-amber {
+      background-color: #d97706;
+      box-shadow: 0 4px 0 #92400e;
+    }
+    .btn-3d-blue {
+      background-color: #1cb0f6;
+      box-shadow: 0 4px 0 #1899d6;
+    }
+    .btn-3d-card {
+      box-shadow: 0 4px 0 #e2e8f0;
+    }
+    .dark .btn-3d-card {
+      box-shadow: 0 4px 0 #334155;
+    }
+
+    /* Carte Flashcard 3D flip */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+
+    /* Animation secousse */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .animate-shake {
+      animation: shake 0.35s ease-in-out;
+    }
+
+    /* Enregistrement actif */
+    @keyframes pulseRecord {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.08); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .recording-pulse {
+      animation: pulseRecord 1s infinite ease-in-out;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Règle spécifique pour le Livret Imprimable / PDF */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      header, nav, #duoView, #flashcardView, .no-print, .actions-bar, #categoryChipsContainer, .card-actions-btn {
+        display: none !important;
+      }
+      #printCatalogView {
+        display: block !important;
+      }
+      .page-break {
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-[#faf8f5] dark:bg-stone-900 text-stone-800 dark:text-stone-100 min-h-screen flex flex-col font-sans antialiased select-none">
+
+  <!-- ==================== HEADER SUPÉRIEUR ==================== -->
+  <header class="bg-white/95 dark:bg-stone-800/95 backdrop-blur-md border-b-2 border-stone-200/90 dark:border-stone-700 sticky top-0 z-40 px-3 sm:px-6 py-2.5 transition-colors">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-2">
+      
+      <!-- Logo et Identité -->
+      <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchMainTab('dict')">
+        <canvas id="appLogoCanvas" width="46" height="46" class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl shadow-sm flex-shrink-0"></canvas>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <h1 class="font-display font-black text-xl sm:text-2xl text-stone-900 dark:text-stone-50 leading-none">
+              Tagbanan
+            </h1>
+            <span class="bg-amber-100 dark:bg-amber-950/80 text-brand-700 dark:text-amber-300 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border border-amber-300 dark:border-amber-700">
+              SRS Pro
+            </span>
+          </div>
+          <p class="text-[10px] sm:text-[11px] font-semibold text-stone-400">Patrimoine linguistique vivant</p>
+        </div>
+      </div>
+
+      <!-- Navigation entre onglets -->
+      <nav class="flex items-center bg-stone-100 dark:bg-stone-900 p-1 rounded-2xl border border-stone-200 dark:border-stone-700 text-xs sm:text-sm font-bold">
+        <button id="tabDictBtn" onclick="switchMainTab('dict')" class="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl transition-all bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-50 shadow-sm">
+          <i data-lucide="book-marked" class="w-4 h-4 text-brand-600"></i>
+          <span>Dico</span>
+        </button>
+        <button id="tabQuestBtn" onclick="switchMainTab('quest')" class="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl transition-all text-stone-500 hover:text-stone-800 dark:text-stone-400">
+          <i data-lucide="zap" class="w-4 h-4 text-duo-green"></i>
+          <span>Quêtes</span>
+        </button>
+        <button id="tabFlashBtn" onclick="switchMainTab('flash')" class="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl transition-all text-stone-500 hover:text-stone-800 dark:text-stone-400">
+          <i data-lucide="layers" class="w-4 h-4 text-duo-blue"></i>
+          <span class="hidden md:inline">Flashcards</span>
+        </button>
+      </nav>
+
+      <!-- Métriques : Streaks 🔥 & XP + Menu -->
+      <div class="flex items-center gap-2">
+        <!-- Streak / Série continue -->
+        <div class="flex items-center gap-1 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900 px-2 sm:px-3 py-1 rounded-xl" title="Série de jours consécutifs">
+          <span class="text-sm">🔥</span>
+          <span id="streakDaysDisplay" class="font-display font-black text-xs sm:text-sm text-rose-700 dark:text-rose-300">1</span>
+          <span class="text-[10px] font-bold text-rose-500 hidden sm:inline">j</span>
+        </div>
+
+        <!-- Compteur XP -->
+        <div class="flex items-center gap-1 bg-amber-50 dark:bg-stone-900 border border-amber-300 dark:border-amber-700 px-2.5 py-1 rounded-xl" title="Points d'expérience">
+          <span class="text-xs">⭐</span>
+          <span id="playerXpDisplay" class="font-display font-black text-xs sm:text-sm text-amber-900 dark:text-amber-300">0</span>
+        </div>
+
+        <!-- Mode sombre -->
+        <button onclick="toggleDarkMode()" class="p-2 rounded-xl text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors">
+          <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+          <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== CONTENU PRINCIPAL ==================== -->
+  <main class="max-w-6xl mx-auto w-full px-3 sm:px-6 py-6 flex-1 flex flex-col">
+
+    <!-- ========================================================
+         VUE 1 : DICTIONNAIRE & RECHERCHE AVANCÉE
+         ======================================================== -->
+    <section id="dictView" class="space-y-6">
+
+      <!-- Barre d'outils et de recherche -->
+      <div class="actions-bar flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <!-- Champ de recherche -->
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"></i>
+          <input 
+            type="text" 
+            id="searchWordInput" 
+            oninput="renderDictionary()" 
+            placeholder="Rechercher par mot, traduction, variante de village..." 
+            class="w-full pl-10 pr-9 py-2.5 sm:py-3 rounded-2xl bg-white dark:bg-stone-800 border-2 border-stone-200 dark:border-stone-700 text-sm font-semibold focus:outline-none focus:border-brand-600 dark:focus:border-brand-500 shadow-sm"
+          >
+          <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Actions Principales -->
+        <div class="flex items-center gap-2">
+          <button onclick="openWordModal()" class="btn-3d btn-3d-amber text-white font-display font-black text-xs sm:text-sm px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl flex items-center justify-center gap-2 shadow-sm flex-1 sm:flex-none">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            <span>Nouveau mot</span>
+          </button>
+
+          <!-- Bouton Menu Export / Partage -->
+          <div class="relative">
+            <button onclick="toggleExportDropdown(event)" id="exportMenuBtn" class="p-2.5 sm:p-3 bg-white dark:bg-stone-800 border-2 border-stone-200 dark:border-stone-700 rounded-2xl text-stone-700 dark:text-stone-200 hover:bg-stone-50 font-bold shadow-sm" title="Exporter et partager">
+              <i data-lucide="share-2" class="w-4 h-4"></i>
+            </button>
+            <div id="exportDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-stone-800 border-2 border-stone-200 dark:border-stone-700 rounded-2xl shadow-xl p-2 z-30 space-y-1 text-xs font-bold text-stone-700 dark:text-stone-200">
+              <button onclick="exportToJSON()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-700 flex items-center gap-2">
+                <i data-lucide="database" class="w-4 h-4 text-brand-600"></i> Sauvegarde JSON complète (Audio+Photo)
+              </button>
+              <button onclick="exportToCSV()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-700 flex items-center gap-2">
+                <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i> Exporter CSV (Excel / Feuilles)
+              </button>
+              <button onclick="exportToAnkiDeck()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-700 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-duo-blue"></i> Exporter Deck Anki (.tsv prêt à importer)
+              </button>
+              <button onclick="printIllustratedBooklet()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-700 flex items-center gap-2 text-purple-600 dark:text-purple-400">
+                <i data-lucide="printer" class="w-4 h-4"></i> Imprimer Livret / Imagier (PDF)
+              </button>
+              <hr class="border-stone-100 dark:border-stone-700 my-1">
+              <label class="w-full text-left px-3 py-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-700 flex items-center gap-2 cursor-pointer">
+                <i data-lucide="upload" class="w-4 h-4 text-blue-500"></i> Restaurer une sauvegarde JSON
+                <input type="file" id="jsonImportInput" accept=".json" class="hidden" onchange="importJSONFile(event)">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtres par catégories -->
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 text-xs font-bold" id="categoryChipsContainer">
+        <!-- Généré en JS -->
+      </div>
+
+      <!-- Grille des cartes du dictionnaire -->
+      <div id="dictionaryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Cartes injectées dynamiquement -->
+      </div>
+
+      <!-- État vide -->
+      <div id="dictEmptyState" class="hidden text-center py-16 px-4 bg-white dark:bg-stone-800 rounded-3xl border-2 border-dashed border-stone-300 dark:border-stone-700">
+        <div class="w-16 h-16 mx-auto rounded-3xl bg-amber-100 dark:bg-amber-950/60 text-brand-600 flex items-center justify-center mb-3 text-2xl">
+          📖
+        </div>
+        <h3 class="font-display font-extrabold text-lg">Aucun mot correspondant</h3>
+        <p class="text-xs text-stone-400 mt-1">Élargissez votre recherche ou enregistrez un nouveau mot avec votre voix.</p>
+      </div>
+
+    </section>
+
+    <!-- ========================================================
+         VUE 2 : QUÊTES GAMIFIÉES (DUOLINGO + SRS)
+         ======================================================== -->
+    <section id="questView" class="hidden flex-1 flex flex-col justify-center items-center py-4">
+      <div class="w-full max-w-xl mx-auto flex-1 flex flex-col justify-between">
+        
+        <!-- Barre de progression de la session -->
+        <div class="w-full space-y-3 mb-4">
+          <div class="flex items-center justify-between gap-3 text-xs font-black">
+            <button onclick="exitQuestSession()" class="text-stone-400 hover:text-stone-600 p-1" title="Quitter">
+              <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <div class="flex-1 h-3.5 bg-stone-200 dark:bg-stone-700 rounded-full overflow-hidden p-0.5 shadow-inner">
+              <div id="questProgressBar" class="h-full bg-duo-green rounded-full transition-all duration-300" style="width: 0%;"></div>
+            </div>
+            <div class="flex items-center gap-1 text-duo-green">
+              <i data-lucide="target" class="w-4 h-4"></i>
+              <span id="questStepCounter">1 / 5</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Boîte de Question Dynamique (SRS Multi-Formats) -->
+        <div id="questCardBox" class="bg-white dark:bg-stone-800 rounded-3xl p-6 sm:p-8 border-2 border-stone-200 dark:border-stone-700 shadow-sm relative overflow-hidden">
+          
+          <!-- Badge format de question -->
+          <div class="flex items-center justify-between mb-3">
+            <span id="questTypeBadge" class="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300">
+              Traduction
+            </span>
+            <!-- Niveau de maîtrise SRS actuel -->
+            <div id="questSrsLevelStars" class="flex gap-1 text-amber-400 text-xs">
+              <!-- Étoiles de maîtrise -->
+            </div>
+          </div>
+
+          <div id="questPromptTitle" class="text-xs font-extrabold uppercase text-stone-400 mb-2">
+            Que signifie ce mot ?
+          </div>
+
+          <!-- Zone Centrale : Mot / Image / Audio -->
+          <div class="flex flex-col items-center justify-center my-3 text-center space-y-2">
+            
+            <!-- Photo éventuelle associée au mot -->
+            <div id="questPhotoWrapper" class="hidden mb-2">
+              <img id="questPhotoImg" src="" alt="Photo" class="w-24 h-24 object-cover rounded-2xl border-2 border-stone-200 dark:border-stone-700 shadow-sm">
+            </div>
+
+            <!-- Affichage du mot ou Masqué en mode "Écoute pure" -->
+            <div class="flex items-center justify-center gap-3">
+              <h2 id="questTargetDisplay" class="font-display font-black text-3xl sm:text-4xl text-stone-900 dark:text-stone-50 tracking-tight">
+                Danum
+              </h2>
+              <!-- Bouton d'écoute prioritaire voix -->
+              <button id="questListenBtn" onclick="playCurrentQuestAudio()" class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950/80 hover:bg-amber-200 text-brand-700 dark:text-amber-300 flex items-center justify-center transition-transform active:scale-90 flex-shrink-0" title="Écouter l'enregistrement vocal">
+                <i data-lucide="volume-2" class="w-6 h-6"></i>
+              </button>
+            </div>
+
+            <div id="questPhoneticDisplay" class="text-xs font-bold text-amber-700 dark:text-amber-400 italic">
+              [da-noum]
+            </div>
+          </div>
+
+          <!-- FORMAT 1 : QCM (Options en boutons) -->
+          <div id="questQcmContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <!-- Boutons de choix injectés -->
+          </div>
+
+          <!-- FORMAT 2 : DICTÉE / SAISIE CLAVIER -->
+          <div id="questInputContainer" class="hidden mt-4 space-y-3">
+            <input 
+              type="text" 
+              id="questTextInput" 
+              autocomplete="off" 
+              placeholder="Tapez le mot en Tagbanan..." 
+              class="w-full text-center py-3.5 px-4 text-base font-extrabold rounded-2xl border-2 border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-900 text-stone-900 dark:text-stone-50 focus:border-brand-600 focus:outline-none"
+              onkeydown="if(event.key==='Enter') onQuestVerifyClick();"
+            >
+          </div>
+
+        </div>
+
+        <!-- Pied d'action : Banner de résultat et Bouton Vérifier -->
+        <div class="mt-6 w-full">
+          <div id="feedbackBox" class="hidden rounded-2xl p-4 mb-3 items-center justify-between font-bold text-sm">
+            <div class="flex items-center gap-3">
+              <div id="feedbackIconCircle" class="w-9 h-9 rounded-xl flex items-center justify-center text-white font-black text-lg"></div>
+              <div>
+                <div id="feedbackTitleText" class="font-display font-extrabold text-base leading-tight">Superbe !</div>
+                <div id="feedbackSubText" class="text-xs opacity-90 font-medium">Bonne réponse !</div>
+              </div>
+            </div>
+          </div>
+
+          <button id="questActionBtn" onclick="onQuestVerifyClick()" disabled class="w-full btn-3d btn-3d-green disabled:bg-stone-300 disabled:shadow-none disabled:cursor-not-allowed text-white font-display font-black text-base uppercase tracking-wider py-4 rounded-2xl shadow-md transition-all">
+            Vérifier
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Écran de Victoire de Session -->
+      <div id="questVictoryBox" class="hidden w-full max-w-md mx-auto bg-white dark:bg-stone-800 p-8 rounded-3xl border-2 border-stone-200 dark:border-stone-700 shadow-xl text-center space-y-5 animate-pop">
+        <div class="w-20 h-20 mx-auto rounded-3xl bg-amber-100 dark:bg-amber-950/80 flex items-center justify-center text-4xl shadow-inner">
+          🏆
+        </div>
+        <div>
+          <span class="text-xs font-black text-duo-green uppercase tracking-widest">Leçon Terminée</span>
+          <h3 class="font-display font-black text-2xl sm:text-3xl text-stone-900 dark:text-stone-50 mt-1">Mémoire Renforcée !</h3>
+          <p class="text-xs text-stone-400 mt-2">Votre mémoire espacée (SRS) a été actualisée pour ces mots.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 pt-2">
+          <div class="bg-amber-50 dark:bg-stone-900 p-3 rounded-2xl border border-amber-200 dark:border-amber-900/40">
+            <div class="text-[10px] font-black uppercase text-amber-700 dark:text-amber-400">XP Gagnés</div>
+            <div id="victoryXpNum" class="font-display font-black text-2xl text-amber-900 dark:text-amber-300">+50 XP</div>
+          </div>
+          <div class="bg-rose-50 dark:bg-stone-900 p-3 rounded-2xl border border-rose-200 dark:border-rose-900/40">
+            <div class="text-[10px] font-black uppercase text-rose-700 dark:text-rose-400">Série Active</div>
+            <div id="victoryStreakNum" class="font-display font-black text-2xl text-rose-900 dark:text-rose-300">🔥 1 J</div>
+          </div>
+        </div>
+
+        <div class="pt-4 flex flex-col gap-2">
+          <button onclick="startQuestSession()" class="btn-3d btn-3d-green text-white font-display font-black text-sm uppercase py-3.5 rounded-2xl w-full shadow-md">
+            Enchaîner une quête
+          </button>
+          <button onclick="switchMainTab('dict')" class="btn-3d btn-3d-card bg-stone-100 dark:bg-stone-700 text-stone-700 dark:text-stone-200 font-bold text-sm py-3 rounded-2xl w-full">
+            Retour au dictionnaire
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================
+         VUE 3 : FLASHCARDS RÉVERSIBLES STYLE ANKI
+         ======================================================== -->
+    <section id="flashcardView" class="hidden flex-1 flex flex-col justify-center items-center py-4">
+      <div class="w-full max-w-md mx-auto space-y-6">
+        
+        <div class="flex items-center justify-between text-xs font-extrabold text-stone-400 px-2">
+          <span>RÉVISION ESPACÉE ANKI</span>
+          <span id="flashcardCounter">1 / 10</span>
+        </div>
+
+        <!-- Carte 3D Flip -->
+        <div class="perspective-1000 w-full h-80 sm:h-96 cursor-pointer" onclick="toggleFlashcardFlip()">
+          <div id="flashcardInner" class="w-full h-full relative transition-transform duration-500 transform-style-3d">
+            
+            <!-- Face Avant (Tagbanan) -->
+            <div class="absolute inset-0 backface-hidden bg-white dark:bg-stone-800 border-2 border-stone-200 dark:border-stone-700 rounded-3xl p-6 sm:p-8 flex flex-col justify-between items-center text-center shadow-lg">
+              <span class="text-[10px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 dark:bg-amber-950/60 px-3 py-1 rounded-full border border-amber-200 dark:border-amber-900">
+                Face avant • Cliquez pour retourner
+              </span>
+
+              <div class="space-y-3">
+                <div id="fcFrontPhotoWrapper" class="hidden">
+                  <img id="fcFrontPhoto" src="" alt="" class="w-20 h-20 object-cover rounded-2xl mx-auto border-2 border-stone-200 dark:border-stone-700">
+                </div>
+                <h3 id="fcFrontWord" class="font-display font-black text-3xl sm:text-4xl text-stone-900 dark:text-stone-50">
+                  Danum
+                </h3>
+                <div id="fcFrontPhonetic" class="text-xs font-semibold text-amber-700 dark:text-amber-400 italic">
+                  [da-noum]
+                </div>
+              </div>
+
+              <button onclick="event.stopPropagation(); playFlashcardAudio();" class="p-3 bg-amber-100 hover:bg-amber-200 dark:bg-amber-950 text-brand-700 rounded-2xl flex items-center gap-2 text-xs font-bold">
+                <i data-lucide="volume-2" class="w-4 h-4"></i> Écouter ma voix
+              </button>
+            </div>
+
+            <!-- Face Arrière (Français & Exemple) -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 bg-stone-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between items-center text-center shadow-lg border-2 border-stone-800">
+              <span class="text-[10px] font-black uppercase tracking-wider text-emerald-400 bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-800">
+                Traduction & Contexte
+              </span>
+
+              <div class="space-y-2">
+                <h3 id="fcBackTrans" class="font-display font-black text-3xl text-emerald-400">
+                  Eau
+                </h3>
+                <div id="fcBackContext" class="text-xs text-stone-300 italic">
+                  Usage quotidien • Neutre
+                </div>
+                <div id="fcBackExample" class="text-xs bg-stone-800 p-3 rounded-xl border border-stone-700 text-stone-200 max-w-xs mt-3">
+                  « Mïninum ka et danum. »
+                </div>
+              </div>
+
+              <div class="text-[11px] text-stone-400">
+                Évaluez votre mémorisation ci-dessous
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Boutons d'auto-évaluation Leitner (À revoir / Maîtrisé) -->
+        <div class="grid grid-cols-2 gap-3 pt-2">
+          <button onclick="rateFlashcard(false)" class="btn-3d btn-3d-card bg-rose-50 hover:bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border-2 border-rose-300 dark:border-rose-800 font-display font-extrabold text-sm py-3.5 rounded-2xl flex items-center justify-center gap-2">
+            <span>✕</span> À revoir (Box 1)
+          </button>
+          <button onclick="rateFlashcard(true)" class="btn-3d btn-3d-green text-white font-display font-extrabold text-sm py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-md">
+            <span>✓</span> Je sais (+1 Box)
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VUE 4 : LIVRET IMPRIMABLE (IMAGIER / PDF VIA PRINT)
+         ======================================================== -->
+    <section id="printCatalogView" class="hidden p-8 bg-white text-black font-sans">
+      <div class="border-b-4 border-amber-600 pb-4 mb-6 flex justify-between items-end">
+        <div>
+          <h1 class="font-serif text-3xl font-bold text-amber-800">Livret d'apprentissage — Langue Tagbanan</h1>
+          <p class="text-xs text-stone-600 mt-1">Corpus bilingue patrimonial avec transcriptions phonétiques et contextes culturels</p>
+        </div>
+        <div class="text-right text-xs text-stone-500">
+          Édité le <span id="printDateSpan"></span>
+        </div>
+      </div>
+
+      <div id="printEntriesContainer" class="grid grid-cols-2 gap-6">
+        <!-- Rempli dynamiquement pour l'impression -->
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ========================================================
+     MODALE COMPLÈTE : AJOUT / MODIFICATION D'UN MOT DU LEXIQUE
+     ======================================================== -->
+  <div id="wordFormModal" class="fixed inset-0 z-50 bg-stone-950/70 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-white dark:bg-stone-800 rounded-3xl max-w-xl w-full max-h-[94vh] overflow-y-auto border-2 border-stone-200 dark:border-stone-700 shadow-2xl p-5 sm:p-7 relative">
+      
+      <!-- En-tête de la modale -->
+      <div class="flex items-center justify-between pb-3 border-b border-stone-100 dark:border-stone-700 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-950/60 text-brand-600 flex items-center justify-center font-bold">
+            <i data-lucide="feather" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 id="formModalTitle" class="font-display font-black text-lg text-stone-900 dark:text-stone-50">Ajouter une entrée</h3>
+            <p class="text-[11px] text-stone-400 font-bold">Enregistrez le mot, l'exemple et la photo</p>
+          </div>
+        </div>
+        <button onclick="closeModal('wordFormModal')" class="p-2 text-stone-400 hover:text-stone-700 rounded-xl">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="wordFullForm" onsubmit="handleWordSubmit(event)" class="space-y-4 text-xs font-bold">
+        <input type="hidden" id="fieldWordId">
+
+        <!-- Ligne 1 : Mot & Traduction -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1">
+              Mot en Tagbanan <span class="text-rose-500">*</span>
+            </label>
+            <input type="text" id="fWord" required placeholder="ex: Danum" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-900 border-2 border-stone-200 dark:border-stone-700 text-sm">
+          </div>
+          <div>
+            <label class="block text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1">
+              Traduction Française <span class="text-rose-500">*</span>
+            </label>
+            <input type="text" id="fTrans" required placeholder="ex: Eau" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-900 border-2 border-stone-200 dark:border-stone-700 text-sm">
+          </div>
+        </div>
+
+        <!-- Ligne 2 : Phonétique & Catégorie -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1">
+              Phonétique / Prononciation
+            </label>
+            <input type="text" id="fPhonetic" placeholder="ex: [da-noum]" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-900 border-2 border-stone-200 dark:border-stone-700 text-sm">
+          </div>
+          <div>
+            <label class="block text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1">
+              Catégorie Thématique
+            </label>
+            <select id="fCat" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-900 border-2 border-stone-200 dark:border-stone-700 text-sm">
+              <option value="Nature">Nature & Éléments</option>
+              <option value="Quotidien">Quotidien & Objets</option>
+              <option value="Famille">Famille & Société</option>
+              <option value="Nourriture">Nourriture & Cuisine</option>
+              <option value="Verbes">Verbes d'action</option>
+              <option value="Expressions">Expressions & Proverbes</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Ligne 3 : Contexte Culturel & Registre / Village -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1">
+              Registre / Contexte d'usage
+            </label>
+            <select id="fRegister" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-900 border-2 border-stone-200 dark:border-stone-700 text-sm">
+              <option value="Courant">Courant / Neutre</option>
+              <option value="Familier">Familier / Entre proches</option>
+              <option value="Formel">Formel / Respectueux (Aînés)</option>
+              <option value="Traditionnel">Rituels & Cérémonies</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-stone-600 dark:text-stone-300 uppercase tracking-wider mb-1">
+              Variante de village / Dialecte local
+            </label>
+            <input type="text" id="fVillage" placeholder="ex: Aborlan, Coron, Nord..." class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-900 border-2 border-stone-200 dark:border-stone-700 text-sm">
+          </div>
+        </div>
+
+        <!-- Ligne 4 : Phrase d'exemple bilingue -->
+        <div class="space-y-2">
+          <label class="block text-stone-600 dark:text-stone-300 uppercase tracking-wider">
+            Phrase d'exemple (Tagbanan & Traduction)
+          </label>
+          <input type="text" id="fExample" placeholder="Exemple en Tagbanan (ex: Mïninum ka et danum.)" class="w-full px-3.5 py-2 rounded-xl bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-700 text-xs">
+          <input type="text" id="fExampleFr" placeholder="Traduction française de l'exemple" class="w-full px-3.5 py-2 rounded-xl bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-700 text-xs">
+        </div>
+
+        <!-- SECTION AUDIO DOUBLE : MOT & PHRASE -->
+        <div class="p-3.5 rounded-2xl bg-amber-50/70 dark:bg-stone-900 border border-amber-200 dark:border-stone-700 space-y-3">
+          <div class="text-[11px] font-black uppercase text-amber-800 dark:text-amber-400 flex items-center gap-1.5">
+            <i data-lucide="mic" class="w-4 h-4"></i> Enregistrement vocal authentique (Microphone)
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Audio Mot Seul -->
+            <div class="p-2.5 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-center space-y-1.5">
+              <span class="text-[10px] uppercase text-stone-400 font-black">Prononciation du mot</span>
+              <button type="button" id="recWordBtn" onclick="toggleRecordAudio('word')" class="w-full py-2 px-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs flex items-center justify-center gap-1.5">
+                <span id="recWordIcon">🎙️</span> <span id="recWordText">Enregistrer Mot</span>
+              </button>
+              <div id="wordAudioStatus" class="text-[10px] text-stone-400">Aucun audio enregistré</div>
+              <audio id="wordAudioPreview" controls class="w-full hidden h-8 mt-1"></audio>
+            </div>
+
+            <!-- Audio Phrase Complète -->
+            <div class="p-2.5 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-center space-y-1.5">
+              <span class="text-[10px] uppercase text-stone-400 font-black">Intonation de la phrase</span>
+              <button type="button" id="recSentenceBtn" onclick="toggleRecordAudio('sentence')" class="w-full py-2 px-3 rounded-xl bg-stone-700 hover:bg-stone-800 text-white font-black text-xs flex items-center justify-center gap-1.5">
+                <span id="recSentenceIcon">🎙️</span> <span id="recSentenceText">Enregistrer Phrase</span>
+              </button>
+              <div id="sentenceAudioStatus" class="text-[10px] text-stone-400">Aucun audio enregistré</div>
+              <audio id="sentenceAudioPreview" controls class="w-full hidden h-8 mt-1"></audio>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION ATTACHEMENT PHOTO / APPAREIL -->
+        <div class="p-3.5 rounded-2xl bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-700 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-black uppercase text-stone-600 dark:text-stone-300 flex items-center gap-1.5">
+              <i data-lucide="image" class="w-4 h-4 text-brand-600"></i> Photo d'illustration (Faune, Flore, Objet)
+            </span>
+            <button type="button" id="removePhotoBtn" onclick="clearPhotoAttachment()" class="text-rose-500 hover:underline text-[10px] hidden">Supprimer photo</button>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <label class="cursor-pointer px-4 py-2 bg-white dark:bg-stone-800 border-2 border-stone-200 dark:border-stone-700 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-700 flex items-center gap-2 text-xs font-bold text-stone-700 dark:text-stone-200">
+              <i data-lucide="camera" class="w-4 h-4 text-brand-600"></i> Choisir / Prendre une photo
+              <input type="file" id="fPhotoInput" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+            </label>
+            <div id="photoPreviewContainer" class="hidden">
+              <img id="formPhotoImg" src="" alt="Aperçu" class="w-12 h-12 object-cover rounded-xl border border-stone-300">
+            </div>
+          </div>
+        </div>
+
+        <!-- Boutons de soumission -->
+        <div class="pt-3 border-t border-stone-100 dark:border-stone-700 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeModal('wordFormModal')" class="px-4 py-2.5 rounded-xl text-stone-500 font-bold hover:bg-stone-100 dark:hover:bg-stone-700">
+            Annuler
+          </button>
+          <button type="submit" class="btn-3d btn-3d-amber text-white px-6 py-2.5 rounded-xl font-display font-black text-xs uppercase tracking-wider shadow-sm">
+            Sauvegarder l'entrée
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+
+  <!-- ========================================================
+       TOAST FLOTTANT DE NOTIFICATION
+       ======================================================== -->
+  <div id="appToast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-bold pointer-events-none">
+    <i id="toastIcon" data-lucide="check-circle" class="w-4 h-4 text-duo-green"></i>
+    <span id="toastMsg">Action exécutée</span>
+  </div>
+
+
+  <!-- ========================================================
+       MOTEUR JAVASCRIPT GLOBAL & PRODUCTION GRADE
+       ======================================================== -->
+  <script>
+    /* ========================================================
+       1. CONSTANTES & SCHÉMA DE DONNÉES ÉVOLUÉ
+       ======================================================== */
+    const STORAGE_KEY = 'tagbanan_corpus_pro_v3';
+    const STATS_KEY = 'tagbanan_stats_v3';
+
+    // Données initiales authentiques complètes avec contextes et audio vierge
+    const INITIAL_CORPUS = [
+      {
+        id: '1',
+        word: 'Danum',
+        trans: 'Eau',
+        phonetic: '[da-noum]',
+        cat: 'Nature',
+        register: 'Courant',
+        village: 'Aborlan',
+        example: 'Mïninum ka et danum.',
+        exampleFr: 'Bois de l\'eau fraîche.',
+        wordAudio: null,
+        sentenceAudio: null,
+        photo: null,
+        srsBox: 2, // Système Leitner : Box 1 à 5
+        lastReviewed: Date.now()
+      },
+      {
+        id: '2',
+        word: 'Apoy',
+        trans: 'Feu',
+        phonetic: '[a-poy]',
+        cat: 'Nature',
+        register: 'Courant',
+        village: 'Tous',
+        example: 'Maslag et apoy.',
+        exampleFr: 'Le feu est vif et grand.',
+        wordAudio: null,
+        sentenceAudio: null,
+        photo: null,
+        srsBox: 1,
+        lastReviewed: Date.now()
+      },
+      {
+        id: '3',
+        word: 'Balay',
+        trans: 'Maison',
+        phonetic: '[ba-laï]',
+        cat: 'Quotidien',
+        register: 'Courant',
+        village: 'Aborlan / Nord',
+        example: 'Mag-uli aku sa balay.',
+        exampleFr: 'Je retourne à la maison.',
+        wordAudio: null,
+        sentenceAudio: null,
+        photo: null,
+        srsBox: 3,
+        lastReviewed: Date.now()
+      },
+      {
+        id: '4',
+        word: 'Bagas',
+        trans: 'Riz décortiqué',
+        phonetic: '[ba-gas]',
+        cat: 'Nourriture',
+        register: 'Courant',
+        village: 'Tous',
+        example: 'Mengkankan aku et bagas.',
+        exampleFr: 'Je mange du riz blanc.',
+        wordAudio: null,
+        sentenceAudio: null,
+        photo: null,
+        srsBox: 2,
+        lastReviewed: Date.now()
+      },
+      {
+        id: '5',
+        word: 'Aldaw',
+        trans: 'Soleil / Jour',
+        phonetic: '[al-daw]',
+        cat: 'Nature',
+        register: 'Courant',
+        village: 'Tous',
+        example: 'Masanting et aldaw kani.',
+        exampleFr: 'Le soleil brille joliment.',
+        wordAudio: null,
+        sentenceAudio: null,
+        photo: null,
+        srsBox: 1,
+        lastReviewed: Date.now()
+      },
+      {
+        id: '6',
+        word: 'Paray',
+        trans: 'Riz paddy / sur pied',
+        phonetic: '[pa-raï]',
+        cat: 'Nourriture',
+        register: 'Traditionnel',
+        village: 'Palawan Centre',
+        example: 'Marami et paray doon.',
+        exampleFr: 'Le riz paddy est abondant là-bas.',
+        wordAudio: null,
+        sentenceAudio: null,
+        photo: null,
+        srsBox: 1,
+        lastReviewed: Date.now()
+      }
+    ];
+
+    let corpus = [];
+    let stats = {
+      xp: 0,
+      streakDays: 1,
+      lastStreakDate: new Date().toISOString().slice(0, 10)
+    };
+    let activeCatFilter = 'TOUS';
+
+    /* ========================================================
+       2. INITIALISATION & SERVICE WORKER INLINE
+       ======================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      checkDailyStreak();
+      renderAppLogo();
+      renderCategoryChips();
+      renderDictionary();
+      updateStatsDisplay();
+      registerInlineServiceWorker();
+      lucide.createIcons();
+    });
+
+    function loadState() {
+      const savedCorpus = localStorage.getItem(STORAGE_KEY);
+      if (savedCorpus) {
+        try {
+          corpus = JSON.parse(savedCorpus);
+        } catch (e) {
+          corpus = [...INITIAL_CORPUS];
+        }
+      } else {
+        corpus = [...INITIAL_CORPUS];
+        saveCorpus();
+      }
+
+      const savedStats = localStorage.getItem(STATS_KEY);
+      if (savedStats) {
+        try {
+          stats = Object.assign(stats, JSON.parse(savedStats));
+        } catch (e) {}
+      }
+    }
+
+    function saveCorpus() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(corpus));
+      renderCategoryChips();
+    }
+
+    function saveStats() {
+      localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+      updateStatsDisplay();
+    }
+
+    function updateStatsDisplay() {
+      document.getElementById('playerXpDisplay').textContent = stats.xp;
+      document.getElementById('streakDaysDisplay').textContent = stats.streakDays;
+    }
+
+    // Gestion de la série de jours consécutifs (Streak)
+    function checkDailyStreak() {
+      const today = new Date().toISOString().slice(0, 10);
+      const last = stats.lastStreakDate;
+      if (!last) {
+        stats.lastStreakDate = today;
+        stats.streakDays = 1;
+        saveStats();
+        return;
+      }
+      if (last === today) return;
+
+      const diffTime = Math.abs(new Date(today) - new Date(last));
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays === 1) {
+        // Jour consécutif parfait
+        stats.streakDays += 1;
+        stats.lastStreakDate = today;
+        saveStats();
+        showToast(`🔥 Série maintenue : ${stats.streakDays} jours d'affilée !`);
+      } else if (diffDays > 1) {
+        // Série rompue
+        stats.streakDays = 1;
+        stats.lastStreakDate = today;
+        saveStats();
+      }
+    }
+
+    /* Enregistrement automatique d'un Service Worker pour le hors-ligne PWA */
+    function registerInlineServiceWorker() {
+      if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+        const swScript = `
+          const CACHE_NAME = 'tagbanan-offline-v1';
+          self.addEventListener('install', e => {
+            self.skipWaiting();
+          });
+          self.addEventListener('activate', e => {
+            e.waitUntil(clients.claim());
+          });
+          self.addEventListener('fetch', e => {
+            e.respondWith(
+              fetch(e.request).catch(() => caches.match(e.request))
+            );
+          });
+        `;
+        const blob = new Blob([swScript], { type: 'application/javascript' });
+        navigator.serviceWorker.register(URL.createObjectURL(blob))
+          .catch(() => {});
+      }
+    }
+
+    /* ========================================================
+       3. SYNTHÉTISEUR AUDIO WEB AUDIO API (EFFETS GAMIFIÉS)
+       ======================================================== */
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioClass) audioCtx = new AudioClass();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playSoundSuccess() {
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+          gain.gain.setValueAtTime(0.2, now + idx * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.22);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.08);
+          osc.stop(now + idx * 0.08 + 0.25);
+        });
+      } catch (e) {}
+    }
+
+    function playSoundError() {
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.linearRampToValueAtTime(140, now + 0.25);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      } catch (e) {}
+    }
+
+    function playSoundVictory() {
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+        notes.forEach((f, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(f, now + i * 0.12);
+          gain.gain.setValueAtTime(0.2, now + i * 0.12);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.35);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + i * 0.12);
+          osc.stop(now + i * 0.12 + 0.4);
+        });
+      } catch (e) {}
+    }
+
+    /* Lecteur universel : lit l'audio Base64 ou utilise la synthèse vocale */
+    const sharedAudio = new Audio();
+    function playAudio(audioBase64, fallbackText) {
+      if (audioBase64) {
+        sharedAudio.src = audioBase64;
+        sharedAudio.play().catch(() => {});
+      } else if (fallbackText && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(fallbackText);
+        utter.rate = 0.85;
+        const voices = window.speechSynthesis.getVoices();
+        const voice = voices.find(v => v.lang.startsWith('fil') || v.lang.startsWith('tl') || v.lang.startsWith('id') || v.lang.startsWith('es'));
+        if (voice) utter.voice = voice;
+        window.speechSynthesis.speak(utter);
+      }
+    }
+
+    /* ========================================================
+       4. GESTION DU DICTIONNAIRE & RECHERCHE
+       ======================================================== */
+    function renderCategoryChips() {
+      const container = document.getElementById('categoryChipsContainer');
+      const cats = ['TOUS', ...new Set(corpus.map(w => w.cat || 'Général'))];
+
+      container.innerHTML = cats.map(c => `
+        <button onclick="setCategoryFilter('${c}')" class="px-3.5 py-1.5 rounded-xl transition-all whitespace-nowrap ${c === activeCatFilter ? 'bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900 shadow-sm' : 'bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300'}">
+          ${c === 'TOUS' ? 'Tous les mots' : c}
+        </button>
+      `).join('');
+    }
+
+    function setCategoryFilter(c) {
+      activeCatFilter = c;
+      renderCategoryChips();
+      renderDictionary();
+    }
+
+    function renderDictionary() {
+      const q = document.getElementById('searchWordInput').value.toLowerCase().trim();
+      const clearBtn = document.getElementById('clearSearchBtn');
+      clearBtn.classList.toggle('hidden', q === '');
+
+      const grid = document.getElementById('dictionaryGrid');
+      const empty = document.getElementById('dictEmptyState');
+
+      const filtered = corpus.filter(item => {
+        const matchQ = 
+          item.word.toLowerCase().includes(q) ||
+          item.trans.toLowerCase().includes(q) ||
+          (item.village && item.village.toLowerCase().includes(q)) ||
+          (item.phonetic && item.phonetic.toLowerCase().includes(q));
+        const matchCat = (activeCatFilter === 'TOUS') || (item.cat === activeCatFilter);
+        return matchQ && matchCat;
+      });
+
+      grid.innerHTML = '';
+      if (filtered.length === 0) {
+        empty.classList.remove('hidden');
+      } else {
+        empty.classList.add('hidden');
+        filtered.forEach(item => {
+          const card = document.createElement('div');
+          card.className = "bg-white dark:bg-stone-800 rounded-3xl p-5 border-2 border-stone-200 dark:border-stone-700 shadow-sm hover:shadow-md transition-all flex flex-col justify-between";
+
+          const hasWordAudio = Boolean(item.wordAudio);
+          const hasSentenceAudio = Boolean(item.sentenceAudio);
+          const hasPhoto = Boolean(item.photo);
+
+          card.innerHTML = `
+            <div>
+              <!-- En-tête : Badge Catégorie & Niveau Leitner Box -->
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 text-brand-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                    ${escapeHTML(item.cat || 'Général')}
+                  </span>
+                  ${item.village ? `
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-700 text-stone-500">
+                      📍 ${escapeHTML(item.village)}
+                    </span>
+                  ` : ''}
+                </div>
+                
+                <div class="flex items-center gap-1">
+                  <!-- Étoiles de maîtrise Leitner Box (1 à 5) -->
+                  <span class="text-[10px] font-black text-amber-500" title="Niveau SRS Leitner : Box ${item.srsBox || 1}">
+                    ${'★'.repeat(item.srsBox || 1)}${'☆'.repeat(5 - (item.srsBox || 1))}
+                  </span>
+                  <button onclick="editWordEntry('${item.id}')" class="p-1.5 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 rounded-lg" title="Modifier">
+                    <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button onclick="deleteWordEntry('${item.id}')" class="p-1.5 text-stone-400 hover:text-rose-600 rounded-lg" title="Supprimer">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Bloc Terme Principal & Photo -->
+              <div class="flex items-start gap-3 my-2">
+                ${hasPhoto ? `
+                  <img src="${item.photo}" alt="${escapeHTML(item.word)}" class="w-14 h-14 object-cover rounded-2xl border-2 border-stone-200 dark:border-stone-700 flex-shrink-0">
+                ` : ''}
+                <div class="flex-1">
+                  <div class="flex items-center gap-2">
+                    <h3 class="font-display font-black text-2xl text-stone-900 dark:text-stone-50 leading-tight">
+                      ${escapeHTML(item.word)}
+                    </h3>
+                    <button onclick="playAudio('${item.wordAudio || ''}', '${escapeHTML(item.word)}')" class="p-1.5 rounded-xl ${hasWordAudio ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-amber-100 text-brand-700 dark:bg-amber-950 dark:text-amber-300'} transition-transform active:scale-90" title="${hasWordAudio ? 'Écouter votre voix' : 'Synthèse vocale'}">
+                      <i data-lucide="${hasWordAudio ? 'mic' : 'volume-2'}" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                  ${item.phonetic ? `<div class="text-xs italic text-stone-400">${escapeHTML(item.phonetic)}</div>` : ''}
+                  <div class="text-sm font-bold text-stone-700 dark:text-stone-200 mt-1">${escapeHTML(item.trans)}</div>
+                </div>
+              </div>
+
+              <!-- Exemple de phrase -->
+              ${item.example ? `
+                <div class="mt-3 p-3 rounded-2xl bg-stone-50 dark:bg-stone-900/60 border border-stone-200/70 dark:border-stone-700/70 text-xs">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="italic text-brand-700 dark:text-amber-400 font-bold">« ${escapeHTML(item.example)} »</div>
+                    ${hasSentenceAudio ? `
+                      <button onclick="playAudio('${item.sentenceAudio}', '')" class="text-emerald-600 dark:text-emerald-400 flex-shrink-0" title="Écouter la phrase entière">
+                        <i data-lucide="play-circle" class="w-4 h-4"></i>
+                      </button>
+                    ` : ''}
+                  </div>
+                  ${item.exampleFr ? `<div class="text-stone-500 dark:text-stone-400 text-[11px] mt-0.5">→ ${escapeHTML(item.exampleFr)}</div>` : ''}
+                </div>
+              ` : ''}
+
+              <!-- Registre et notes culturelles -->
+              <div class="mt-2.5 flex items-center gap-2 text-[10px] text-stone-400 font-semibold">
+                <span>Usage : <strong class="text-stone-600 dark:text-stone-300">${escapeHTML(item.register || 'Courant')}</strong></span>
+                ${hasWordAudio ? `<span class="text-emerald-600">● Voix HD</span>` : ''}
+              </div>
+            </div>
+
+            <!-- Pied de carte -->
+            <div class="mt-4 pt-2.5 border-t border-stone-100 dark:border-stone-700 flex justify-between items-center text-[10px] text-stone-400">
+              <span>Leitner Box ${item.srsBox || 1}/5</span>
+              <button onclick="trainSpecificWord('${item.id}')" class="text-brand-600 dark:text-brand-400 font-bold hover:underline">
+                S'entraîner →
+              </button>
+            </div>
+          `;
+
+          grid.appendChild(card);
+        });
+      }
+      lucide.createIcons();
+    }
+
+    function clearSearch() {
+      document.getElementById('searchWordInput').value = '';
+      renderDictionary();
+    }
+
+    /* ========================================================
+       5. ENREGISTREUR VOCAL DOUBLE (MOT & PHRASE)
+       ======================================================== */
+    let currentRecordingType = null; // 'word' ou 'sentence'
+    let activeMediaRecorder = null;
+    let audioChunks = [];
+    let currentWordAudioBase64 = null;
+    let currentSentenceAudioBase64 = null;
+    let currentPhotoBase64 = null;
+
+    async function toggleRecordAudio(type) {
+      if (activeMediaRecorder && activeMediaRecorder.state === 'recording') {
+        // Arrêter l'enregistrement en cours
+        activeMediaRecorder.stop();
+        activeMediaRecorder.stream.getTracks().forEach(t => t.stop());
+        return;
+      }
+
+      currentRecordingType = type;
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        activeMediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        activeMediaRecorder.ondataavailable = e => {
+          if (e.data.size > 0) audioChunks.push(e.data);
+        };
+
+        activeMediaRecorder.onstop = () => {
+          const blob = new Blob(audioChunks, { type: 'audio/webm' });
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = () => {
+            const base64 = reader.result;
+            if (currentRecordingType === 'word') {
+              currentWordAudioBase64 = base64;
+              document.getElementById('wordAudioStatus').innerHTML = "<span class='text-emerald-600 font-bold'>✓ Enregistré !</span>";
+              const p = document.getElementById('wordAudioPreview');
+              p.src = base64;
+              p.classList.remove('hidden');
+              document.getElementById('recWordBtn').classList.remove('recording-pulse');
+              document.getElementById('recWordText').textContent = "Réenregistrer Mot";
+            } else {
+              currentSentenceAudioBase64 = base64;
+              document.getElementById('sentenceAudioStatus').innerHTML = "<span class='text-emerald-600 font-bold'>✓ Enregistré !</span>";
+              const p = document.getElementById('sentenceAudioPreview');
+              p.src = base64;
+              p.classList.remove('hidden');
+              document.getElementById('recSentenceBtn').classList.remove('recording-pulse');
+              document.getElementById('recSentenceText').textContent = "Réenregistrer Phrase";
+            }
+          };
+        };
+
+        activeMediaRecorder.start();
+        if (type === 'word') {
+          const btn = document.getElementById('recWordBtn');
+          btn.classList.add('recording-pulse');
+          document.getElementById('recWordText').textContent = "Parlez... Arrêter";
+        } else {
+          const btn = document.getElementById('recSentenceBtn');
+          btn.classList.add('recording-pulse');
+          document.getElementById('recSentenceText').textContent = "Parlez... Arrêter";
+        }
+
+      } catch (err) {
+        showToast("Accès micro refusé ou non supporté", true);
+      }
+    }
+
+    /* Traitement et compression légère de photo */
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxDim = 400; // compression pour sauvegarde légère
+          let w = img.width;
+          let h = img.height;
+          if (w > h && w > maxDim) {
+            h = (h * maxDim) / w;
+            w = maxDim;
+          } else if (h > maxDim) {
+            w = (w * maxDim) / h;
+            h = maxDim;
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          currentPhotoBase64 = canvas.toDataURL('image/jpeg', 0.75);
+
+          document.getElementById('formPhotoImg').src = currentPhotoBase64;
+          document.getElementById('photoPreviewContainer').classList.remove('hidden');
+          document.getElementById('removePhotoBtn').classList.remove('hidden');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearPhotoAttachment() {
+      currentPhotoBase64 = null;
+      document.getElementById('fPhotoInput').value = '';
+      document.getElementById('photoPreviewContainer').classList.add('hidden');
+      document.getElementById('removePhotoBtn').classList.add('hidden');
+    }
+
+    /* Modal Formulaire d'ajout / Édition */
+    function openWordModal() {
+      document.getElementById('formModalTitle').textContent = "Nouvelle entrée Tagbanan";
+      document.getElementById('wordFullForm').reset();
+      document.getElementById('fieldWordId').value = '';
+      currentWordAudioBase64 = null;
+      currentSentenceAudioBase64 = null;
+      clearPhotoAttachment();
+
+      document.getElementById('wordAudioStatus').textContent = "Aucun audio";
+      document.getElementById('wordAudioPreview').classList.add('hidden');
+      document.getElementById('sentenceAudioStatus').textContent = "Aucun audio";
+      document.getElementById('sentenceAudioPreview').classList.add('hidden');
+
+      openModal('wordFormModal');
+    }
+
+    function editWordEntry(id) {
+      const item = corpus.find(w => w.id === id);
+      if (!item) return;
+
+      document.getElementById('formModalTitle').textContent = `Modifier « ${item.word} »`;
+      document.getElementById('fieldWordId').value = item.id;
+      document.getElementById('fWord').value = item.word;
+      document.getElementById('fTrans').value = item.trans;
+      document.getElementById('fPhonetic').value = item.phonetic || '';
+      document.getElementById('fCat').value = item.cat || 'Nature';
+      document.getElementById('fRegister').value = item.register || 'Courant';
+      document.getElementById('fVillage').value = item.village || '';
+      document.getElementById('fExample').value = item.example || '';
+      document.getElementById('fExampleFr').value = item.exampleFr || '';
+
+      currentWordAudioBase64 = item.wordAudio || null;
+      currentSentenceAudioBase64 = item.sentenceAudio || null;
+      currentPhotoBase64 = item.photo || null;
+
+      if (currentWordAudioBase64) {
+        document.getElementById('wordAudioStatus').innerHTML = "<span class='text-emerald-600 font-bold'>✓ Audio enregistré</span>";
+        document.getElementById('wordAudioPreview').src = currentWordAudioBase64;
+        document.getElementById('wordAudioPreview').classList.remove('hidden');
+      }
+      if (currentSentenceAudioBase64) {
+        document.getElementById('sentenceAudioStatus').innerHTML = "<span class='text-emerald-600 font-bold'>✓ Phrase enregistrée</span>";
+        document.getElementById('sentenceAudioPreview').src = currentSentenceAudioBase64;
+        document.getElementById('sentenceAudioPreview').classList.remove('hidden');
+      }
+      if (currentPhotoBase64) {
+        document.getElementById('formPhotoImg').src = currentPhotoBase64;
+        document.getElementById('photoPreviewContainer').classList.remove('hidden');
+        document.getElementById('removePhotoBtn').classList.remove('hidden');
+      }
+
+      openModal('wordFormModal');
+    }
+
+    function handleWordSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('fieldWordId').value;
+      const word = document.getElementById('fWord').value.trim();
+      const trans = document.getElementById('fTrans').value.trim();
+      const phonetic = document.getElementById('fPhonetic').value.trim();
+      const cat = document.getElementById('fCat').value;
+      const register = document.getElementById('fRegister').value;
+      const village = document.getElementById('fVillage').value.trim();
+      const example = document.getElementById('fExample').value.trim();
+      const exampleFr = document.getElementById('fExampleFr').value.trim();
+
+      if (!word || !trans) return;
+
+      if (id) {
+        const idx = corpus.findIndex(w => w.id === id);
+        if (idx !== -1) {
+          corpus[idx] = {
+            ...corpus[idx],
+            word, trans, phonetic, cat, register, village, example, exampleFr,
+            wordAudio: currentWordAudioBase64,
+            sentenceAudio: currentSentenceAudioBase64,
+            photo: currentPhotoBase64
+          };
+          showToast(`« ${word} » a été mis à jour.`);
+        }
+      } else {
+        const newEntry = {
+          id: Date.now().toString(),
+          word, trans, phonetic, cat, register, village, example, exampleFr,
+          wordAudio: currentWordAudioBase64,
+          sentenceAudio: currentSentenceAudioBase64,
+          photo: currentPhotoBase64,
+          srsBox: 1,
+          lastReviewed: Date.now()
+        };
+        corpus.unshift(newEntry);
+        stats.xp += 10;
+        saveStats();
+        showToast(`« ${word} » ajouté (+10 XP) !`);
+      }
+
+      saveCorpus();
+      closeModal('wordFormModal');
+      renderDictionary();
+    }
+
+    function deleteWordEntry(id) {
+      const item = corpus.find(w => w.id === id);
+      if (!item) return;
+      if (confirm(`Supprimer « ${item.word} » du dictionnaire ?`)) {
+        corpus = corpus.filter(w => w.id !== id);
+        saveCorpus();
+        renderDictionary();
+        showToast(`« ${item.word} » supprimé.`);
+      }
+    }
+
+    /* ========================================================
+       6. MODE QUÊTES SRS GAMIFIÉES (STYLE DUOLINGO/LEITNER)
+       ======================================================== */
+    let questState = {
+      queue: [],
+      currentIndex: 0,
+      correctCount: 0,
+      selectedChoice: null,
+      isChecked: false
+    };
+
+    function startQuestSession() {
+      const cardBox = document.getElementById('questCardBox').parentElement;
+      const victory = document.getElementById('questVictoryBox');
+      victory.classList.add('hidden');
+      cardBox.classList.remove('hidden');
+
+      if (corpus.length < 4) {
+        showToast("Ajoutez au moins 4 mots pour créer les exercices de quête.", true);
+        switchMainTab('dict');
+        return;
+      }
+
+      // Algorithme de répétition espacée (SRS) :
+      // Trie en priorité les mots ayant la plus petite boîte Leitner (Box 1, 2)
+      const sortedByNeed = [...corpus].sort((a, b) => (a.srsBox || 1) - (b.srsBox || 1));
+      const candidates = sortedByNeed.slice(0, 8).sort(() => 0.5 - Math.random());
+      const sessionSelection = candidates.slice(0, 5);
+
+      questState.queue = sessionSelection.map((target, idx) => {
+        // Types d'exercices :
+        // 0: QCM Tagbanan -> FR
+        // 1: Écoute pure (audio-only sans voir le mot)
+        // 2: QCM FR -> Tagbanan
+        // 3: Dictée / Saisie clavier
+        let exerciseType = 'qcm-tbw-fr';
+        if (target.wordAudio && idx % 3 === 1) {
+          exerciseType = 'listening-only';
+        } else if (idx % 4 === 3) {
+          exerciseType = 'dictation';
+        } else if (idx % 2 === 1) {
+          exerciseType = 'qcm-fr-tbw';
+        }
+
+        const wrongChoices = corpus
+          .filter(w => w.id !== target.id)
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 3);
+
+        return {
+          type: exerciseType,
+          item: target,
+          wrongPool: wrongChoices
+        };
+      });
+
+      questState.currentIndex = 0;
+      questState.correctCount = 0;
+      renderCurrentQuestStep();
+    }
+
+    function renderCurrentQuestStep() {
+      const step = questState.queue[questState.currentIndex];
+      const target = step.item;
+      const total = questState.queue.length;
+
+      // Barre de progression
+      const progress = (questState.currentIndex / total) * 100;
+      document.getElementById('questProgressBar').style.width = `${progress}%`;
+      document.getElementById('questStepCounter').textContent = `${questState.currentIndex + 1} / ${total}`;
+
+      // Réinitialisation du bouton & feedback
+      const actionBtn = document.getElementById('questActionBtn');
+      actionBtn.disabled = true;
+      actionBtn.textContent = "Vérifier";
+      actionBtn.className = "w-full btn-3d btn-3d-green disabled:bg-stone-300 disabled:shadow-none disabled:cursor-not-allowed text-white font-display font-black text-base uppercase tracking-wider py-4 rounded-2xl shadow-md transition-all";
+
+      document.getElementById('feedbackBox').className = "hidden rounded-2xl p-4 mb-3 items-center justify-between font-bold text-sm";
+      questState.isChecked = false;
+      questState.selectedChoice = null;
+
+      // Affichage du niveau de boîte SRS
+      const box = target.srsBox || 1;
+      document.getElementById('questSrsLevelStars').textContent = '★'.repeat(box) + '☆'.repeat(5 - box);
+
+      // Photo
+      const photoWrapper = document.getElementById('questPhotoWrapper');
+      if (target.photo && step.type !== 'listening-only') {
+        photoWrapper.classList.remove('hidden');
+        document.getElementById('questPhotoImg').src = target.photo;
+      } else {
+        photoWrapper.classList.add('hidden');
+      }
+
+      // Configuration selon le type d'exercice
+      const qcmGrid = document.getElementById('questQcmContainer');
+      const inputCont = document.getElementById('questInputContainer');
+      const targetDisplay = document.getElementById('questTargetDisplay');
+      const phoneticDisplay = document.getElementById('questPhoneticDisplay');
+      const typeBadge = document.getElementById('questTypeBadge');
+      const promptTitle = document.getElementById('questPromptTitle');
+
+      if (step.type === 'listening-only') {
+        typeBadge.textContent = "👂 Compréhension Orale Pure";
+        promptTitle.textContent = "Écoutez la voix et choisissez la bonne traduction :";
+        targetDisplay.textContent = "🔊 [Écoutez]";
+        phoneticDisplay.textContent = "Cliquez sur le haut-parleur si besoin";
+        qcmGrid.classList.remove('hidden');
+        inputCont.classList.add('hidden');
+
+        const choices = [target.trans, ...step.wrongPool.map(w => w.trans)].sort(() => 0.5 - Math.random());
+        qcmGrid.innerHTML = choices.map(choice => `
+          <button onclick="selectQuestChoice('${escapeHTML(choice)}', this)" class="quest-choice-btn btn-3d btn-3d-card bg-white dark:bg-stone-800 border-2 border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-50 font-display font-extrabold text-base p-4 rounded-2xl text-left">
+            ${choice}
+          </button>
+        `).join('');
+
+        // Lecture audio automatique
+        playAudio(target.wordAudio, target.word);
+
+      } else if (step.type === 'dictation') {
+        typeBadge.textContent = "✍️ Orthographe & Dictée";
+        promptTitle.textContent = `Tapez le mot en Tagbanan pour « ${target.trans} » :`;
+        targetDisplay.textContent = target.trans;
+        phoneticDisplay.textContent = target.phonetic ? `Indice phonétique : ${target.phonetic}` : '';
+        qcmGrid.classList.add('hidden');
+        inputCont.classList.remove('hidden');
+
+        const textInput = document.getElementById('questTextInput');
+        textInput.value = '';
+        setTimeout(() => textInput.focus(), 150);
+
+        textInput.oninput = () => {
+          actionBtn.disabled = textInput.value.trim().length === 0;
+        };
+
+      } else if (step.type === 'qcm-fr-tbw') {
+        typeBadge.textContent = "⚡ Français → Tagbanan";
+        promptTitle.textContent = "Comment dit-on en Tagbanan :";
+        targetDisplay.textContent = target.trans;
+        phoneticDisplay.textContent = "";
+        qcmGrid.classList.remove('hidden');
+        inputCont.classList.add('hidden');
+
+        const choices = [target.word, ...step.wrongPool.map(w => w.word)].sort(() => 0.5 - Math.random());
+        qcmGrid.innerHTML = choices.map(choice => `
+          <button onclick="selectQuestChoice('${escapeHTML(choice)}', this)" class="quest-choice-btn btn-3d btn-3d-card bg-white dark:bg-stone-800 border-2 border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-50 font-display font-extrabold text-base p-4 rounded-2xl text-left">
+            ${choice}
+          </button>
+        `).join('');
+
+      } else {
+        // Tagbanan -> Français standard
+        typeBadge.textContent = "📖 Traduction Tagbanan";
+        promptTitle.textContent = "Quelle est la traduction française de :";
+        targetDisplay.textContent = target.word;
+        phoneticDisplay.textContent = target.phonetic || '';
+        qcmGrid.classList.remove('hidden');
+        inputCont.classList.add('hidden');
+
+        const choices = [target.trans, ...step.wrongPool.map(w => w.trans)].sort(() => 0.5 - Math.random());
+        qcmGrid.innerHTML = choices.map(choice => `
+          <button onclick="selectQuestChoice('${escapeHTML(choice)}', this)" class="quest-choice-btn btn-3d btn-3d-card bg-white dark:bg-stone-800 border-2 border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-50 font-display font-extrabold text-base p-4 rounded-2xl text-left">
+            ${choice}
+          </button>
+        `).join('');
+
+        playAudio(target.wordAudio, target.word);
+      }
+    }
+
+    function playCurrentQuestAudio() {
+      const step = questState.queue[questState.currentIndex];
+      if (step && step.item) {
+        playAudio(step.item.wordAudio, step.item.word);
+      }
+    }
+
+    function selectQuestChoice(text, btnElement) {
+      if (questState.isChecked) return;
+      questState.selectedChoice = text;
+
+      document.querySelectorAll('.quest-choice-btn').forEach(b => {
+        b.className = "quest-choice-btn btn-3d btn-3d-card bg-white dark:bg-stone-800 border-2 border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-50 font-display font-extrabold text-base p-4 rounded-2xl text-left";
+      });
+
+      btnElement.className = "quest-choice-btn btn-3d bg-amber-50 dark:bg-amber-950/60 border-2 border-brand-600 text-brand-900 dark:text-amber-200 font-display font-extrabold text-base p-4 rounded-2xl text-left shadow-sm";
+      document.getElementById('questActionBtn').disabled = false;
+    }
+
+    function onQuestVerifyClick() {
+      const step = questState.queue[questState.currentIndex];
+      const target = step.item;
+      const actionBtn = document.getElementById('questActionBtn');
+      const feedback = document.getElementById('feedbackBox');
+      const fbIcon = document.getElementById('feedbackIconCircle');
+      const fbTitle = document.getElementById('feedbackTitleText');
+      const fbSub = document.getElementById('feedbackSubText');
+
+      if (!questState.isChecked) {
+        questState.isChecked = true;
+        let isCorrect = false;
+
+        if (step.type === 'dictation') {
+          const inputVal = document.getElementById('questTextInput').value.trim();
+          isCorrect = (inputVal.toLowerCase() === target.word.toLowerCase());
+        } else if (step.type === 'qcm-fr-tbw') {
+          isCorrect = (questState.selectedChoice === target.word);
+        } else {
+          isCorrect = (questState.selectedChoice === target.trans);
+        }
+
+        // Coloration des boutons
+        if (step.type !== 'dictation') {
+          const correctVal = (step.type === 'qcm-fr-tbw') ? target.word : target.trans;
+          document.querySelectorAll('.quest-choice-btn').forEach(btn => {
+            const txt = btn.textContent.trim();
+            if (txt === correctVal) {
+              btn.className = "quest-choice-btn bg-emerald-50 dark:bg-emerald-950/70 border-2 border-duo-green text-emerald-800 dark:text-emerald-200 font-display font-extrabold text-base p-4 rounded-2xl text-left";
+            } else if (txt === questState.selectedChoice) {
+              btn.className = "quest-choice-btn bg-rose-50 dark:bg-rose-950/70 border-2 border-duo-red text-rose-800 dark:text-rose-200 font-display font-extrabold text-base p-4 rounded-2xl text-left";
+            }
+          });
+        }
+
+        feedback.classList.remove('hidden');
+        feedback.classList.add('flex');
+
+        // Mise à jour de la boîte Leitner SRS du mot
+        const wordIndex = corpus.findIndex(w => w.id === target.id);
+        if (isCorrect) {
+          questState.correctCount++;
+          stats.xp += 10;
+          if (wordIndex !== -1) {
+            corpus[wordIndex].srsBox = Math.min(5, (corpus[wordIndex].srsBox || 1) + 1);
+            corpus[wordIndex].lastReviewed = Date.now();
+          }
+          saveCorpus();
+          saveStats();
+          playSoundSuccess();
+
+          feedback.className = "rounded-2xl p-4 mb-3 flex items-center justify-between font-bold text-sm bg-emerald-100 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-200 border-2 border-duo-green";
+          fbIcon.className = "w-9 h-9 rounded-xl flex items-center justify-center bg-duo-green text-white font-black text-lg";
+          fbIcon.innerHTML = "✓";
+          fbTitle.textContent = "Parfait !";
+          fbSub.textContent = `+10 XP • Monté en Box ${corpus[wordIndex]?.srsBox || 2}/5`;
+
+          actionBtn.className = "w-full btn-3d btn-3d-green text-white font-display font-black text-base uppercase tracking-wider py-4 rounded-2xl shadow-md";
+        } else {
+          if (wordIndex !== -1) {
+            corpus[wordIndex].srsBox = 1; // Retour en Box 1 pour révision urgente
+            corpus[wordIndex].lastReviewed = Date.now();
+          }
+          saveCorpus();
+          playSoundError();
+
+          const card = document.getElementById('questCardBox');
+          card.classList.add('animate-shake');
+          setTimeout(() => card.classList.remove('animate-shake'), 400);
+
+          feedback.className = "rounded-2xl p-4 mb-3 flex items-center justify-between font-bold text-sm bg-rose-100 dark:bg-rose-950 text-rose-900 dark:text-rose-200 border-2 border-duo-red";
+          fbIcon.className = "w-9 h-9 rounded-xl flex items-center justify-center bg-duo-red text-white font-black text-lg";
+          fbIcon.innerHTML = "✕";
+          fbTitle.textContent = "La bonne réponse était :";
+          fbSub.textContent = (step.type === 'qcm-fr-tbw') ? target.word : target.trans;
+
+          actionBtn.className = "w-full btn-3d bg-stone-800 text-white font-display font-black text-base uppercase tracking-wider py-4 rounded-2xl shadow-md";
+        }
+
+        actionBtn.textContent = "Continuer";
+      } else {
+        // Passe à la question suivante
+        questState.currentIndex++;
+        if (questState.currentIndex < questState.queue.length) {
+          renderCurrentQuestStep();
+        } else {
+          // Fin de la session
+          playSoundVictory();
+          document.getElementById('questCardBox').parentElement.classList.add('hidden');
+          document.getElementById('questVictoryBox').classList.remove('hidden');
+
+          const gained = questState.correctCount * 10;
+          document.getElementById('victoryXpNum').textContent = `+${gained} XP`;
+          document.getElementById('victoryStreakNum').textContent = `🔥 ${stats.streakDays} J`;
+        }
+      }
+    }
+
+    function exitQuestSession() {
+      if (confirm("Quitter la session de quête en cours ?")) {
+        switchMainTab('dict');
+      }
+    }
+
+    function trainSpecificWord(id) {
+      switchMainTab('quest');
+      const item = corpus.find(w => w.id === id);
+      if (!item) return;
+      // Force ce mot en premier dans la quête
+      startQuestSession();
+    }
+
+    /* ========================================================
+       7. MODE FLASHCARDS ANKI
+       ======================================================== */
+    let flashcards = [];
+    let flashIndex = 0;
+    let isCardFlipped = false;
+
+    function initFlashcards() {
+      flashcards = [...corpus].sort(() => 0.5 - Math.random());
+      flashIndex = 0;
+      isCardFlipped = false;
+      renderCurrentFlashcard();
+    }
+
+    function renderCurrentFlashcard() {
+      if (flashcards.length === 0) return;
+      const card = flashcards[flashIndex];
+
+      isCardFlipped = false;
+      document.getElementById('flashcardInner').classList.remove('rotate-y-180');
+      document.getElementById('flashcardCounter').textContent = `${flashIndex + 1} / ${flashcards.length}`;
+
+      // Face avant
+      document.getElementById('fcFrontWord').textContent = card.word;
+      document.getElementById('fcFrontPhonetic').textContent = card.phonetic || '';
+      const photoWrapper = document.getElementById('fcFrontPhotoWrapper');
+      if (card.photo) {
+        photoWrapper.classList.remove('hidden');
+        document.getElementById('fcFrontPhoto').src = card.photo;
+      } else {
+        photoWrapper.classList.add('hidden');
+      }
+
+      // Face arrière
+      document.getElementById('fcBackTrans').textContent = card.trans;
+      document.getElementById('fcBackContext').textContent = `Usage : ${card.register || 'Courant'} • Région : ${card.village || 'Général'}`;
+      document.getElementById('fcBackExample').textContent = card.example ? `« ${card.example} »` : 'Aucun exemple saisi';
+    }
+
+    function toggleFlashcardFlip() {
+      isCardFlipped = !isCardFlipped;
+      document.getElementById('flashcardInner').classList.toggle('rotate-y-180', isCardFlipped);
+    }
+
+    function playFlashcardAudio() {
+      const card = flashcards[flashIndex];
+      if (card) {
+        playAudio(card.wordAudio, card.word);
+      }
+    }
+
+    function rateFlashcard(known) {
+      const card = flashcards[flashIndex];
+      const idx = corpus.findIndex(w => w.id === card.id);
+
+      if (idx !== -1) {
+        if (known) {
+          corpus[idx].srsBox = Math.min(5, (corpus[idx].srsBox || 1) + 1);
+          stats.xp += 5;
+          playSoundSuccess();
+        } else {
+          corpus[idx].srsBox = 1;
+          playSoundError();
+        }
+        saveCorpus();
+        saveStats();
+      }
+
+      flashIndex = (flashIndex + 1) % flashcards.length;
+      renderCurrentFlashcard();
+    }
+
+    /* ========================================================
+       8. EXPORTS, PARTAGE & LIVRET IMPRIMABLE
+       ======================================================== */
+    function toggleExportDropdown(e) {
+      e.stopPropagation();
+      document.getElementById('exportDropdown').classList.toggle('hidden');
+    }
+    document.addEventListener('click', () => {
+      const dd = document.getElementById('exportDropdown');
+      if (dd) dd.classList.add('hidden');
+    });
+
+    // 1. Export JSON complet (Corpus + Audios + Photos)
+    function exportToJSON() {
+      const blob = new Blob([JSON.stringify(corpus, null, 2)], { type: 'application/json' });
+      downloadFile(blob, `tagbanan-sauvegarde-complete-${new Date().toISOString().slice(0, 10)}.json`);
+      showToast("Sauvegarde JSON complète générée !");
+    }
+
+    // 2. Export CSV (Tableurs)
+    function exportToCSV() {
+      const headers = ["Tagbanan", "Francais", "Phonetique", "Categorie", "Registre", "Village", "Exemple", "Traduction_Exemple", "Leitner_Box"];
+      const rows = corpus.map(w => [
+        `"${(w.word || '').replace(/"/g, '""')}"`,
+        `"${(w.trans || '').replace(/"/g, '""')}"`,
+        `"${(w.phonetic || '').replace(/"/g, '""')}"`,
+        `"${(w.cat || '').replace(/"/g, '""')}"`,
+        `"${(w.register || '').replace(/"/g, '""')}"`,
+        `"${(w.village || '').replace(/"/g, '""')}"`,
+        `"${(w.example || '').replace(/"/g, '""')}"`,
+        `"${(w.exampleFr || '').replace(/"/g, '""')}"`,
+        w.srsBox || 1
+      ]);
+      const csv = "\uFEFF" + [headers.join(";"), ...rows.map(r => r.join(";"))].join("\r\n");
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      downloadFile(blob, `tagbanan-dictionnaire-${new Date().toISOString().slice(0, 10)}.csv`);
+      showToast("Fichier CSV généré !");
+    }
+
+    // 3. Export Deck Anki (.tsv prêt à importer directement dans Anki)
+    function exportToAnkiDeck() {
+      // Format Anki par tabulations : Front \t Back \t Tags
+      const lines = corpus.map(w => {
+        const front = `<strong>${w.word}</strong><br><small>${w.phonetic || ''}</small>`;
+        const back = `<b>${w.trans}</b><br><em>${w.example ? w.example : ''}</em><br><small>${w.exampleFr ? w.exampleFr : ''}</small>`;
+        const tags = `Tagbanan ${w.cat || 'General'}`;
+        return `${front}\t${back}\t${tags}`;
+      });
+      const tsvContent = lines.join("\n");
+      const blob = new Blob([tsvContent], { type: 'text/tab-separated-values;charset=utf-8;' });
+      downloadFile(blob, `tagbanan-deck-anki-${new Date().toISOString().slice(0, 10)}.txt`);
+      showToast("Deck Anki exporté (.txt / TSV) !");
+    }
+
+    // 4. Livret Imprimable / Imagier PDF via window.print()
+    function printIllustratedBooklet() {
+      document.getElementById('printDateSpan').textContent = new Date().toLocaleDateString('fr-FR');
+      const container = document.getElementById('printEntriesContainer');
+      container.innerHTML = corpus.map(w => `
+        <div style="border: 1px solid #d6d3d1; border-radius: 12px; padding: 12px; page-break-inside: avoid; display: flex; gap: 12px; align-items: start;">
+          ${w.photo ? `<img src="${w.photo}" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid #ccc;">` : ''}
+          <div style="flex: 1;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <h3 style="font-size: 18px; font-weight: bold; margin: 0; color: #92400e;">${escapeHTML(w.word)}</h3>
+              <span style="font-size: 10px; text-transform: uppercase; color: #78716c;">${escapeHTML(w.cat || 'Général')}</span>
+            </div>
+            ${w.phonetic ? `<div style="font-size: 11px; font-style: italic; color: #78716c;">${escapeHTML(w.phonetic)}</div>` : ''}
+            <div style="font-size: 14px; font-weight: 600; margin-top: 4px; color: #1c1917;">${escapeHTML(w.trans)}</div>
+            ${w.example ? `<div style="font-size: 11px; margin-top: 6px; padding: 4px 8px; background: #fafaf9; border-left: 2px solid #d97706;">« ${escapeHTML(w.example)} »<br><small style="color:#57534e;">${escapeHTML(w.exampleFr || '')}</small></div>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      window.print();
+    }
+
+    // 5. Restauration JSON
+    function importJSONFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (Array.isArray(data)) {
+            corpus = data;
+            saveCorpus();
+            renderDictionary();
+            showToast("Sauvegarde restaurée avec succès !");
+          } else {
+            showToast("Format JSON incompatible", true);
+          }
+        } catch (err) {
+          showToast("Erreur lors de la lecture du fichier", true);
+        }
+        event.target.value = '';
+      };
+      reader.readAsText(file);
+    }
+
+    function downloadFile(blob, filename) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    /* ========================================================
+       9. NAVIGATION ENTRE ONGLETS PRINCIPAUX
+       ======================================================== */
+    function switchMainTab(target) {
+      document.getElementById('dictView').classList.toggle('hidden', target !== 'dict');
+      document.getElementById('questView').classList.toggle('hidden', target !== 'quest');
+      document.getElementById('flashcardView').classList.toggle('hidden', target !== 'flash');
+
+      // Boutons onglets
+      const btnD = document.getElementById('tabDictBtn');
+      const btnQ = document.getElementById('tabQuestBtn');
+      const btnF = document.getElementById('tabFlashBtn');
+
+      const activeClass = "flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl transition-all shadow-sm bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-50";
+      const inactiveClass = "flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl transition-all text-stone-500 hover:text-stone-800 dark:text-stone-400";
+
+      btnD.className = target === 'dict' ? activeClass : inactiveClass;
+      btnQ.className = target === 'quest' ? activeClass : inactiveClass;
+      btnF.className = target === 'flash' ? activeClass : inactiveClass;
+
+      if (target === 'quest') {
+        startQuestSession();
+      } else if (target === 'flash') {
+        initFlashcards();
+      } else {
+        renderDictionary();
+      }
+      lucide.createIcons();
+    }
+
+    /* ========================================================
+       10. UTILITAIRES & LOGO CANVAS PWA
+       ======================================================== */
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.remove('hidden');
+        el.classList.add('flex');
+      }
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      }
+      if (activeMediaRecorder && activeMediaRecorder.state === 'recording') {
+        activeMediaRecorder.stop();
+        activeMediaRecorder.stream.getTracks().forEach(t => t.stop());
+      }
+    }
+
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('appToast');
+      const msg = document.getElementById('toastMsg');
+      const icon = document.getElementById('toastIcon');
+
+      msg.textContent = message;
+      if (isError) {
+        icon.className = "w-4 h-4 text-rose-500";
+        icon.setAttribute('data-lucide', 'alert-circle');
+      } else {
+        icon.className = "w-4 h-4 text-duo-green";
+        icon.setAttribute('data-lucide', 'check-circle');
+      }
+      lucide.createIcons();
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3000);
+    }
+
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('tagbanan_theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    }
+    if (localStorage.getItem('tagbanan_theme') === 'dark' || 
+       (!('tagbanan_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    function renderAppLogo() {
+      const canvas = document.getElementById('appLogoCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      const grad = ctx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, '#f59e0b');
+      grad.addColorStop(0.5, '#d97706');
+      grad.addColorStop(1, '#92400e');
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.roundRect(0, 0, w, h, 14);
+      ctx.fill();
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(3, 3, w - 6, h - 6, 11);
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 26px "Outfit", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = 'rgba(0,0,0,0.3)';
+      ctx.shadowBlur = 4;
+      ctx.shadowOffsetY = 2;
+      ctx.fillText('T', w / 2, h / 2 + 1);
+
+      try {
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.href = canvas.toDataURL('image/png');
+        document.head.appendChild(link);
+      } catch (e) {}
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
