@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +11,10 @@
     }
   </script>
 
-  <link rel="manifest" href="manifest.json?v=5">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=5">
-  <link rel="apple-touch-icon" href="icon.png?v=5">
-  <link rel="shortcut icon" href="icon.png?v=5">
+  <link rel="manifest" href="manifest.json?v=6">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=6">
+  <link rel="apple-touch-icon" href="icon.png?v=6">
+  <link rel="shortcut icon" href="icon.png?v=6">
 
   <meta name="theme-color" content="#1e40af">
   <meta name="mobile-web-app-capable" content="yes">
@@ -33,12 +33,23 @@
       --accent-cyan: #06b6d4;
       --success: #22c55e;
       --danger: #ef4444;
+      --warning: #f59e0b;
       --bg: #0b1329;
       --card-bg: #131f3d;
+      --card-sub: #0f172a;
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --border: #1e293b;
       --radius: 16px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --card-sub: #f8fafc;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,9 +60,9 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      transition: background-color 0.2s, color 0.2s;
     }
 
-    /* Écran d'accueil Auth */
     #authOverlay {
       position: fixed;
       inset: 0;
@@ -109,7 +120,6 @@
     .brand h1 {
       font-size: 1.2rem;
       font-weight: 800;
-      color: #ffffff;
       line-height: 1.1;
     }
     .brand span {
@@ -122,56 +132,51 @@
 
     .mode-nav {
       display: flex;
-      background: #0b1329;
+      background: var(--card-sub);
       padding: 4px;
       border-radius: 14px;
       gap: 4px;
+      border: 1px solid var(--border);
     }
     .mode-btn {
       border: none;
       outline: none;
       background: transparent;
-      padding: 0.6rem 1rem;
+      padding: 0.6rem 0.9rem;
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
       border-radius: 10px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       transition: all 0.2s ease;
     }
     .mode-btn.active {
-      background: var(--card-bg);
+      background: var(--primary);
       color: #ffffff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 
     .user-profile-badge {
       display: flex;
       align-items: center;
-      gap: 10px;
-      background: #1e293b;
-      padding: 6px 14px;
+      gap: 8px;
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
       border-radius: 20px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
     }
-    .cloud-status {
-      font-size: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      color: #38bdf8;
-    }
+    .streak-badge { color: #f97316; }
     .admin-pill {
       background: #064e3b;
       color: #34d399;
-      padding: 2px 8px;
-      border-radius: 10px;
+      padding: 2px 7px;
+      border-radius: 8px;
       font-size: 0.7rem;
-      text-transform: uppercase;
     }
 
     main {
@@ -179,7 +184,7 @@
       max-width: 980px;
       margin: 0 auto;
       width: 100%;
-      padding: 1.5rem 1rem 4rem;
+      padding: 1.25rem 1rem 4rem;
     }
 
     .view-panel { display: none; }
@@ -200,20 +205,19 @@
     }
     .search-box {
       flex: 1;
-      min-width: 240px;
+      min-width: 220px;
       position: relative;
     }
     .search-box input {
       width: 100%;
-      padding: 0.8rem 1rem 0.8rem 2.6rem;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
       border: 1.5px solid var(--border);
       border-radius: 12px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       outline: none;
       background: var(--card-bg);
-      color: #ffffff;
+      color: var(--text);
     }
-    .search-box input:focus { border-color: var(--primary); }
     .search-box svg {
       position: absolute;
       left: 0.85rem;
@@ -223,10 +227,10 @@
     }
 
     .btn {
-      padding: 0.75rem 1.15rem;
+      padding: 0.7rem 1.1rem;
       border-radius: 12px;
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -235,9 +239,7 @@
       transition: all 0.2s;
     }
     .btn-primary { background: var(--primary); color: white; }
-    .btn-primary:hover { background: var(--primary-dark); }
-    .btn-secondary { background: #1e293b; color: #cbd5e1; }
-    .btn-secondary:hover { background: #334155; }
+    .btn-secondary { background: var(--card-sub); color: var(--text); border: 1px solid var(--border); }
     .btn-admin { background: #312e81; color: #a5b4fc; }
 
     .category-chips {
@@ -245,14 +247,14 @@
       gap: 8px;
       overflow-x: auto;
       padding-bottom: 8px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
     .chip {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-muted);
       cursor: pointer;
@@ -267,88 +269,237 @@
     .word-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.25rem;
+      gap: 1.2rem;
     }
     .word-card {
       background: var(--card-bg);
       border-radius: var(--radius);
       border: 1.5px solid var(--border);
-      padding: 1.25rem;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 0.75rem;
-      transition: transform 0.15s, border-color 0.15s;
     }
-    .word-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent-cyan);
+    .card-img-banner {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      background: var(--card-sub);
+      border-bottom: 1px solid var(--border);
+    }
+    .card-body {
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex: 1;
     }
     .tagbanan-term {
-      font-size: 1.35rem;
+      font-size: 1.3rem;
       font-weight: 800;
-      color: #ffffff;
     }
     .phonetic {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--accent-cyan);
       font-style: italic;
     }
-
+    .grammar-badge {
+      font-size: 0.68rem;
+      background: #0284c7;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-left: 4px;
+    }
+    .dialect-badge {
+      font-size: 0.68rem;
+      background: #7c3aed;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-weight: 700;
+      margin-left: 4px;
+    }
     .audio-btn {
-      background: #1e293b;
+      background: var(--card-sub);
       color: #38bdf8;
-      border: none;
-      width: 40px;
-      height: 40px;
+      border: 1px solid var(--border);
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.1rem;
-      transition: transform 0.1s;
     }
     .audio-btn.has-voice {
       background: #064e3b;
       color: #34d399;
+      border-color: #047857;
     }
-    .audio-btn:active { transform: scale(0.9); }
-
-    .word-trans {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #e2e8f0;
-    }
+    .word-trans { font-size: 1rem; font-weight: 600; }
     .word-example {
-      font-size: 0.85rem;
-      background: #0b1329;
+      font-size: 0.82rem;
+      background: var(--card-sub);
       border-left: 3px solid var(--primary);
       padding: 6px 10px;
       border-radius: 4px;
-      color: #94a3b8;
+      color: var(--text-muted);
     }
     .word-card-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 0.5rem;
-      padding-top: 0.5rem;
-      border-top: 1px dashed var(--border);
-      font-size: 0.75rem;
+      padding: 0.65rem 1.1rem;
+      border-top: 1px solid var(--border);
+      background: var(--card-sub);
+      font-size: 0.72rem;
       color: var(--text-muted);
     }
-    .del-btn {
-      background: none;
-      border: none;
-      color: #f87171;
+
+    /* FLASHCARDS */
+    .flashcard-section {
+      max-width: 520px;
+      margin: 1.5rem auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .flashcard-wrapper {
+      perspective: 1000px;
+      width: 100%;
+      height: 340px;
+    }
+    .flashcard {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.4s ease;
       cursor: pointer;
-      padding: 4px;
-      font-size: 0.8rem;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .flashcard.flipped { transform: rotateY(180deg); }
+    .flashcard-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 24px;
+      border: 2px solid var(--border);
+      background: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      gap: 0.75rem;
+    }
+    .flashcard-back {
+      transform: rotateY(180deg);
+      background: var(--card-sub);
+    }
+    .flashcard-hint {
+      position: absolute;
+      bottom: 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .flashcard-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .fc-btn {
+      padding: 0.9rem;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .fc-btn-again { background: var(--danger); }
+    .fc-btn-easy { background: var(--success); }
+
+    /* QUÊTES */
+    .quest-container {
+      max-width: 580px;
+      margin: 1.5rem auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .quest-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .progress-bar {
+      flex: 1;
+      height: 14px;
+      background: var(--card-sub);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent-cyan);
+      transition: width 0.3s ease;
+    }
+    .quest-question {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 1.75rem;
+      text-align: center;
+    }
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    .quest-option {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-bottom: 4px solid var(--border);
+      border-radius: 14px;
+      padding: 1.1rem;
+      font-size: 1rem;
       font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .quest-option.selected { border-color: var(--primary); background: rgba(37, 99, 235, 0.2); }
+    .quest-option.correct { border-color: var(--success) !important; background: rgba(34, 197, 94, 0.2) !important; }
+    .quest-option.wrong { border-color: var(--danger) !important; background: rgba(239, 68, 68, 0.2) !important; }
+    .quest-btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      background: var(--primary);
+      color: white;
     }
 
-    /* Modal Formulaire */
+    /* Modales */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -363,7 +514,7 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       width: 100%;
-      max-width: 520px;
+      max-width: 500px;
       border-radius: 20px;
       padding: 1.5rem;
       max-height: 90vh;
@@ -372,10 +523,10 @@
     .form-group { margin-bottom: 1rem; text-align: left; }
     .form-group label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       margin-bottom: 0.3rem;
-      color: #cbd5e1;
+      color: var(--text-muted);
     }
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
@@ -383,16 +534,15 @@
       border: 1.5px solid var(--border);
       border-radius: 10px;
       font-family: inherit;
-      font-size: 0.95rem;
-      background: #0b1329;
-      color: white;
+      font-size: 0.9rem;
+      background: var(--card-sub);
+      color: var(--text);
     }
-
     .voice-recorder-box {
       border: 2px dashed var(--border);
       border-radius: 12px;
       padding: 1rem;
-      background: #0b1329;
+      background: var(--card-sub);
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
@@ -411,133 +561,28 @@
       background: #ef4444;
       color: white;
     }
-    .rec-btn.recording {
-      animation: pulseRec 1s infinite alternate;
-      background: #b91c1c;
-    }
-    @keyframes pulseRec {
-      from { transform: scale(1); }
-      to { transform: scale(1.06); }
-    }
-
-    /* QUÊTES */
-    .quest-container {
-      max-width: 600px;
-      margin: 1.5rem auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .quest-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .progress-bar {
-      flex: 1;
-      height: 16px;
-      background: #1e293b;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: var(--accent-cyan);
-      transition: width 0.3s ease;
-    }
-    .quest-question {
-      background: var(--card-bg);
-      border: 1.5px solid var(--border);
-      border-radius: 20px;
-      padding: 2rem;
-      text-align: center;
-    }
-    .quest-prompt {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .quest-word-display {
-      font-size: 2.25rem;
-      font-weight: 800;
-      color: #ffffff;
-    }
-    .options-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-    }
-    .quest-option {
-      background: var(--card-bg);
-      border: 2px solid var(--border);
-      border-bottom: 4px solid var(--border);
-      border-radius: 14px;
-      padding: 1.1rem;
-      font-size: 1.05rem;
-      font-weight: 700;
-      text-align: left;
-      cursor: pointer;
-      color: #ffffff;
-      transition: all 0.1s;
-    }
-    .quest-option.selected {
-      border-color: var(--primary);
-      background: #1e3a8a;
-    }
-    .quest-option.correct {
-      border-color: var(--success) !important;
-      background: #064e3b !important;
-      color: #a7f3d0 !important;
-    }
-    .quest-option.wrong {
-      border-color: var(--danger) !important;
-      background: #7f1d1d !important;
-      color: #fecaca !important;
-    }
-    .quest-btn {
-      width: 100%;
-      padding: 1rem;
-      font-size: 1.1rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      border: none;
-      border-radius: 16px;
-      cursor: pointer;
-      background: var(--primary);
-      color: white;
-      border-bottom: 4px solid var(--primary-dark);
-    }
-    .quest-btn:disabled {
-      background: #334155;
-      border-bottom-color: #1e293b;
-      color: #64748b;
-      cursor: not-allowed;
-    }
+    .rec-btn.recording { animation: pulseRec 1s infinite alternate; }
+    @keyframes pulseRec { from { transform: scale(1); } to { transform: scale(1.06); } }
   </style>
 
-  <!-- SDK Firebase en version Web autonome (Compat) -->
+  <!-- Firebase SDK Compat -->
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
-  <!-- Écran de création de compte -->
+  <!-- Inscription simple -->
   <div id="authOverlay">
     <div class="auth-card">
-      <img src="icon.png?v=5" alt="Tagbanan Logo">
+      <img src="icon.png?v=6" alt="Tagbanan Logo">
       <h2>Bienvenue sur Tagbanan</h2>
-      <p>Entrez votre nom pour démarrer votre carnet personnel et vos quêtes.</p>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.25rem;">Entrez votre prénom ou pseudonyme pour commencer.</p>
       <form onsubmit="handleRegister(event)">
         <div class="form-group">
-          <label>Votre nom ou prénom</label>
-          <input type="text" id="regName" required placeholder="Ex: Paul, Sarah..." autofocus>
+          <input type="text" id="regName" required placeholder="Votre nom..." autofocus>
         </div>
-        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:0.9rem; font-size:1rem; margin-top:0.5rem;">
-          Commencer
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:0.9rem;">
+          Commencer l'apprentissage
         </button>
       </form>
     </div>
@@ -545,44 +590,42 @@
 
   <header>
     <div class="brand">
-      <img src="icon.png?v=5" alt="Tagbanan Logo">
+      <img src="icon.png?v=6" alt="Tagbanan Logo">
       <div>
         <h1>Tagbanan App</h1>
-        <span class="cloud-status" id="cloudStatus">☁️ Cloud Synchronisé</span>
+        <span id="rankTitle">Apprenti</span>
       </div>
     </div>
 
     <div class="mode-nav">
-      <button class="mode-btn active" id="tabDict" onclick="switchMode('dict')">
-        📖 Dictionnaire
-      </button>
-      <button class="mode-btn" id="tabQuest" onclick="switchMode('quest')">
-        ⚡ Quêtes
-      </button>
+      <button class="mode-btn active" id="tabDict" onclick="switchMode('dict')">📖 Dictionnaire</button>
+      <button class="mode-btn" id="tabCards" onclick="switchMode('cards')">🗂️ Flashcards</button>
+      <button class="mode-btn" id="tabQuest" onclick="switchMode('quest')">⚡ Quêtes</button>
     </div>
 
     <div class="user-profile-badge">
+      <button onclick="toggleTheme()" title="Mode Sombre/Clair" style="background:none; border:none; cursor:pointer; font-size:1rem;" id="themeToggleBtn">☀️</button>
       <span id="userNameDisplay">Profil</span>
+      <span class="streak-badge">🔥 <span id="streakCount">0</span>j</span>
       <span id="adminBadge" class="admin-pill" style="display:none;">Admin</span>
       <span>⭐ <span id="xpCount">0 XP</span></span>
-      <button onclick="logout()" title="Changer de compte" style="background:none; border:none; cursor:pointer; color:var(--text-muted); font-size:0.9rem; margin-left:4px;">🚪</button>
+      <button onclick="logout()" title="Déconnexion" style="background:none; border:none; cursor:pointer; color:var(--text-muted); font-size:0.85rem;">🚪</button>
     </div>
   </header>
 
   <main>
+    <!-- VUE 1 : DICTIONNAIRE -->
     <section id="dictView" class="view-panel active">
       <div class="actions-bar">
         <div class="search-box">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"></circle><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line></svg>
-          <input type="text" id="searchInput" placeholder="Chercher en Tagbanan ou français..." oninput="renderDict()">
+          <input type="text" id="searchInput" placeholder="Chercher un mot, dialecte, grammaire..." oninput="renderDict()">
         </div>
 
-        <button class="btn btn-primary" onclick="requestAdminAuth('add')">
-          🔒 + Ajouter un mot
-        </button>
-
+        <button class="btn btn-primary" onclick="requestAdminAuth('add')">🔒 + Ajouter</button>
+        <button class="btn btn-secondary" onclick="openSuggestModal()">💡 Suggérer</button>
         <button class="btn btn-secondary" onclick="exportData()">💾 Exporter JSON</button>
-        <button class="btn btn-secondary" onclick="exportCSV()">📊 Export CSV</button>
+        <button class="btn btn-secondary" onclick="exportCSV()">📊 CSV</button>
         <button class="btn btn-admin" onclick="requestAdminAuth('import')">🔒 Importer</button>
         <input type="file" id="fileInput" accept=".json" style="display:none" onchange="importData(event)">
       </div>
@@ -591,18 +634,51 @@
       <div class="word-grid" id="wordGrid"></div>
     </section>
 
+    <!-- VUE 2 : FLASHCARDS INTERACTIVES -->
+    <section id="cardsView" class="view-panel">
+      <div class="flashcard-section">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:1.1rem;">Répétition espacée (Flashcards)</h3>
+          <span style="font-size:0.85rem; color:var(--accent-cyan); font-weight:700;" id="fcProgress">0 / 0</span>
+        </div>
+
+        <div class="flashcard-wrapper">
+          <div class="flashcard" id="currentFlashcard" onclick="flipFlashcard()">
+            <div class="flashcard-face">
+              <span id="fcGrammar" class="grammar-badge" style="position:absolute; top:16px; left:16px;"></span>
+              <img id="fcImage" style="display:none; width:90px; height:90px; border-radius:12px; object-fit:cover; margin-bottom:8px;">
+              <div style="font-size:2rem; font-weight:800;" id="fcFrontWord">Chargement...</div>
+              <div style="color:var(--accent-cyan); font-style:italic;" id="fcFrontPhonetic"></div>
+              <button class="audio-btn" id="fcAudioBtn" onclick="event.stopPropagation(); playCurrentFcAudio();" style="margin-top:10px;">🔊</button>
+              <div class="flashcard-hint">Touchez la carte pour révéler</div>
+            </div>
+            <div class="flashcard-face flashcard-back">
+              <div style="font-size:0.85rem; color:var(--text-muted); text-transform:uppercase;">Signification française</div>
+              <div style="font-size:1.8rem; font-weight:800; color:var(--success);" id="fcBackTrans">Traduction</div>
+              <div style="font-size:0.85rem; margin-top:8px; color:var(--text-muted);" id="fcBackExample"></div>
+              <div class="flashcard-hint">Évaluez votre mémoire ci-dessous</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard-controls">
+          <button class="fc-btn fc-btn-again" onclick="rateFlashcard(false)">❌ À revoir (+0 XP)</button>
+          <button class="fc-btn fc-btn-easy" onclick="rateFlashcard(true)">✅ Retenu (+10 XP)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VUE 3 : QUÊTES GAMIFIÉES -->
     <section id="questView" class="view-panel">
       <div id="questContent"></div>
     </section>
   </main>
 
-  <!-- Modal Admin pour mot de passe créateur -->
+  <!-- Modal Admin -->
   <div class="modal-backdrop" id="adminAuthModal">
     <div class="modal" style="max-width:380px; text-align:center;">
-      <h3 style="margin-bottom:0.5rem; color:white;">Accès Administrateur</h3>
-      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.25rem;">
-        L'approvisionnement du dictionnaire en ligne est réservé au créateur.
-      </p>
+      <h3 style="margin-bottom:0.5rem;">Accès Créateur</h3>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.2rem;">L'approvisionnement officiel est protégé.</p>
       <form onsubmit="verifyAdminPass(event)">
         <div class="form-group">
           <input type="password" id="adminPassInput" placeholder="Mot de passe créateur" required autofocus>
@@ -615,10 +691,40 @@
     </div>
   </div>
 
-  <!-- Modal Ajout Mot -->
+  <!-- Modal Suggérer un mot (Communauté) -->
+  <div class="modal-backdrop" id="suggestModal">
+    <div class="modal">
+      <h3 style="margin-bottom:1rem;">💡 Proposer un nouveau mot</h3>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">Contribuez à enrichir le patrimoine Tagbanan. Votre proposition sera transmise pour vérification.</p>
+      <form onsubmit="handleSuggestion(event)">
+        <div class="form-group">
+          <label>Mot en Tagbanan *</label>
+          <input type="text" id="sugWord" required placeholder="ex: Bulawan">
+        </div>
+        <div class="form-group">
+          <label>Traduction française *</label>
+          <input type="text" id="sugTrans" required placeholder="ex: Or (métal)">
+        </div>
+        <div class="form-group">
+          <label>Dialecte ou région (optionnel)</label>
+          <input type="text" id="sugDialect" placeholder="ex: Aborlan, Coron...">
+        </div>
+        <div class="form-group">
+          <label>Notes ou exemple</label>
+          <textarea id="sugNotes" rows="2" placeholder="Précisez le contexte..."></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('suggestModal').style.display='none'">Fermer</button>
+          <button type="submit" class="btn btn-primary">Envoyer la suggestion</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Ajout Mot Admin -->
   <div class="modal-backdrop" id="wordModal">
     <div class="modal">
-      <h2 style="margin-bottom: 1rem; color: white;">Ajouter un mot au dictionnaire Cloud</h2>
+      <h2 style="margin-bottom: 1rem;">Ajouter au dictionnaire officiel</h2>
       <form id="wordForm" onsubmit="saveWord(event)">
         <div class="form-group">
           <label>Mot en Tagbanan *</label>
@@ -628,49 +734,73 @@
           <label>Traduction en français *</label>
           <input type="text" id="fTrans" required placeholder="ex: Eau">
         </div>
-        <div class="form-group">
-          <label>Prononciation / Phonétique</label>
-          <input type="text" id="fPhonetic" placeholder="ex: [da-noum]">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+          <div class="form-group">
+            <label>Phonétique</label>
+            <input type="text" id="fPhonetic" placeholder="ex: [da-noum]">
+          </div>
+          <div class="form-group">
+            <label>Grammaire</label>
+            <select id="fGrammar">
+              <option value="Nom">Nom</option>
+              <option value="Verbe">Verbe</option>
+              <option value="Adjectif">Adjectif</option>
+              <option value="Expression">Expression</option>
+              <option value="Particule">Particule</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+          <div class="form-group">
+            <label>Catégorie</label>
+            <select id="fCat">
+              <option value="Quotidien">Quotidien</option>
+              <option value="Nature">Nature</option>
+              <option value="Famille">Famille</option>
+              <option value="Nourriture">Nourriture</option>
+              <option value="Verbes">Verbes</option>
+              <option value="Expressions">Expressions</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Dialecte / Zone</label>
+            <input type="text" id="fDialect" placeholder="ex: Central, Calamian...">
+          </div>
         </div>
 
         <div class="form-group">
-          <label>Enregistrement vocal (votre voix)</label>
+          <label>Illustration / Image</label>
+          <input type="file" id="fImageFile" accept="image/*" onchange="handleImageUpload(event)">
+          <img id="imagePreview" style="display:none; width:100%; height:110px; object-fit:cover; border-radius:10px; margin-top:8px;">
+        </div>
+
+        <div class="form-group">
+          <label>Prononciation vocale</label>
           <div class="voice-recorder-box">
             <button type="button" class="rec-btn" id="recordToggleBtn" onclick="toggleRecording()">
-              <span id="recIcon">🎙️</span> <span id="recText">Enregistrer la prononciation</span>
+              <span id="recIcon">🎙️</span> <span id="recText">Enregistrer au micro</span>
             </button>
-            <div id="recStatus" style="font-size:0.8rem; color:var(--text-muted);">Appuyez pour enregistrer</div>
+            <div id="recStatus" style="font-size:0.8rem; color:var(--text-muted);">Appuyez pour parler</div>
             <audio id="audioPreview" controls style="display:none; width: 100%; margin-top: 6px;"></audio>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Catégorie</label>
-          <select id="fCat">
-            <option value="Quotidien">Quotidien</option>
-            <option value="Nature">Nature</option>
-            <option value="Famille">Famille</option>
-            <option value="Nourriture">Nourriture</option>
-            <option value="Verbes">Verbes</option>
-            <option value="Expressions">Expressions</option>
-          </select>
+          <label>Phrase d'exemple</label>
+          <textarea id="fExample" rows="2" placeholder="Exemple d'utilisation..."></textarea>
         </div>
-        <div class="form-group">
-          <label>Exemple d'usage</label>
-          <textarea id="fExample" rows="2" placeholder="Phrase d'exemple..."></textarea>
-        </div>
-        <div style="display:flex; justify-content: flex-end; gap: 8px; margin-top: 1.5rem;">
+
+        <div style="display:flex; justify-content: flex-end; gap: 8px; margin-top: 1.25rem;">
           <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
-          <button type="submit" class="btn btn-primary" id="saveWordBtn">Enregistrer dans le Cloud</button>
+          <button type="submit" class="btn btn-primary" id="saveWordBtn">Enregistrer</button>
         </div>
       </form>
     </div>
   </div>
 
   <script>
-    // -------------------------------------------------------------
-    // CONFIGURATION DE VOS IDENTIFIANTS FIREBASE (DIRECTEMENT CONNECTÉS)
-    // -------------------------------------------------------------
+    // Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyDHraE4iQi9zQEs6YII_3HGUF1gyOSsVxE",
       authDomain: "tagbanan-app.firebaseapp.com",
@@ -683,18 +813,27 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const wordsCollection = db.collection('words');
+    const suggestionsCollection = db.collection('suggestions');
 
-    // -------------------------------------------------------------
-    // SÉCURITÉ ADMIN
-    // -------------------------------------------------------------
+    // Thème Sombre / Clair
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const target = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', target);
+      localStorage.setItem('tagbanan_theme', target);
+      document.getElementById('themeToggleBtn').innerText = target === 'dark' ? '☀️' : '🌙';
+    }
+    const savedTheme = localStorage.getItem('tagbanan_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    // Sécurité Admin
     const CREATOR_PASS = "admin123";
     let isAdminUnlocked = false;
     let pendingAction = null;
 
     function requestAdminAuth(action) {
-      if (isAdminUnlocked) {
-        executeAdminAction(action);
-      } else {
+      if (isAdminUnlocked) executeAdminAction(action);
+      else {
         pendingAction = action;
         document.getElementById('adminPassInput').value = '';
         document.getElementById('adminAuthModal').style.display = 'flex';
@@ -714,35 +853,63 @@
       }
     }
 
-    function closeAdminModal() {
-      document.getElementById('adminAuthModal').style.display = 'none';
-    }
-
+    function closeAdminModal() { document.getElementById('adminAuthModal').style.display = 'none'; }
     function executeAdminAction(action) {
       if (action === 'add') openModal();
       if (action === 'import') document.getElementById('fileInput').click();
     }
 
-    // -------------------------------------------------------------
-    // GESTION DU COMPTE UTILISATEUR
-    // -------------------------------------------------------------
+    // Gestion Utilisateur & Série (Streak)
     let currentUser = localStorage.getItem('tagbanan_user') || null;
+    let xp = parseInt(localStorage.getItem('tagbanan_xp')) || 0;
+
+    function checkStreak() {
+      const today = new Date().toISOString().split('T')[0];
+      const last = localStorage.getItem('tagbanan_last_day');
+      let streak = parseInt(localStorage.getItem('tagbanan_streak')) || 0;
+
+      if (!last) streak = 1;
+      else if (last !== today) {
+        const diff = Math.round((new Date(today) - new Date(last)) / (1000 * 60 * 60 * 24));
+        if (diff === 1) streak++;
+        else if (diff > 1) streak = 1;
+      }
+      localStorage.setItem('tagbanan_last_day', today);
+      localStorage.setItem('tagbanan_streak', streak.toString());
+      document.getElementById('streakCount').innerText = streak;
+    }
+
+    function updateRank() {
+      const ranks = [
+        { min: 0, title: "Apprenti" },
+        { min: 100, title: "Initié" },
+        { min: 300, title: "Explorateur" },
+        { min: 600, title: "Locuteur Actif" },
+        { min: 1200, title: "Gardien des Savoirs" }
+      ];
+      let t = "Apprenti";
+      for (const r of ranks) { if (xp >= r.min) t = r.title; }
+      document.getElementById('rankTitle').innerText = t;
+      document.getElementById('xpCount').innerText = `${xp} XP`;
+      localStorage.setItem('tagbanan_xp', xp.toString());
+    }
 
     function initUser() {
-      if (!currentUser) {
-        document.getElementById('authOverlay').style.display = 'flex';
-      } else {
+      if (!currentUser) document.getElementById('authOverlay').style.display = 'flex';
+      else {
         document.getElementById('authOverlay').style.display = 'none';
         document.getElementById('userNameDisplay').innerText = currentUser;
+        checkStreak();
+        updateRank();
       }
     }
 
     function handleRegister(e) {
       e.preventDefault();
-      const name = document.getElementById('regName').value.trim();
-      if (name) {
-        currentUser = name;
-        localStorage.setItem('tagbanan_user', currentUser);
+      const n = document.getElementById('regName').value.trim();
+      if (n) {
+        currentUser = n;
+        localStorage.setItem('tagbanan_user', n);
         initUser();
       }
     }
@@ -757,54 +924,52 @@
       }
     }
 
-    // -------------------------------------------------------------
-    // SYNCHRONISATION EN TEMPS RÉEL VIA FIRESTORE
-    // -------------------------------------------------------------
+    // Dictionnaire & Synchronisation
     const soundPlayer = new Audio();
     let dictionary = [];
-    let xp = parseInt(localStorage.getItem('tagbanan_xp')) || 0;
     let selectedCat = 'ALL';
 
-    // Écoute en direct des modifications Cloud
-    wordsCollection.onSnapshot((snapshot) => {
+    wordsCollection.onSnapshot(snapshot => {
       if (!snapshot.empty) {
         dictionary = [];
-        snapshot.forEach(doc => {
-          dictionary.push({ id: doc.id, ...doc.data() });
-        });
+        snapshot.forEach(doc => dictionary.push({ id: doc.id, ...doc.data() }));
       } else {
-        // Premier démarrage si la base est encore vide
-        initDefaultWordsIfEmpty();
+        initDefaultWords();
       }
       renderDict();
-      document.getElementById('cloudStatus').innerText = "☁️ Synchronisé";
-    }, (error) => {
-      console.warn("Mode hors-ligne ou erreur Firestore:", error);
-      document.getElementById('cloudStatus').innerText = "📱 Hors-ligne";
     });
 
-    async function initDefaultWordsIfEmpty() {
-      const defaults = [
-        { word: "Danum", trans: "Eau", phonetic: "[da-noum]", cat: "Nature", example: "Mïninum ka et danum (Bois de l'eau).", audio: null, createdAt: Date.now() },
-        { word: "Apoy", trans: "Feu", phonetic: "[a-poy]", cat: "Nature", example: "Kaanen et apoy (Le feu est grand).", audio: null, createdAt: Date.now() },
-        { word: "Bagas", trans: "Riz", phonetic: "[ba-gas]", cat: "Nourriture", example: "Mengkankan aku et bagas (Je mange du riz).", audio: null, createdAt: Date.now() },
-        { word: "Balay", trans: "Maison", phonetic: "[ba-lay]", cat: "Quotidien", example: "Mag-uli aku sa balay (Je rentre à la maison).", audio: null, createdAt: Date.now() }
+    async function initDefaultWords() {
+      const def = [
+        { word: "Danum", trans: "Eau", phonetic: "[da-noum]", grammar: "Nom", cat: "Nature", dialect: "Général", example: "Mïninum ka et danum.", audio: null, image: null, mastery: 1 },
+        { word: "Apoy", trans: "Feu", phonetic: "[a-poy]", grammar: "Nom", cat: "Nature", dialect: "Général", example: "Kaanen et apoy.", audio: null, image: null, mastery: 2 },
+        { word: "Bagas", trans: "Riz décortiqué", phonetic: "[ba-gas]", grammar: "Nom", cat: "Nourriture", dialect: "Aborlan", example: "Mengkankan aku et bagas.", audio: null, image: null, mastery: 0 },
+        { word: "Balay", trans: "Maison", phonetic: "[ba-lay]", grammar: "Nom", cat: "Quotidien", dialect: "Général", example: "Mag-uli aku sa balay.", audio: null, image: null, mastery: 3 }
       ];
-      for (const w of defaults) {
-        await wordsCollection.add(w);
+      for (const w of def) await wordsCollection.add(w);
+    }
+
+    function switchMode(m) {
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+
+      if (m === 'dict') {
+        document.getElementById('dictView').classList.add('active');
+        document.getElementById('tabDict').classList.add('active');
+        renderDict();
+      } else if (m === 'cards') {
+        document.getElementById('cardsView').classList.add('active');
+        document.getElementById('tabCards').classList.add('active');
+        startFlashcardsSession();
+      } else if (m === 'quest') {
+        document.getElementById('questView').classList.add('active');
+        document.getElementById('tabQuest').classList.add('active');
+        startQuizSession();
       }
     }
 
-    function saveXP() {
-      localStorage.setItem('tagbanan_xp', xp.toString());
-      document.getElementById('xpCount').innerText = `${xp} XP`;
-    }
-
-    // Micro / Enregistreur audio
-    let mediaRecorder = null;
-    let audioChunks = [];
-    let recordedBase64 = null;
-    let isRecording = false;
+    // Audio & Enregistreur
+    let mediaRecorder = null, audioChunks = [], recordedBase64 = null, isRecording = false;
 
     async function toggleRecording() {
       const btn = document.getElementById('recordToggleBtn');
@@ -818,28 +983,26 @@
           audioChunks = [];
           mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
           mediaRecorder.onstop = () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            const blob = new Blob(audioChunks, { type: 'audio/webm' });
             const reader = new FileReader();
-            reader.readAsDataURL(audioBlob);
+            reader.readAsDataURL(blob);
             reader.onloadend = () => {
               recordedBase64 = reader.result;
               preview.src = recordedBase64;
               preview.style.display = 'block';
-              status.innerHTML = `<span style="color:#4ade80; font-weight:700;">✓ Audio prêt !</span>`;
+              status.innerHTML = `<span style="color:var(--success); font-weight:700;">✓ Audio prêt !</span>`;
             };
           };
           mediaRecorder.start();
           isRecording = true;
           btn.classList.add('recording');
           document.getElementById('recIcon').innerText = '⏹️';
-          document.getElementById('recText').innerText = 'Arrêter la capture';
+          document.getElementById('recText').innerText = 'Arrêter';
           status.innerText = "Parlez maintenant...";
-        } catch (err) {
-          alert("Microphone inaccessible : " + err.message);
-        }
+        } catch (err) { alert("Micro inaccessible : " + err.message); }
       } else {
         mediaRecorder.stop();
-        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        mediaRecorder.stream.getTracks().forEach(t => t.stop());
         isRecording = false;
         btn.classList.remove('recording');
         document.getElementById('recIcon').innerText = '🎙️';
@@ -847,42 +1010,50 @@
       }
     }
 
-    function playAudio(wordObj) {
-      if (wordObj && wordObj.audio) {
-        soundPlayer.src = wordObj.audio;
-        soundPlayer.play().catch(e => console.error("Erreur lecture audio", e));
+    function playAudio(w) {
+      if (w && w.audio) {
+        soundPlayer.src = w.audio;
+        soundPlayer.play().catch(e => console.error(e));
       } else if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(wordObj.word);
-        utter.rate = 0.85;
-        window.speechSynthesis.speak(utter);
+        const u = new SpeechSynthesisUtterance(w.word);
+        u.rate = 0.85;
+        window.speechSynthesis.speak(u);
       }
     }
 
-    function switchMode(mode) {
-      document.getElementById('dictView').classList.toggle('active', mode === 'dict');
-      document.getElementById('questView').classList.toggle('active', mode === 'quest');
-      document.getElementById('tabDict').classList.toggle('active', mode === 'dict');
-      document.getElementById('tabQuest').classList.toggle('active', mode === 'quest');
-      if (mode === 'quest') startQuizSession();
-      else renderDict();
+    // Partage natif (Point 5)
+    function shareWord(word, trans) {
+      if (navigator.share) {
+        navigator.share({
+          title: `Tagbanan App: ${word}`,
+          text: `Découvre le mot tagbanan « ${word} » qui signifie « ${trans} » sur Tagbanan App !`,
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(`${word} = ${trans} (Tagbanan App)`);
+        alert("Fiche copiée dans le presse-papier !");
+      }
     }
 
+    // Affichage Dictionnaire
     function renderDict() {
-      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
       const grid = document.getElementById('wordGrid');
       grid.innerHTML = '';
 
-      const categories = ['ALL', ...new Set(dictionary.map(w => w.cat))];
-      const chipsContainer = document.getElementById('catChips');
-      chipsContainer.innerHTML = categories.map(c => `
-        <button class="chip ${c === selectedCat ? 'active' : ''}" onclick="selectCategory('${c}')">
-          ${c === 'ALL' ? 'Tout voir' : c}
+      const cats = ['ALL', ...new Set(dictionary.map(w => w.cat))];
+      document.getElementById('catChips').innerHTML = cats.map(c => `
+        <button class="chip ${c === selectedCat ? 'active' : ''}" onclick="selectedCat='${c}'; renderDict();">
+          ${c === 'ALL' ? 'Tout' : c}
         </button>
       `).join('');
 
       const filtered = dictionary.filter(w => {
-        const matchesQuery = (w.word || '').toLowerCase().includes(q) || (w.trans || '').toLowerCase().includes(q);
+        const matchesQuery = (w.word || '').toLowerCase().includes(q) || 
+                             (w.trans || '').toLowerCase().includes(q) || 
+                             (w.dialect || '').toLowerCase().includes(q) ||
+                             (w.grammar || '').toLowerCase().includes(q);
         const matchesCat = selectedCat === 'ALL' || w.cat === selectedCat;
         return matchesQuery && matchesCat;
       });
@@ -895,83 +1066,293 @@
       filtered.forEach(item => {
         const card = document.createElement('div');
         card.className = 'word-card';
-        const hasCustomVoice = Boolean(item.audio);
+        const hasVoice = Boolean(item.audio);
 
         card.innerHTML = `
-          <div>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
+          ${item.image ? `<img src="${item.image}" class="card-img-banner" alt="${item.word}">` : ''}
+          <div class="card-body">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
               <div>
                 <span class="tagbanan-term">${item.word}</span>
+                <span class="grammar-badge">${item.grammar || 'Nom'}</span>
+                ${item.dialect ? `<span class="dialect-badge">${item.dialect}</span>` : ''}
                 ${item.phonetic ? `<div class="phonetic">${item.phonetic}</div>` : ''}
               </div>
-              <button class="audio-btn ${hasCustomVoice ? 'has-voice' : ''}" onclick='playAudio(${JSON.stringify(item)})'>
-                ${hasCustomVoice ? '🗣️' : '🔊'}
+              <button class="audio-btn ${hasVoice ? 'has-voice' : ''}" onclick='playAudio(${JSON.stringify(item)})'>
+                ${hasVoice ? '🗣️' : '🔊'}
               </button>
             </div>
-            <div class="word-trans" style="margin-top:0.4rem;">${item.trans}</div>
-            ${item.example ? `<div class="word-example" style="margin-top:0.5rem;">${item.example}</div>` : ''}
+            <div class="word-trans">${item.trans}</div>
+            ${item.example ? `<div class="word-example">${item.example}</div>` : ''}
           </div>
           <div class="word-card-footer">
             <span>🏷️ ${item.cat}</span>
-            ${isAdminUnlocked ? `<button class="del-btn" onclick="deleteWord('${item.id}')">Supprimer</button>` : ''}
+            <div style="display:flex; gap:8px;">
+              <button onclick="shareWord('${item.word}', '${item.trans}')" style="background:none; border:none; cursor:pointer;" title="Partager">📤</button>
+              ${isAdminUnlocked ? `<button onclick="deleteWord('${item.id}')" style="background:none; border:none; color:var(--danger); cursor:pointer;">Supprimer</button>` : ''}
+            </div>
           </div>
         `;
         grid.appendChild(card);
       });
     }
 
-    function selectCategory(cat) {
-      selectedCat = cat;
-      renderDict();
+    // FLASHCARDS INTERACTIVES AVEC SRS
+    let fcIndex = 0;
+    let fcDeck = [];
+
+    function startFlashcardsSession() {
+      if (dictionary.length === 0) return;
+      // Répétition espacée : priorité aux mots avec mastery faible
+      fcDeck = [...dictionary].sort((a,b) => (a.mastery || 0) - (b.mastery || 0));
+      fcIndex = 0;
+      showCard();
+    }
+
+    function showCard() {
+      const cardEl = document.getElementById('currentFlashcard');
+      cardEl.classList.remove('flipped');
+      if (fcIndex >= fcDeck.length) {
+        document.getElementById('fcFrontWord').innerText = "Session terminée !";
+        document.getElementById('fcFrontPhonetic').innerText = "Toutes les cartes ont été révisées.";
+        document.getElementById('fcBackTrans').innerText = "🎉 Bravo !";
+        document.getElementById('fcProgress').innerText = `${fcDeck.length} / ${fcDeck.length}`;
+        return;
+      }
+      const item = fcDeck[fcIndex];
+      document.getElementById('fcProgress').innerText = `${fcIndex + 1} / ${fcDeck.length}`;
+      document.getElementById('fcGrammar').innerText = item.grammar || 'Mot';
+      document.getElementById('fcFrontWord').innerText = item.word;
+      document.getElementById('fcFrontPhonetic').innerText = item.phonetic || '';
+      document.getElementById('fcBackTrans').innerText = item.trans;
+      document.getElementById('fcBackExample').innerText = item.example || '';
+
+      const img = document.getElementById('fcImage');
+      if (item.image) {
+        img.src = item.image;
+        img.style.display = 'block';
+      } else {
+        img.style.display = 'none';
+      }
+    }
+
+    function flipFlashcard() {
+      document.getElementById('currentFlashcard').classList.toggle('flipped');
+    }
+
+    function playCurrentFcAudio() {
+      if (fcDeck[fcIndex]) playAudio(fcDeck[fcIndex]);
+    }
+
+    async function rateFlashcard(easy) {
+      if (fcIndex >= fcDeck.length) return;
+      const current = fcDeck[fcIndex];
+      const newMastery = easy ? Math.min(5, (current.mastery || 0) + 1) : Math.max(0, (current.mastery || 0) - 1);
+      
+      if (easy) { xp += 10; updateRank(); }
+      
+      // Sauvegarde du niveau de rétention dans Firebase
+      if (current.id) {
+        wordsCollection.doc(current.id).update({ mastery: newMastery }).catch(() => {});
+      }
+
+      fcIndex++;
+      showCard();
+    }
+
+    // QUÊTES (AUDIO INVERSÉ, SENS INVERSE & SRS)
+    let quizState = { queue: [], currentIndex: 0, selectedAnswer: null, isChecked: false };
+
+    function startQuizSession() {
+      const container = document.getElementById('questContent');
+      if (dictionary.length < 4) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 3rem 1rem; background: var(--card-bg); border-radius: 24px; border: 2px dashed var(--border);">
+            <h3>Pas assez de mots</h3>
+            <p style="color: var(--text-muted); margin: 0.5rem 0 1.5rem;">Au moins 4 mots requis pour démarrer les quêtes.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const shuffled = [...dictionary].sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, Math.min(5, dictionary.length));
+
+      quizState.queue = selected.map((item, idx) => {
+        // Alterne entre : 0 = QCM Classique, 1 = Écoute pure (Audio-first), 2 = Sens inverse (Français -> Tagbanan)
+        const type = idx % 3; 
+        const wrong = dictionary.filter(w => w.id !== item.id).sort(() => 0.5 - Math.random()).slice(0, 3);
+        
+        if (type === 2) {
+          // Sens inverse
+          const choices = [...wrong.map(w => w.word), item.word].sort(() => 0.5 - Math.random());
+          return { type: 'reverse', item, prompt: `Comment dit-on en Tagbanan :`, display: item.trans, correct: item.word, choices };
+        } else if (type === 1) {
+          // Écoute pure
+          const choices = [...wrong.map(w => w.trans), item.trans].sort(() => 0.5 - Math.random());
+          return { type: 'audio', item, prompt: `🎧 Écoutez et identifiez le sens :`, display: '🔊 Audio', correct: item.trans, choices };
+        } else {
+          // Classique
+          const choices = [...wrong.map(w => w.trans), item.trans].sort(() => 0.5 - Math.random());
+          return { type: 'classic', item, prompt: `Traduction française :`, display: item.word, correct: item.trans, choices };
+        }
+      });
+
+      quizState.currentIndex = 0;
+      quizState.selectedAnswer = null;
+      quizState.isChecked = false;
+      renderQuestQuestion();
+    }
+
+    function renderQuestQuestion() {
+      const container = document.getElementById('questContent');
+      const q = quizState.queue[quizState.currentIndex];
+      const progress = (quizState.currentIndex / quizState.queue.length) * 100;
+
+      container.innerHTML = `
+        <div class="quest-container">
+          <div class="quest-header">
+            <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
+            <span style="font-weight:700; font-size:0.85rem; color:var(--text-muted);">${quizState.currentIndex + 1}/${quizState.queue.length}</span>
+          </div>
+          <div class="quest-question">
+            <div style="font-size:0.85rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:6px;">${q.prompt}</div>
+            
+            ${q.type === 'audio' ? `
+              <button class="audio-btn" style="width:64px; height:64px; font-size:1.8rem; margin:10px auto;" onclick='playAudio(${JSON.stringify(q.item)})'>🗣️</button>
+            ` : `
+              <div style="font-size:2rem; font-weight:800; margin-bottom:4px;">${q.display}</div>${q.item.phonetic && q.type !== 'reverse' ? `<div style="color:var(--accent-cyan); font-style:italic;">${q.item.phonetic}</div>` : ''}
+            `}
+          </div>
+          <div class="options-grid">
+            ${q.choices.map(c => `
+              <button class="quest-option" onclick="selectOption('${c.replace(/'/g, "\\'")}', this)">${c}</button>
+            `).join('')}
+          </div>
+          <button class="quest-btn" id="questActionBtn" disabled onclick="verifyQuestAnswer()">Valider</button>
+        </div>
+      `;
+
+      if (q.type === 'audio') playAudio(q.item);
+    }
+
+    function selectOption(txt, el) {
+      if (quizState.isChecked) return;
+      quizState.selectedAnswer = txt;
+      document.querySelectorAll('.quest-option').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('questActionBtn').disabled = false;
+    }
+
+    function verifyQuestAnswer() {
+      const btn = document.getElementById('questActionBtn');
+      const q = quizState.queue[quizState.currentIndex];
+
+      if (!quizState.isChecked) {
+        quizState.isChecked = true;
+        const isOk = (quizState.selectedAnswer === q.correct);
+        document.querySelectorAll('.quest-option').forEach(b => {
+          if (b.innerText.trim() === q.correct) b.classList.add('correct');
+          else if (b.classList.contains('selected')) b.classList.add('wrong');
+        });
+
+        if (isOk) {
+          xp += 15;
+          updateRank();
+          btn.innerText = "Bien joué ! Continuer 🎉";
+          btn.style.background = "var(--success)";
+        } else {
+          btn.innerText = "Continuer";
+          btn.style.background = "#64748b";
+        }
+      } else {
+        quizState.currentIndex++;
+        quizState.selectedAnswer = null;
+        quizState.isChecked = false;
+        if (quizState.currentIndex < quizState.queue.length) renderQuestQuestion();
+        else {
+          document.getElementById('questContent').innerHTML = `
+            <div style="text-align: center; padding: 3rem 1.5rem; background: var(--card-bg); border-radius: 24px; border: 1.5px solid var(--border);">
+              <div style="font-size:3.5rem;">🏆</div>
+              <h2>Quête validée !</h2>
+              <p style="color:var(--text-muted); margin:0.5rem 0 1.5rem;">Félicitations ${currentUser || ''}, votre maîtrise progresse.</p>
+              <button class="btn btn-primary" onclick="startQuizSession()">Nouvelle quête</button>
+            </div>
+          `;
+        }
+      }
+    }
+
+    // Gestion Suggestion (Point 5)
+    function openSuggestModal() { document.getElementById('suggestModal').style.display = 'flex'; }
+    async function handleSuggestion(e) {
+      e.preventDefault();
+      await suggestionsCollection.add({
+        word: document.getElementById('sugWord').value.trim(),
+        trans: document.getElementById('sugTrans').value.trim(),
+        dialect: document.getElementById('sugDialect').value.trim(),
+        notes: document.getElementById('sugNotes').value.trim(),
+        author: currentUser || 'Anonyme',
+        createdAt: Date.now()
+      });
+      alert("Merci ! Votre suggestion a été transmise.");
+      document.getElementById('suggestModal').style.display = 'none';
+      e.target.reset();
+    }
+
+    // Fonctions CRUD & Modales Admin
+    let uploadedImageBase64 = null;
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        uploadedImageBase64 = ev.target.result;
+        const prev = document.getElementById('imagePreview');
+        prev.src = uploadedImageBase64;
+        prev.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
     }
 
     function openModal() {
       recordedBase64 = null;
+      uploadedImageBase64 = null;
       document.getElementById('audioPreview').style.display = 'none';
-      document.getElementById('recStatus').innerText = "Appuyez pour enregistrer";
+      document.getElementById('imagePreview').style.display = 'none';
       document.getElementById('wordModal').style.display = 'flex';
     }
-
-    function closeModal() {
-      if (isRecording) toggleRecording();
-      document.getElementById('wordModal').style.display = 'none';
-    }
+    function closeModal() { document.getElementById('wordModal').style.display = 'none'; }
 
     async function saveWord(e) {
       e.preventDefault();
-      const saveBtn = document.getElementById('saveWordBtn');
-      saveBtn.disabled = true;
-      saveBtn.innerText = "Envoi dans le Cloud...";
+      const btn = document.getElementById('saveWordBtn');
+      btn.disabled = true;
+      btn.innerText = "Enregistrement...";
 
-      const newWord = {
+      await wordsCollection.add({
         word: document.getElementById('fWord').value.trim(),
         trans: document.getElementById('fTrans').value.trim(),
         phonetic: document.getElementById('fPhonetic').value.trim(),
+        grammar: document.getElementById('fGrammar').value,
         cat: document.getElementById('fCat').value,
+        dialect: document.getElementById('fDialect').value.trim() || 'Général',
         example: document.getElementById('fExample').value.trim(),
         audio: recordedBase64,
+        image: uploadedImageBase64,
+        mastery: 0,
         createdAt: Date.now()
-      };
+      });
 
-      try {
-        await wordsCollection.add(newWord);
-        document.getElementById('wordForm').reset();
-        closeModal();
-      } catch (err) {
-        alert("Erreur lors de l'enregistrement dans le Cloud : " + err.message);
-      } finally {
-        saveBtn.disabled = false;
-        saveBtn.innerText = "Enregistrer dans le Cloud";
-      }
+      btn.disabled = false;
+      btn.innerText = "Enregistrer";
+      document.getElementById('wordForm').reset();
+      closeModal();
     }
 
     async function deleteWord(id) {
-      if (confirm("Supprimer ce mot pour tous les utilisateurs ?")) {
-        try {
-          await wordsCollection.doc(id).delete();
-        } catch (err) {
-          alert("Erreur lors de la suppression : " + err.message);
-        }
+      if (confirm("Supprimer définitivement ce mot ?")) {
+        await wordsCollection.doc(id).delete();
       }
     }
 
@@ -979,14 +1360,14 @@
       const blob = new Blob([JSON.stringify(dictionary, null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = `tagbanan_cloud_${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `tagbanan_${new Date().toISOString().split('T')[0]}.json`;
       a.click();
     }
 
     function exportCSV() {
-      let csv = "Mot Tagbanan;Traduction;Phonetique;Categorie;Exemple\n";
+      let csv = "Mot;Traduction;Grammaire;Dialecte;Phonétique;Catégorie\n";
       dictionary.forEach(w => {
-        csv += `"${w.word}";"${w.trans}";"${w.phonetic || ''}";"${w.cat}";"${(w.example || '').replace(/"/g, '""')}"\n`;
+        csv += `"${w.word}";"${w.trans}";"${w.grammar || 'Nom'}";"${w.dialect || ''}";"${w.phonetic || ''}";"${w.cat}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const a = document.createElement('a');
@@ -1001,165 +1382,20 @@
       const reader = new FileReader();
       reader.onload = async ev => {
         try {
-          const imported = JSON.parse(ev.target.result);
-          if (Array.isArray(imported)) {
-            for (const item of imported) {
-              const { id, ...cleanItem } = item;
-              await wordsCollection.add({ ...cleanItem, createdAt: Date.now() });
+          const arr = JSON.parse(ev.target.result);
+          if (Array.isArray(arr)) {
+            for (const item of arr) {
+              const { id, ...clean } = item;
+              await wordsCollection.add({ ...clean, createdAt: Date.now() });
             }
-            alert("Mots importés et synchronisés dans le Cloud !");
+            alert("Mots importés avec succès !");
           }
-        } catch(err) {
-          alert("Erreur lors de l'importation.");
-        }
+        } catch (err) { alert("Format invalide."); }
       };
       reader.readAsText(file);
     }
 
-    // -------------------------------------------------------------
-    // QUÊTES D'APPRENTISSAGE
-    // -------------------------------------------------------------
-    let quizState = { queue: [], currentIndex: 0, selectedAnswer: null, isChecked: false };
-
-    function startQuizSession() {
-      const container = document.getElementById('questContent');
-      if (dictionary.length < 4) {
-        container.innerHTML = `
-          <div style="text-align: center; padding: 3rem 1rem; background: var(--card-bg); border-radius: 24px; border: 2px dashed var(--border);">
-            <h3>Répertoire incomplet</h3>
-            <p style="color: var(--text-muted); margin: 0.5rem 0 1.5rem;">Au moins 4 mots doivent être enregistrés pour générer les quêtes.</p>
-          </div>
-        `;
-        return;
-      }
-
-      const shuffled = [...dictionary].sort(() => 0.5 - Math.random());
-      const sessionWords = shuffled.slice(0, Math.min(5, dictionary.length));
-
-      quizState.queue = sessionWords.map(correctItem => {
-        const wrongPool = dictionary.filter(w => w.id !== correctItem.id);
-        const wrongAnswers = wrongPool.sort(() => 0.5 - Math.random()).slice(0, 3).map(w => w.trans);
-        const choices = [...wrongAnswers, correctItem.trans].sort(() => 0.5 - Math.random());
-
-        return {
-          item: correctItem,
-          questionWord: correctItem.word,
-          phonetic: correctItem.phonetic,
-          correctAnswer: correctItem.trans,
-          choices: choices
-        };
-      });
-
-      quizState.currentIndex = 0;
-      quizState.selectedAnswer = null;
-      quizState.isChecked = false;
-      renderCurrentQuestion();
-    }
-
-    function renderCurrentQuestion() {
-      const container = document.getElementById('questContent');
-      const q = quizState.queue[quizState.currentIndex];
-      const progress = (quizState.currentIndex / quizState.queue.length) * 100;
-      const hasVoice = Boolean(q.item.audio);
-
-      container.innerHTML = `
-        <div class="quest-container">
-          <div class="quest-header">
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: ${progress}%"></div>
-            </div>
-            <span style="font-weight:700; font-size:0.85rem; color: #94a3b8;">
-              ${quizState.currentIndex + 1} / ${quizState.queue.length}
-            </span>
-          </div>
-
-          <div class="quest-question">
-            <div class="quest-prompt">Quelle est la traduction française ?</div>
-            <div style="display:inline-flex; align-items:center; gap:10px; justify-content:center;">
-              <span class="quest-word-display">${q.questionWord}</span>
-              <button class="audio-btn ${hasVoice ? 'has-voice' : ''}" style="width:40px; height:40px;" onclick='playAudio(${JSON.stringify(q.item)})'>
-                ${hasVoice ? '🗣️' : '🔊'}
-              </button>
-            </div>
-            ${q.phonetic ? `<div style="color:var(--accent-cyan); font-style:italic; margin-top:0.25rem;">${q.phonetic}</div>` : ''}
-          </div>
-
-          <div class="options-grid">
-            ${q.choices.map(choice => `
-              <button class="quest-option" onclick="selectOption('${choice.replace(/'/g, "\\'")}', this)">
-                ${choice}
-              </button>
-            `).join('')}
-          </div>
-
-          <div style="margin-top:1rem;">
-            <button class="quest-btn" id="questActionBtn" disabled onclick="checkOrNext()">Vérifier</button>
-          </div>
-        </div>
-      `;
-    }
-
-    function selectOption(text, el) {
-      if (quizState.isChecked) return;
-      quizState.selectedAnswer = text;
-      document.querySelectorAll('.quest-option').forEach(btn => btn.classList.remove('selected'));
-      el.classList.add('selected');
-      document.getElementById('questActionBtn').disabled = false;
-    }
-
-    function checkOrNext() {
-      const btn = document.getElementById('questActionBtn');
-      const q = quizState.queue[quizState.currentIndex];
-
-      if (!quizState.isChecked) {
-        quizState.isChecked = true;
-        const options = document.querySelectorAll('.quest-option');
-        const isCorrect = (quizState.selectedAnswer === q.correctAnswer);
-
-        options.forEach(opt => {
-          if (opt.innerText.trim() === q.correctAnswer) opt.classList.add('correct');
-          else if (opt.classList.contains('selected')) opt.classList.add('wrong');
-        });
-
-        if (isCorrect) {
-          xp += 10;
-          saveXP();
-          btn.innerText = "Continuer 🎉";
-          btn.style.background = "var(--success)";
-        } else {
-          btn.innerText = "Continuer";
-          btn.style.background = "#475569";
-        }
-      } else {
-        quizState.currentIndex++;
-        quizState.selectedAnswer = null;
-        quizState.isChecked = false;
-
-        if (quizState.currentIndex < quizState.queue.length) {
-          renderCurrentQuestion();
-        } else {
-          renderVictoryScreen();
-        }
-      }
-    }
-
-    function renderVictoryScreen() {
-      const container = document.getElementById('questContent');
-      container.innerHTML = `
-        <div style="text-align: center; padding: 3.5rem 1.5rem; background: var(--card-bg); border-radius: 24px; border: 1.5px solid var(--border);">
-          <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🏆</div>
-          <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: white;">Quête accomplie !</h2>
-          <p style="color: var(--text-muted);">Félicitations ${currentUser || ''}, votre maîtrise progresse (+50 XP) !</p>
-          <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
-            <button class="btn btn-primary" onclick="startQuizSession()">Nouvelle session</button>
-            <button class="btn btn-secondary" onclick="switchMode('dict')">Retour au lexique</button>
-          </div>
-        </div>
-      `;
-    }
-
     initUser();
-    saveXP();
   </script>
 </body>
 </html>
