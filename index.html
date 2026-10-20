@@ -5,16 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tagbanan App</title>
 
+  <meta property="og:title" content="Tagbanan App — Dictionnaire & Apprentissage">
+  <meta property="og:description" content="Découvrez, apprenez et préservez la langue Tagbanan. Dictionnaire interactif, prononciations et quêtes d'apprentissage.">
+  <meta property="og:image" content="https://joeltraore294-cmd.github.io/Tagbanan/icon.png?v=13">
+  <meta property="og:url" content="https://joeltraore294-cmd.github.io/Tagbanan/">
+  <meta property="og:type" content="website">
+
   <script>
     if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
       window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
     }
   </script>
 
-  <link rel="manifest" href="manifest.json?v=9">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=9">
-  <link rel="apple-touch-icon" href="icon.png?v=9">
-  <link rel="shortcut icon" href="icon.png?v=9">
+  <link rel="manifest" href="manifest.json?v=13">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=13">
+  <link rel="apple-touch-icon" href="icon.png?v=13">
+  <link rel="shortcut icon" href="icon.png?v=13">
 
   <meta name="theme-color" content="#18130e">
   <meta name="mobile-web-app-capable" content="yes">
@@ -137,6 +143,17 @@
       letter-spacing: 0.75px;
     }
 
+    .header-counter-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 12px;
+      color: var(--primary-light);
+      margin-left: 6px;
+    }
+
     .mode-nav {
       display: flex;
       background: var(--card-sub);
@@ -144,12 +161,13 @@
       border-radius: 14px;
       gap: 4px;
       border: 1px solid var(--border);
+      overflow-x: auto;
     }
     .mode-btn {
       border: none;
       outline: none;
       background: transparent;
-      padding: 0.6rem 0.9rem;
+      padding: 0.6rem 0.85rem;
       font-weight: 700;
       font-size: 0.82rem;
       color: var(--text-muted);
@@ -158,6 +176,7 @@
       display: flex;
       align-items: center;
       gap: 5px;
+      white-space: nowrap;
       transition: all 0.2s ease;
     }
     .mode-btn.active {
@@ -204,7 +223,7 @@
       max-width: 980px;
       margin: 0 auto;
       width: 100%;
-      padding: 1.25rem 1rem 4rem;
+      padding: 1.25rem 1rem 1rem;
     }
 
     .view-panel { display: none; }
@@ -221,7 +240,7 @@
       gap: 0.75rem;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1.25rem;
+      margin-bottom: 0.75rem;
     }
     .search-box { flex: 1; min-width: 220px; position: relative; }
     .search-box input {
@@ -236,6 +255,24 @@
     }
     .search-box input:focus { border-color: var(--primary); }
     .search-box svg { position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+
+    .search-history-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .history-tag {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--text);
+    }
 
     .btn {
       padding: 0.7rem 1.1rem;
@@ -254,7 +291,7 @@
     .btn-secondary { background: var(--card-sub); color: var(--text); border: 1px solid var(--border); }
     .btn-admin { background: #3b2817; color: var(--primary-light); border: 1px solid var(--primary-dark); }
 
-    .category-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 1.25rem; }
+    .category-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 1.25rem; align-items: center; }
     .chip {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -319,6 +356,17 @@
       font-weight: 700;
       margin-left: 4px;
     }
+    .elder-badge {
+      font-size: 0.68rem;
+      background: rgba(46, 125, 50, 0.2);
+      color: #4ade80;
+      border: 1px solid #2e7d32;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-weight: 700;
+      margin-left: 4px;
+      display: inline-block;
+    }
     
     .synonyms-row { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-top: 2px; }
     .synonym-pill {
@@ -329,19 +377,37 @@
       padding: 2px 8px;
       border-radius: 12px;
     }
+    .synonym-pill.highlight-match {
+      background: var(--primary);
+      color: #14100c;
+      font-weight: 700;
+    }
 
+    .reverse-match-badge {
+      font-size: 0.7rem;
+      background: rgba(200, 150, 62, 0.2);
+      border: 1px solid var(--primary);
+      color: var(--primary-light);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    .audio-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .audio-btn {
       background: var(--card-sub);
       color: var(--primary-light);
       border: 1px solid var(--border);
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
+      padding: 6px 10px;
+      border-radius: 20px;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
+      gap: 5px;
+      font-size: 0.75rem;
+      font-weight: 700;
     }
     .audio-btn.has-voice {
       background: #2b2014;
@@ -375,6 +441,72 @@
       background: var(--card-sub);
       font-size: 0.72rem;
       color: var(--text-muted);
+    }
+
+    .fav-btn {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 2px;
+      transition: transform 0.15s;
+    }
+    .fav-btn:hover { transform: scale(1.15); }
+
+    /* DIALOGUES */
+    .dialogue-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .dialogue-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary-light);
+      margin-bottom: 0.35rem;
+    }
+    .dialogue-line {
+      display: flex;
+      flex-direction: column;
+      background: var(--card-sub);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-top: 8px;
+      border-left: 3px solid var(--primary);
+    }
+    .dialogue-speaker {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--primary-light);
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .dialogue-tag { font-weight: 600; font-size: 0.95rem; }
+    .dialogue-fr { font-size: 0.82rem; color: var(--text-muted); font-style: italic; margin-top: 2px; }
+
+    /* LEADERBOARD */
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    .leaderboard-table th, .leaderboard-table td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+    .leaderboard-table th {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+    .leaderboard-table tr:first-child td {
+      color: var(--primary-light);
+      font-weight: 800;
     }
 
     /* FLASHCARDS */
@@ -448,7 +580,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* VUES EXERCICES */
     .exercise-box {
       max-width: 600px;
       margin: 1rem auto;
@@ -612,19 +743,146 @@
     }
     .rec-btn.recording { animation: pulseRec 1s infinite alternate; }
     @keyframes pulseRec { from { transform: scale(1); } to { transform: scale(1.06); } }
+
+    .suggestion-item-card {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    /* Badges */
+    .badge-card-item {
+      background: var(--card-sub);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .badge-card-item.unlocked {
+      border-color: var(--primary);
+      background: rgba(200, 150, 62, 0.08);
+    }
+    .badge-icon-box {
+      font-size: 2rem;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #badgeNotificationToast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--card-bg);
+      border: 2px solid var(--primary);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border-radius: 18px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 500;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    #badgeNotificationToast.show { transform: translateX(-50%) translateY(0); }
+
+    /* Statistiques */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin: 1.2rem 0;
+    }
+    .stat-box {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary-light);
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Onboarding */
+    .onboarding-step { display: none; }
+    .onboarding-step.active { display: block; }
+    .onboarding-dots { display: flex; justify-content: center; gap: 8px; margin: 1.2rem 0; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+    .dot.active { background: var(--primary); }
+
+    footer.app-footer {
+      text-align: center;
+      padding: 1.5rem 1rem 2rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+    footer.app-footer a {
+      color: var(--primary-light);
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* Planche mémo imprimable */
+    #memoPrintContainer { display: none; }
+    @media print {
+      body * { visibility: hidden; }
+      #memoPrintContainer, #memoPrintContainer * { visibility: visible; }
+      #memoPrintContainer {
+        display: grid !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        padding: 10px;
+      }
+      .memo-tag-label {
+        border: 2px dashed #444;
+        padding: 14px;
+        text-align: center;
+        page-break-inside: avoid;
+        color: #000;
+        background: #fff;
+      }
+      .memo-tag-word { font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; }
+      .memo-tag-trans { font-size: 1rem; font-weight: 600; color: #444; }
+      .memo-tag-ph { font-size: 0.8rem; font-style: italic; color: #666; margin-top: 2px; }
+    }
   </style>
 
-  <!-- SDK Firebase Compat avec AUTH & FIRESTORE -->
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
-  <!-- Inscription simple visiteur -->
   <div id="authOverlay">
     <div class="auth-card">
-      <img src="icon.png?v=9" alt="Tagbanan Logo">
+      <img src="icon.png?v=13" alt="Tagbanan Logo">
       <h2>Tagbanan App</h2>
       <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.25rem;">Entrez votre nom pour ouvrir votre carnet d'apprentissage.</p>
       <form onsubmit="handleRegister(event)">
@@ -640,9 +898,12 @@
 
   <header>
     <div class="brand">
-      <img src="icon.png?v=9" alt="Tagbanan Logo">
+      <img src="icon.png?v=13" alt="Tagbanan Logo">
       <div>
-        <h1>Tagbanan</h1>
+        <div style="display:flex; align-items:center;">
+          <h1>Tagbanan</h1>
+          <span class="header-counter-badge" id="totalWordsBadge" title="Nombre de mots répertoriés">0 mots</span>
+        </div>
         <span id="rankTitle">Apprenti</span>
       </div>
     </div>
@@ -651,14 +912,18 @@
       <button class="mode-btn active" id="tabDict" onclick="switchMode('dict')">📖 Dictionnaire</button>
       <button class="mode-btn" id="tabCards" onclick="switchMode('cards')">🗂️ Flashcards</button>
       <button class="mode-btn" id="tabQuest" onclick="switchMode('quest')">⚡ Quêtes</button>
+      <button class="mode-btn" id="tabDialogs" onclick="switchMode('dialogs')">💬 Dialogues</button>
+      <button class="mode-btn" id="tabLeaderboard" onclick="switchMode('leaderboard')">🏆 Famille</button>
     </div>
 
     <div class="user-profile-badge">
       <button onclick="toggleTheme()" title="Thème" style="background:none; border:none; cursor:pointer; font-size:1rem;" id="themeToggleBtn">☀️</button>
+      <button onclick="requestNotificationReminder()" title="Rappels quotidiens" style="background:none; border:none; cursor:pointer; font-size:1rem;" id="notifBellBtn">🔔</button>
+      <button onclick="openStatsModal()" title="Mes Statistiques" style="background:none; border:none; cursor:pointer; font-size:1rem;">📊</button>
+      <button onclick="openBadgesModal()" title="Mes Badges" style="background:none; border:none; cursor:pointer; font-size:1rem;">🏅</button>
       <span id="userNameDisplay">Profil</span>
       <span class="streak-badge">🔥 <span id="streakCount">0</span>j</span>
       
-      <!-- Pastille Admin avec Déconnexion sécurisée -->
       <span id="adminBadge" class="admin-pill" style="display:none;">
         Admin
         <button class="admin-logout-btn" onclick="logoutAdmin()" title="Fermer session admin">✕</button>
@@ -675,18 +940,31 @@
       <div class="actions-bar">
         <div class="search-box">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"></circle><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line></svg>
-          <input type="text" id="searchInput" placeholder="Chercher un mot, synonyme, français..." oninput="renderDict()">
+          <input type="text" id="searchInput" placeholder="Chercher en tagbanan, français ou synonyme..." oninput="handleSearchInput(event)">
         </div>
 
         <button class="btn btn-primary" onclick="requestAdminAuth('add')">🔒 + Ajouter</button>
+        <button class="btn btn-secondary" id="adminSuggestionsBtn" style="display:none;" onclick="openAdminSuggestionsModal()">📥 Suggestions</button>
         <button class="btn btn-secondary" onclick="openSuggestModal()">💡 Suggérer</button>
+        <button class="btn btn-secondary" onclick="printMemoLabels()" title="Imprimer des étiquettes autocollantes pour la maison">🏷️ Planche Mémo</button>
+        <button class="btn btn-secondary" onclick="shareInviteLink()" title="Inviter un membre de la famille sur WhatsApp">📲 Inviter</button>
         <button class="btn btn-secondary" onclick="exportData()">💾 Exporter JSON</button>
         <button class="btn btn-secondary" onclick="exportCSV()">📊 CSV</button>
         <button class="btn btn-admin" onclick="requestAdminAuth('import')">🔒 Importer</button>
         <input type="file" id="fileInput" accept=".json" style="display:none" onchange="importData(event)">
       </div>
 
-      <div class="category-chips" id="catChips"></div>
+      <div class="search-history-row" id="searchHistoryBox" style="display:none;">
+        <span>Récent :</span>
+        <div id="searchHistoryTags" style="display:inline-flex; gap:6px; flex-wrap:wrap;"></div>
+      </div>
+
+      <div class="category-chips">
+        <button class="chip" id="favFilterBtn" onclick="toggleFavFilter()">❤️ Favoris</button>
+        <div id="catChips" style="display:flex; gap:8px; overflow-x:auto;"></div>
+        <button class="chip" id="sortToggleBtn" onclick="toggleSortOrder()" style="margin-left:auto; font-weight:700;">🔤 A ➔ Z</button>
+      </div>
+
       <div class="word-grid" id="wordGrid"></div>
     </section>
 
@@ -705,7 +983,7 @@
               <img id="fcImage" style="display:none; width:90px; height:90px; border-radius:12px; object-fit:cover; margin-bottom:8px;">
               <div class="flashcard-front-word" id="fcFrontWord">Chargement...</div>
               <div style="color:var(--primary-light); font-style:italic;" id="fcFrontPhonetic"></div>
-              <button class="audio-btn" id="fcAudioBtn" onclick="event.stopPropagation(); playCurrentFcAudio();" style="margin-top:10px;">🔊</button>
+              <button class="audio-btn" id="fcAudioBtn" onclick="event.stopPropagation(); playCurrentFcAudio();" style="margin-top:10px;">🔊 Écouter</button>
               <div class="flashcard-hint">Touchez pour retourner</div>
             </div>
             <div class="flashcard-face flashcard-back">
@@ -742,8 +1020,8 @@
           <div class="quest-tile" onclick="launchQuestMode('pronounce')">
             <span class="tile-icon">🎙️</span>
             <div class="tile-title">Atelier Prononciation</div>
-            <div class="tile-desc">Écoutez un mot tagbanan, enregistrez votre voix et comparez.</div>
-            <span class="tile-status">Prêt • Audio interactif</span>
+            <div class="tile-desc">Écoutez un mot, répétez-le et laissez la reconnaissance vocale vérifier votre diction !</div>
+            <span class="tile-status">Prêt • Détection automatique</span>
           </div>
 
           <div class="quest-tile" onclick="launchQuestMode('timeattack')">
@@ -764,9 +1042,169 @@
 
       <div id="questActiveContainer" style="display:none;"></div>
     </section>
+
+    <!-- VUE 4 : DIALOGUES DYNAMIQUES -->
+    <section id="dialogsView" class="view-panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+        <div>
+          <h2 style="font-family:'Cinzel', serif; font-size:1.35rem;">Dialogues du Quotidien</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted);">Échanges réels et conversations de la vie courante.</p>
+        </div>
+        <button class="btn btn-primary" id="addDialogueBtn" style="display:none;" onclick="openAddDialogueModal()">🔒 + Nouveau Dialogue</button>
+      </div>
+
+      <div id="dialoguesContainer"></div>
+    </section>
+
+    <!-- VUE 5 : CLASSEMENT FAMILIAL -->
+    <section id="leaderboardView" class="view-panel">
+      <h2 style="font-family:'Cinzel', serif; font-size:1.35rem; margin-bottom:0.25rem;">🏆 Classement Familial</h2>
+      <p style="font-size:0.85rem; color:var(--text-muted);">Émulation amicale entre tous les membres de la famille.</p>
+
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rang</th>
+            <th>Apprenant</th>
+            <th>Rang d'honneur</th>
+            <th>Série</th>
+            <th>Points XP</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardTbody">
+          <tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Chargement du classement...</td></tr>
+        </tbody>
+      </table>
+    </section>
   </main>
 
-  <!-- MODAL AUTH ADMIN OFFICIEL (E-mail & Mot de passe) -->
+  <footer class="app-footer">
+    <p>Tagbanan App © 2026 — Préservation & Transmission du patrimoine linguistique.</p>
+    <p style="margin-top:0.35rem;">
+      <a onclick="document.getElementById('cguModal').style.display='flex'">Conditions Générales d'Utilisation & Confidentialité</a>
+    </p>
+  </footer>
+
+  <!-- MODALE ONBOARDING (ACCUEIL 3 ÉTAPES) -->
+  <div class="modal-backdrop" id="onboardingModal">
+    <div class="modal" style="text-align:center; max-width:440px;">
+      <div class="onboarding-step active" id="obStep1">
+        <div style="font-size:3rem; margin-bottom:0.5rem;">📖</div>
+        <h3 style="margin-bottom:0.5rem;">Bienvenue sur Tagbanan</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Explorez le dictionnaire, écoutez les prononciations authentiques de la famille et apprenez notre langue pas à pas.</p>
+      </div>
+      <div class="onboarding-step" id="obStep2">
+        <div style="font-size:3rem; margin-bottom:0.5rem;">⚡</div>
+        <h3 style="margin-bottom:0.5rem;">Entraînez-vous au quotidien</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Relevez les quêtes quotidiennes, testez votre accent au micro et entretenez votre série de jours d'apprentissage.</p>
+      </div>
+      <div class="onboarding-step" id="obStep3">
+        <div style="font-size:3rem; margin-bottom:0.5rem;">🤝</div>
+        <h3 style="margin-bottom:0.5rem;">Faites vivre la langue</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Partagez des fiches illustrées en statut WhatsApp et proposez vos mots via le bouton « Suggérer » !</p>
+      </div>
+
+      <div class="onboarding-dots">
+        <span class="dot active" id="dot1"></span>
+        <span class="dot" id="dot2"></span>
+        <span class="dot" id="dot3"></span>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:8px;">
+        <button class="btn btn-secondary" onclick="skipOnboarding()">Passer</button>
+        <button class="btn btn-primary" id="obNextBtn" onclick="nextOnboardingStep()">Suivant</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALE STATISTIQUES PERSONNELLES -->
+  <div class="modal-backdrop" id="statsModal">
+    <div class="modal" style="max-width:460px;">
+      <h3 style="margin-bottom:0.3rem;">📊 Vos Statistiques</h3>
+      <p style="font-size:0.82rem; color:var(--text-muted);">Votre activité et investissement d'apprentissage.</p>
+      
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-number" id="stWordsLearned">0</div>
+          <div class="stat-label">Mots mémorisés</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="stFavoritesCount">0</div>
+          <div class="stat-label">Mots en favoris</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="stStreak">0</div>
+          <div class="stat-label">Jours de série</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="stTotalXp">0</div>
+          <div class="stat-label">XP accumulés</div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end;">
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('statsModal').style.display='none'">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALE AJOUT DIALOGUE ADMIN -->
+  <div class="modal-backdrop" id="addDialogueModal">
+    <div class="modal" style="max-width:540px;">
+      <h3 style="margin-bottom:1rem;">Nouveau Dialogue du Quotidien</h3>
+      <form onsubmit="saveCustomDialogue(event)">
+        <div class="form-group">
+          <label>Titre de la scène *</label>
+          <input type="text" id="dlgTitle" required placeholder="ex: Rencontre sur le chemin">
+        </div>
+        <div class="form-group">
+          <label>Répliques (Format : Intervenant | Tagbanan | Français)</label>
+          <textarea id="dlgLines" rows="5" required placeholder="Aîné | Kumusta ka ? | Comment vas-tu ?&#10;Jeune | Mapiya aku ! | Je vais bien !"></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('addDialogueModal').style.display='none'">Annuler</button>
+          <button type="submit" class="btn btn-primary">Publier le dialogue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODALE CGU -->
+  <div class="modal-backdrop" id="cguModal">
+    <div class="modal" style="max-height:85vh; overflow-y:auto; text-align:left;">
+      <h3 style="margin-bottom:1rem; font-family:'Cinzel', serif;">Conditions Générales d'Utilisation</h3>
+      <p style="font-size:0.85rem; margin-bottom:0.8rem;"><strong>1. Vocation & Gratuité :</strong> Tagbanan App est un projet bénévole, familial et éducatif conçu pour préserver, documenter et faire vivre la langue Tagbanan. L'accès à tous les outils d'apprentissage est entièrement libre et gratuit.</p>
+      <p style="font-size:0.85rem; margin-bottom:0.8rem;"><strong>2. Contributions & Suggestions :</strong> En transmettant un mot, une traduction ou une phrase par le formulaire « Suggérer », l'utilisateur consent à ce que sa contribution intègre gracieusement le patrimoine commun de l'application. L'administrateur se réserve le droit de vérifier l'exactitude lexicale avant toute publication officielle.</p>
+      <p style="font-size:0.85rem; margin-bottom:0.8rem;"><strong>3. Données personnelles :</strong> L'application n'exploite ni ne revend aucune donnée à des tiers. Les pseudonymes de visiteur, la progression en XP et les séries de révision sont partagés sur le classement d'émulation familiale sans collecte d'e-mail ou de traceur publicitaire.</p>
+      <p style="font-size:0.85rem; margin-bottom:1.2rem;"><strong>4. Usage du micro :</strong> Dans l'Atelier de Prononciation, le microphone sert strictement à la reconnaissance et l'écoute immédiate de sa voix pour progresser. Aucun enregistrement de visiteur n'est conservé ni diffusé.</p>
+      <div style="display:flex; justify-content:flex-end;">
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('cguModal').style.display='none'">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALE BADGES -->
+  <div class="modal-backdrop" id="badgesModal">
+    <div class="modal" style="max-width:440px;">
+      <h3 style="margin-bottom:0.5rem;">🏅 Vos Trophées & Badges</h3>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">Atteignez les étapes pour débloquer les distinctions.</p>
+      <div id="badgesListContainer"></div>
+      <div style="display:flex; justify-content:flex-end; margin-top:1rem;">
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('badgesModal').style.display='none'">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION BADGE -->
+  <div id="badgeNotificationToast">
+    <div style="font-size:1.8rem;" id="toastBadgeIcon">🏅</div>
+    <div>
+      <div style="font-weight:800; font-size:0.85rem; color:var(--primary-light);">NOUVEAU BADGE DÉBLOQUÉ !</div>
+      <div style="font-size:0.8rem; font-weight:600;" id="toastBadgeTitle">Titre</div>
+    </div>
+  </div>
+
+  <!-- MODALE AUTH ADMIN -->
   <div class="modal-backdrop" id="adminAuthModal">
     <div class="modal" style="max-width:380px; text-align:center;">
       <h3 style="margin-bottom:0.5rem;">Connexion Administrateur</h3>
@@ -789,7 +1227,21 @@
     </div>
   </div>
 
-  <!-- Modal Suggérer -->
+  <!-- MODALE SUGGESTIONS ADMIN -->
+  <div class="modal-backdrop" id="adminSuggestionsModal">
+    <div class="modal" style="max-width:620px;">
+      <h3 style="margin-bottom:0.5rem;">📥 Suggestions reçues</h3>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">Validez pour ajouter directement au dictionnaire ou supprimez les entrées non retenues.</p>
+      <div id="suggestionsListContainer" style="max-height:55vh; overflow-y:auto;">
+        <p style="text-align:center; color:var(--text-muted); padding:1rem;">Chargement des propositions...</p>
+      </div>
+      <div style="display:flex; justify-content:flex-end; margin-top:1rem;">
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('adminSuggestionsModal').style.display='none'">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALE SUGGERER (VISITEUR) -->
   <div class="modal-backdrop" id="suggestModal">
     <div class="modal">
       <h3 style="margin-bottom:0.75rem;">💡 Suggérer un mot</h3>
@@ -819,11 +1271,13 @@
     </div>
   </div>
 
-  <!-- Modal Ajout Mot Admin -->
+  <!-- MODALE AJOUT / EDITION MOT ADMIN -->
   <div class="modal-backdrop" id="wordModal">
     <div class="modal">
-      <h2 style="margin-bottom: 1rem;">Ajouter au dictionnaire officiel</h2>
+      <h2 style="margin-bottom: 1rem;" id="modalFormTitle">Ajouter au dictionnaire officiel</h2>
       <form id="wordForm" onsubmit="saveWord(event)">
+        <input type="hidden" id="editWordId">
+        
         <div class="form-group">
           <label>Mot en Tagbanan *</label>
           <input type="text" id="fWord" required placeholder="ex: Danum">
@@ -872,6 +1326,11 @@
           </div>
         </div>
 
+        <div class="form-group" style="display:flex; align-items:center; gap:8px;">
+          <input type="checkbox" id="fElderVerified" style="width:auto;">
+          <label for="fElderVerified" style="margin-bottom:0; cursor:pointer;">✓ Authentifié et validé par les aînés</label>
+        </div>
+
         <div class="form-group">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <label style="margin-bottom:0;">Phrases d'exemples</label>
@@ -881,7 +1340,7 @@
         </div>
 
         <div class="form-group">
-          <label>Illustration (optionnel)</label>
+          <label>Illustration (Compressée automatiquement max 800px)</label>
           <input type="file" id="fImageFile" accept="image/*" onchange="handleImageUpload(event)">
           <img id="imagePreview" style="display:none; width:100%; height:110px; object-fit:cover; border-radius:10px; margin-top:8px;">
         </div>
@@ -889,7 +1348,10 @@
         <div class="form-group">
           <label>Enregistrement vocal de référence</label>
           <div class="voice-recorder-box">
-            <button type="button" class="rec-btn" id="recordToggleBtn" onclick="toggleRecording()">
+            <div style="display:flex; gap:8px; width:100%;">
+              <input type="text" id="fAudioSpeaker" placeholder="Locuteur (ex: Oncle Paul, Aîné...)" style="flex:1;">
+            </div>
+            <button type="button" class="rec-btn" id="recordToggleBtn" onclick="toggleRecording()" style="margin-top:6px;">
               <span id="recIcon">🎙️</span> <span id="recText">Enregistrer au micro</span>
             </button>
             <div id="recStatus" style="font-size:0.8rem; color:var(--text-muted);">Appuyez pour enregistrer</div>
@@ -905,7 +1367,19 @@
     </div>
   </div>
 
+  <!-- CANVAS CACHÉ POUR STATUTS WHATSAPP -->
+  <canvas id="statusShareCanvas" width="800" height="800" style="display:none;"></canvas>
+
+  <!-- CONTENEUR D'IMPRESSION DES ÉTIQUETTES MÉMO -->
+  <div id="memoPrintContainer"></div>
+
   <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW fail', err));
+      });
+    }
+
     const firebaseConfig = {
       apiKey: "AIzaSyDHraE4iQi9zQEs6YII_3HGUF1gyOSsVxE",
       authDomain: "tagbanan-app.firebaseapp.com",
@@ -920,8 +1394,9 @@
     const db = firebase.firestore();
     const wordsCollection = db.collection('words');
     const suggestionsCollection = db.collection('suggestions');
+    const profilesCollection = db.collection('profiles');
+    const dialoguesCollection = db.collection('dialogues');
 
-    // Thème Sombre / Clair
     function toggleTheme() {
       const current = document.documentElement.getAttribute('data-theme') || 'dark';
       const target = current === 'dark' ? 'light' : 'dark';
@@ -932,17 +1407,23 @@
     const savedTheme = localStorage.getItem('tagbanan_theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
-    // GESTION AUTHENTIFICATION FIREBASE OFFICIELLE
     let currentAdminUser = null;
     let pendingAction = null;
 
     auth.onAuthStateChanged(user => {
       currentAdminUser = user;
       const adminBadge = document.getElementById('adminBadge');
+      const sugBtn = document.getElementById('adminSuggestionsBtn');
+      const addDlgBtn = document.getElementById('addDialogueBtn');
       if (user) {
         adminBadge.style.display = 'inline-flex';
+        if (sugBtn) sugBtn.style.display = 'inline-flex';
+        if (addDlgBtn) addDlgBtn.style.display = 'inline-flex';
+        triggerAutoBackup();
       } else {
         adminBadge.style.display = 'none';
+        if (sugBtn) sugBtn.style.display = 'none';
+        if (addDlgBtn) addDlgBtn.style.display = 'none';
       }
       renderDict();
     });
@@ -1000,9 +1481,183 @@
       if (action === 'import') document.getElementById('fileInput').click();
     }
 
-    // Gestion Utilisateur & XP (Visiteur)
+    // Gestion Utilisateur & Favoris
     let currentUser = localStorage.getItem('tagbanan_user') || null;
     let xp = parseInt(localStorage.getItem('tagbanan_xp')) || 0;
+    let unlockedBadges = JSON.parse(localStorage.getItem('tagbanan_badges') || '[]');
+    let favorites = JSON.parse(localStorage.getItem('tagbanan_favorites') || '[]');
+    let searchHistory = JSON.parse(localStorage.getItem('tagbanan_search_history') || '[]');
+    let showFavoritesOnly = false;
+
+    function toggleFavorite(id, event) {
+      if (event) event.stopPropagation();
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(x => x !== id);
+      } else {
+        favorites.push(id);
+      }
+      localStorage.setItem('tagbanan_favorites', JSON.stringify(favorites));
+      renderDict();
+    }
+
+    function toggleFavFilter() {
+      showFavoritesOnly = !showFavoritesOnly;
+      const btn = document.getElementById('favFilterBtn');
+      btn.classList.toggle('active', showFavoritesOnly);
+      renderDict();
+    }
+
+    // Historique de recherche
+    function handleSearchInput(e) {
+      renderDict();
+    }
+
+    function recordSearchQuery(q) {
+      q = q.trim();
+      if (!q || searchHistory.includes(q)) return;
+      searchHistory.unshift(q);
+      if (searchHistory.length > 5) searchHistory.pop();
+      localStorage.setItem('tagbanan_search_history', JSON.stringify(searchHistory));
+      renderSearchHistory();
+    }
+
+    function renderSearchHistory() {
+      const box = document.getElementById('searchHistoryBox');
+      const tagsBox = document.getElementById('searchHistoryTags');
+      if (searchHistory.length === 0) {
+        box.style.display = 'none';
+        return;
+      }
+      box.style.display = 'flex';
+      tagsBox.innerHTML = searchHistory.map(term => `
+        <span class="history-tag" onclick="applyHistorySearch('${term.replace(/'/g, "\\'")}')">${term}</span>
+      `).join('');
+    }
+
+    function applyHistorySearch(term) {
+      document.getElementById('searchInput').value = term;
+      renderDict();
+    }
+
+    // Onboarding guidé
+    let currentObStep = 1;
+    function checkOnboarding() {
+      if (!localStorage.getItem('tagbanan_onboarded')) {
+        document.getElementById('onboardingModal').style.display = 'flex';
+      }
+    }
+
+    function nextOnboardingStep() {
+      document.getElementById(`obStep${currentObStep}`).classList.remove('active');
+      document.getElementById(`dot${currentObStep}`).classList.remove('active');
+      currentObStep++;
+      if (currentObStep > 3) {
+        skipOnboarding();
+        return;
+      }
+      document.getElementById(`obStep${currentObStep}`).classList.add('active');
+      document.getElementById(`dot${currentObStep}`).classList.add('active');
+      if (currentObStep === 3) {
+        document.getElementById('obNextBtn').innerText = "C'est parti !";
+      }
+    }
+
+    function skipOnboarding() {
+      localStorage.setItem('tagbanan_onboarded', 'true');
+      document.getElementById('onboardingModal').style.display = 'none';
+    }
+
+    // Statistiques personnelles
+    function openStatsModal() {
+      document.getElementById('stWordsLearned').innerText = dictionary.filter(w => (w.mastery || 0) >= 2).length;
+      document.getElementById('stFavoritesCount').innerText = favorites.length;
+      document.getElementById('stStreak').innerText = localStorage.getItem('tagbanan_streak') || 0;
+      document.getElementById('stTotalXp').innerText = xp;
+      document.getElementById('statsModal').style.display = 'flex';
+    }
+
+    // Invitation WhatsApp
+    function shareInviteLink() {
+      const url = "https://joeltraore294-cmd.github.io/Tagbanan/";
+      const text = `🌟 Rejoins-moi sur Tagbanan App ! Découvre notre dictionnaire interactif, écoute les voix de la famille et apprends notre langue : ${url}`;
+      if (navigator.share) {
+        navigator.share({ title: "Tagbanan App", text: text, url: url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(text);
+        alert("Lien d'invitation copié dans votre presse-papier !");
+      }
+    }
+
+    // Planche d'étiquettes mémo imprimables
+    function printMemoLabels() {
+      const container = document.getElementById('memoPrintContainer');
+      const list = favorites.length > 0 ? dictionary.filter(w => favorites.includes(w.id)) : dictionary.slice(0, 24);
+      container.innerHTML = list.map(item => `
+        <div class="memo-tag-label">
+          <div class="memo-tag-word">${item.word}</div>
+          <div class="memo-tag-trans">${item.trans}</div>
+          ${item.phonetic ? `<div class="memo-tag-ph">${item.phonetic}</div>` : ''}
+        </div>
+      `).join('');
+      window.print();
+    }
+
+    // Badges
+    const BADGES_CONFIG = [
+      { id: 'first_audio', title: 'Première Écoute', icon: '🎧', desc: 'Avoir écouté au moins une prononciation.' },
+      { id: 'daily_hero', title: 'Flamme Tagbanan', icon: '🔥', desc: 'Maintenir une série de 3 jours d\'apprentissage.' },
+      { id: 'xp_100', title: 'Initié Curieux', icon: '⭐', desc: 'Atteindre plus de 100 points XP.' },
+      { id: 'master_10', title: 'Mémoire Vivante', icon: '📜', desc: 'Avoir retenu 10 mots en Flashcards.' }
+    ];
+
+    function checkBadge(badgeId) {
+      if (!unlockedBadges.includes(badgeId)) {
+        unlockedBadges.push(badgeId);
+        localStorage.setItem('tagbanan_badges', JSON.stringify(unlockedBadges));
+        const b = BADGES_CONFIG.find(x => x.id === badgeId);
+        if (b) showBadgeToast(b);
+      }
+    }
+
+    function showBadgeToast(b) {
+      const toast = document.getElementById('badgeNotificationToast');
+      document.getElementById('toastBadgeIcon').innerText = b.icon;
+      document.getElementById('toastBadgeTitle').innerText = b.title;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
+    function openBadgesModal() {
+      const cont = document.getElementById('badgesListContainer');
+      cont.innerHTML = BADGES_CONFIG.map(b => {
+        const isUnlocked = unlockedBadges.includes(b.id);
+        return `
+          <div class="badge-card-item ${isUnlocked ? 'unlocked' : ''}">
+            <div class="badge-icon-box">${isUnlocked ? b.icon : '🔒'}</div>
+            <div>
+              <div style="font-weight:700; font-size:0.95rem; color:${isUnlocked ? 'var(--primary-light)' : 'var(--text-muted)'}">${b.title}</div>
+              <div style="font-size:0.75rem; color:var(--text-muted);">${b.desc}</div>
+              <div style="font-size:0.7rem; font-weight:700; color:${isUnlocked ? 'var(--primary)' : 'var(--text-muted)'}; margin-top:2px;">
+                ${isUnlocked ? '✓ OBTENU' : 'VERROUILLÉ'}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('badgesModal').style.display = 'flex';
+    }
+
+    function syncProfileToLeaderboard() {
+      if (!currentUser) return;
+      const streak = parseInt(localStorage.getItem('tagbanan_streak')) || 0;
+      profilesCollection.doc(currentUser).set({
+        name: currentUser,
+        xp: xp,
+        streak: streak,
+        rank: document.getElementById('rankTitle').innerText,
+        updatedAt: Date.now()
+      }, { merge: true }).catch(() => {});
+    }
 
     function checkStreak() {
       const today = new Date().toISOString().split('T')[0];
@@ -1018,6 +1673,8 @@
       localStorage.setItem('tagbanan_last_day', today);
       localStorage.setItem('tagbanan_streak', streak.toString());
       document.getElementById('streakCount').innerText = streak;
+      if (streak >= 3) checkBadge('daily_hero');
+      syncProfileToLeaderboard();
     }
 
     function updateRank() {
@@ -1033,6 +1690,24 @@
       document.getElementById('rankTitle').innerText = t;
       document.getElementById('xpCount').innerText = `${xp} XP`;
       localStorage.setItem('tagbanan_xp', xp.toString());
+      if (xp >= 100) checkBadge('xp_100');
+      syncProfileToLeaderboard();
+    }
+
+    function requestNotificationReminder() {
+      if (!('Notification' in window)) {
+        alert("Notifications non supportées sur ce navigateur.");
+        return;
+      }
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          new Notification("Tagbanan App", {
+            body: "Rappels quotidiens activés ! Venez entretenir votre flamme.",
+            icon: "icon.png?v=13"
+          });
+          document.getElementById('notifBellBtn').innerText = '🔕';
+        }
+      });
     }
 
     function initUser() {
@@ -1042,6 +1717,8 @@
         document.getElementById('userNameDisplay').innerText = currentUser;
         checkStreak();
         updateRank();
+        renderSearchHistory();
+        checkOnboarding();
       }
     }
 
@@ -1063,16 +1740,65 @@
       }
     }
 
-    // Données & Synchronisation Cloud
     const soundPlayer = new Audio();
     let dictionary = [];
+    let dialoguesList = [];
     let selectedCat = 'ALL';
+    let sortOrder = 'ASC';
+
+    function toggleSortOrder() {
+      sortOrder = sortOrder === 'ASC' ? 'DESC' : 'ASC';
+      document.getElementById('sortToggleBtn').innerText = sortOrder === 'ASC' ? '🔤 A ➔ Z' : '🔤 Z ➔ A';
+      renderDict();
+    }
 
     wordsCollection.onSnapshot(snapshot => {
       dictionary = [];
       snapshot.forEach(doc => dictionary.push({ id: doc.id, ...doc.data() }));
+      document.getElementById('totalWordsBadge').innerText = `${dictionary.length} mots`;
       renderDict();
     });
+
+    // Chargement & Mise en cache hors-ligne des Dialogues
+    function loadDialogues() {
+      const cachedDialogues = localStorage.getItem('tagbanan_cached_dialogues');
+      if (cachedDialogues) {
+        dialoguesList = JSON.parse(cachedDialogues);
+        renderDialogues();
+      }
+      dialoguesCollection.onSnapshot(snapshot => {
+        if (!snapshot.empty) {
+          dialoguesList = [];
+          snapshot.forEach(doc => dialoguesList.push({ id: doc.id, ...doc.data() }));
+          localStorage.setItem('tagbanan_cached_dialogues', JSON.stringify(dialoguesList));
+          renderDialogues();
+        } else if (dialoguesList.length === 0) {
+          initDefaultDialogues();
+        }
+      });
+    }
+
+    async function initDefaultDialogues() {
+      const def = [
+        {
+          title: "1. Salutations et politesse matinale",
+          lines: [
+            { speaker: "Aîné", tag: "Mayad nga pagsasawa !", fr: "Bonjour à toi !" },
+            { speaker: "Jeune", tag: "Mayad nga pagsasawa man kanimo. Kumusta ka ?", fr: "Bonjour à vous aussi. Comment allez-vous ?" },
+            { speaker: "Aîné", tag: "Mapiya aku, salamat.", fr: "Je vais bien, merci." }
+          ]
+        },
+        {
+          title: "2. Autour du repas familial",
+          lines: [
+            { speaker: "Mère", tag: "Dali kamu, kankan kita !", fr: "Venez tous, mangeons !" },
+            { speaker: "Enfant", tag: "Unu et kaanen ta ngeni ?", fr: "Qu'est-ce qu'on mange aujourd'hui ?" },
+            { speaker: "Mère", tag: "Bagas ig isda.", fr: "Du riz et du poisson." }
+          ]
+        }
+      ];
+      for (const d of def) await dialoguesCollection.add(d);
+    }
 
     function switchMode(m) {
       document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
@@ -1090,10 +1816,17 @@
         document.getElementById('questView').classList.add('active');
         document.getElementById('tabQuest').classList.add('active');
         showQuestHub();
+      } else if (m === 'dialogs') {
+        document.getElementById('dialogsView').classList.add('active');
+        document.getElementById('tabDialogs').classList.add('active');
+        loadDialogues();
+      } else if (m === 'leaderboard') {
+        document.getElementById('leaderboardView').classList.add('active');
+        document.getElementById('tabLeaderboard').classList.add('active');
+        renderLeaderboard();
       }
     }
 
-    // Gestion Audio
     let mediaRecorder = null, audioChunks = [], recordedBase64 = null, isRecording = false;
 
     async function toggleRecording() {
@@ -1135,11 +1868,13 @@
       }
     }
 
-    function playAudio(w) {
-      if (w && w.audio) {
-        soundPlayer.src = w.audio;
+    function playAudio(w, specificSrc = null) {
+      checkBadge('first_audio');
+      const audioToPlay = specificSrc || (w && w.audio);
+      if (audioToPlay) {
+        soundPlayer.src = audioToPlay;
         soundPlayer.play().catch(e => console.error(e));
-      } else if ('speechSynthesis' in window) {
+      } else if ('speechSynthesis' in window && w && w.word) {
         window.speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(w.word);
         u.rate = 0.85;
@@ -1160,9 +1895,69 @@
       }
     }
 
-    // Affichage Dictionnaire
+    // GÉNÉRATEUR D'IMAGE DE STATUT WHATSAPP
+    function generateStatusCard(word, trans, phonetic) {
+      const canvas = document.getElementById('statusShareCanvas');
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = '#18130e';
+      ctx.fillRect(0, 0, 800, 800);
+
+      ctx.strokeStyle = '#c8963e';
+      ctx.lineWidth = 12;
+      ctx.strokeRect(30, 30, 740, 740);
+
+      ctx.strokeStyle = '#3b2c21';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(44, 44, 712, 712);
+
+      ctx.fillStyle = '#c8963e';
+      ctx.font = 'bold 30px Cinzel, serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('TAGBANAN APP', 400, 140);
+
+      ctx.fillStyle = '#bdafa0';
+      ctx.font = '600 22px Plus Jakarta Sans, sans-serif';
+      ctx.fillText('LE MOT DU JOUR', 400, 185);
+
+      ctx.fillStyle = '#f6f1ea';
+      ctx.font = 'bold 74px Cinzel, serif';
+      ctx.fillText(word, 400, 370);
+
+      if (phonetic) {
+        ctx.fillStyle = '#e5b567';
+        ctx.font = 'italic 34px Plus Jakarta Sans, sans-serif';
+        ctx.fillText(phonetic, 400, 430);
+      }
+
+      ctx.strokeStyle = '#c8963e';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(250, 480);
+      ctx.lineTo(550, 480);
+      ctx.stroke();
+
+      ctx.fillStyle = '#f6f1ea';
+      ctx.font = 'bold 46px Plus Jakarta Sans, sans-serif';
+      ctx.fillText(trans, 400, 560);
+
+      ctx.fillStyle = '#bdafa0';
+      ctx.font = '22px Plus Jakarta Sans, sans-serif';
+      ctx.fillText('Sauvegardons et transmettons notre langue.', 400, 680);
+      ctx.fillStyle = '#e5b567';
+      ctx.font = 'bold 20px Plus Jakarta Sans, sans-serif';
+      ctx.fillText('joeltraore294-cmd.github.io/Tagbanan', 400, 715);
+
+      const a = document.createElement('a');
+      a.download = `Tagbanan_${word}.png`;
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }
+
     function renderDict() {
       const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+      if (q.length > 2) recordSearchQuery(q);
+
       const grid = document.getElementById('wordGrid');
       grid.innerHTML = '';
 
@@ -1173,7 +1968,7 @@
         </button>
       `).join('');
 
-      const filtered = dictionary.filter(w => {
+      let filtered = dictionary.filter(w => {
         const syns = Array.isArray(w.synonyms) ? w.synonyms.join(' ') : (w.synonyms || '');
         const matchesQuery = (w.word || '').toLowerCase().includes(q) || 
                              (w.trans || '').toLowerCase().includes(q) || 
@@ -1181,7 +1976,14 @@
                              (w.grammar || '').toLowerCase().includes(q) ||
                              syns.toLowerCase().includes(q);
         const matchesCat = selectedCat === 'ALL' || w.cat === selectedCat;
-        return matchesQuery && matchesCat;
+        const matchesFav = !showFavoritesOnly || favorites.includes(w.id);
+        return matchesQuery && matchesCat && matchesFav;
+      });
+
+      filtered.sort((a, b) => {
+        const wordA = (a.word || '').toLowerCase();
+        const wordB = (b.word || '').toLowerCase();
+        return sortOrder === 'ASC' ? wordA.localeCompare(wordB) : wordB.localeCompare(wordA);
       });
 
       if (filtered.length === 0) {
@@ -1193,6 +1995,7 @@
         const card = document.createElement('div');
         card.className = 'word-card';
         const hasVoice = Boolean(item.audio);
+        const isFav = favorites.includes(item.id);
 
         let examplesList = [];
         if (Array.isArray(item.examples) && item.examples.length > 0) {
@@ -1203,19 +2006,28 @@
 
         const synList = Array.isArray(item.synonyms) ? item.synonyms : (item.synonyms ? item.synonyms.split(',').map(s=>s.trim()) : []);
 
+        const isReverseMatch = q.length > 0 && !(item.word || '').toLowerCase().includes(q) && (
+          (item.trans || '').toLowerCase().includes(q) || synList.some(s => s.toLowerCase().includes(q))
+        );
+
         card.innerHTML = `
           ${item.image ? `<img src="${item.image}" class="card-img-banner" alt="${item.word}">` : ''}
           <div class="card-body">
+            ${isReverseMatch ? `<div class="reverse-match-badge">🎯 Trouvé par le sens français</div>` : ''}
             <div style="display:flex; justify-content:space-between; align-items:flex-start;">
               <div>
                 <span class="tagbanan-term">${item.word}</span>
                 <span class="grammar-badge">${item.grammar || 'Nom'}</span>
                 ${item.dialect ? `<span class="dialect-badge">${item.dialect}</span>` : ''}
+                ${item.elderVerified ? `<span class="elder-badge">✓ Validé par les anciens</span>` : ''}
                 ${item.phonetic ? `<div class="phonetic">${item.phonetic}</div>` : ''}
               </div>
-              <button class="audio-btn ${hasVoice ? 'has-voice' : ''}" onclick='playAudio(${JSON.stringify(item)})'>
-                ${hasVoice ? '🗣️' : '🔊'}
-              </button>
+              <div class="audio-group">
+                <button class="fav-btn" onclick="toggleFavorite('${item.id}', event)" title="Ajouter aux favoris">${isFav ? '❤️' : '🤍'}</button>
+                <button class="audio-btn ${hasVoice ? 'has-voice' : ''}" onclick='playAudio(${JSON.stringify(item)})'>
+                  ${hasVoice ? '🗣️' : '🔊'} ${item.speaker ? item.speaker : 'Écouter'}
+                </button>
+              </div>
             </div>
             
             <div class="word-trans">${item.trans}</div>
@@ -1223,7 +2035,10 @@
             ${synList.length > 0 ? `
               <div class="synonyms-row">
                 <span style="font-size:0.7rem; color:var(--text-muted);">Synonymes:</span>
-                ${synList.map(s => `<span class="synonym-pill">${s}</span>`).join('')}
+                ${synList.map(s => {
+                  const isMatch = q.length > 0 && s.toLowerCase().includes(q);
+                  return `<span class="synonym-pill ${isMatch ? 'highlight-match' : ''}">${s}</span>`;
+                }).join('')}
               </div>
             ` : ''}
 
@@ -1240,13 +2055,109 @@
           </div>
           <div class="word-card-footer">
             <span>🏷️ ${item.cat}</span>
-            <div style="display:flex; gap:8px;">
-              <button onclick="shareWord('${item.word}', '${item.trans}')" style="background:none; border:none; cursor:pointer;" title="Partager">📤</button>
-              ${currentAdminUser ? `<button onclick="deleteWord('${item.id}')" style="background:none; border:none; color:var(--danger); cursor:pointer;">Supprimer</button>` : ''}
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button onclick="generateStatusCard('${item.word}', '${item.trans}', '${item.phonetic || ''}')" style="background:none; border:none; cursor:pointer;" title="Générer une image pour statut WhatsApp">🖼️ Statut</button>
+              <button onclick="shareWord('${item.word}', '${item.trans}')" style="background:none; border:none; cursor:pointer;" title="Partager le texte">📤</button>
+              ${currentAdminUser ? `
+                <button onclick="editWord('${item.id}')" style="background:none; border:none; color:var(--primary-light); cursor:pointer; font-weight:700;">✏️ Modifier</button>
+                <button onclick="deleteWord('${item.id}')" style="background:none; border:none; color:var(--danger); cursor:pointer;">Supprimer</button>
+              ` : ''}
             </div>
           </div>
         `;
         grid.appendChild(card);
+      });
+    }
+
+    // Affichage des Dialogues
+    function renderDialogues() {
+      const cont = document.getElementById('dialoguesContainer');
+      if (dialoguesList.length === 0) {
+        cont.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:2rem;">Aucun dialogue disponible.</p>`;
+        return;
+      }
+      cont.innerHTML = dialoguesList.map(d => `
+        <div class="dialogue-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="dialogue-title">${d.title}</div>
+            ${currentAdminUser && d.id ? `<button onclick="deleteDialogue('${d.id}')" style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:0.75rem;">Supprimer</button>` : ''}
+          </div>
+          ${(d.lines || []).map(l => `
+            <div class="dialogue-line">
+              <span class="dialogue-speaker">${l.speaker}</span>
+              <span class="dialogue-tag">${l.tag}</span>
+              <span class="dialogue-fr">${l.fr}</span>
+            </div>
+          `).join('')}
+        </div>
+      `).join('');
+    }
+
+    function openAddDialogueModal() {
+      document.getElementById('addDialogueModal').style.display = 'flex';
+    }
+
+    async function saveCustomDialogue(e) {
+      e.preventDefault();
+      const title = document.getElementById('dlgTitle').value.trim();
+      const rawLines = document.getElementById('dlgLines').value.split('\n');
+      const lines = [];
+
+      rawLines.forEach(line => {
+        const parts = line.split('|');
+        if (parts.length >= 2) {
+          lines.push({
+            speaker: parts[0].trim(),
+            tag: parts[1].trim(),
+            fr: (parts[2] || '').trim()
+          });
+        }
+      });
+
+      if (lines.length === 0) {
+        alert("Veuillez renseigner au moins une réplique au format : Intervenant | Tagbanan | Français");
+        return;
+      }
+
+      await dialoguesCollection.add({ title, lines, createdAt: Date.now() });
+      document.getElementById('addDialogueModal').style.display = 'none';
+      e.target.reset();
+      alert("Dialogue publié avec succès !");
+    }
+
+    async function deleteDialogue(id) {
+      if (confirm("Supprimer ce dialogue ?")) {
+        await dialoguesCollection.doc(id).delete();
+      }
+    }
+
+    // Classement familial
+    function renderLeaderboard() {
+      const tbody = document.getElementById('leaderboardTbody');
+      profilesCollection.orderBy('xp', 'desc').limit(15).get().then(snap => {
+        if (snap.empty) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Aucun score enregistré pour l'instant.</td></tr>`;
+          return;
+        }
+        let rows = '';
+        let rank = 1;
+        snap.forEach(doc => {
+          const u = doc.data();
+          const medal = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : (rank === 3 ? '🥉' : `${rank}.`));
+          rows += `
+            <tr>
+              <td>${medal}</td>
+              <td><strong>${u.name || 'Membre'}</strong></td>
+              <td style="color:var(--primary-light); font-weight:700;">${u.rank || 'Apprenti'}</td>
+              <td>🔥 ${u.streak || 0}j</td>
+              <td><strong>${u.xp || 0} XP</strong></td>
+            </tr>
+          `;
+          rank++;
+        });
+        tbody.innerHTML = rows;
+      }).catch(err => {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ef4444;">Erreur : ${err.message}</td></tr>`;
       });
     }
 
@@ -1263,6 +2174,11 @@
     }
 
     function openModal() {
+      document.getElementById('editWordId').value = '';
+      document.getElementById('modalFormTitle').innerText = "Ajouter au dictionnaire officiel";
+      document.getElementById('wordForm').reset();
+      document.getElementById('fElderVerified').checked = false;
+      document.getElementById('fAudioSpeaker').value = '';
       recordedBase64 = null;
       uploadedImageBase64 = null;
       document.getElementById('audioPreview').style.display = 'none';
@@ -1271,18 +2187,98 @@
       addExampleRow();
       document.getElementById('wordModal').style.display = 'flex';
     }
+
+    function editWord(id) {
+      const item = dictionary.find(w => w.id === id);
+      if (!item) return;
+
+      document.getElementById('editWordId').value = item.id;
+      document.getElementById('modalFormTitle').innerText = `Modifier « ${item.word} »`;
+      document.getElementById('fWord').value = item.word || '';
+      document.getElementById('fTrans').value = item.trans || '';
+      document.getElementById('fElderVerified').checked = Boolean(item.elderVerified);
+      document.getElementById('fAudioSpeaker').value = item.speaker || '';
+      
+      const synList = Array.isArray(item.synonyms) ? item.synonyms.join(', ') : (item.synonyms || '');
+      document.getElementById('fSynonyms').value = synList;
+      document.getElementById('fPhonetic').value = item.phonetic || '';
+      document.getElementById('fGrammar').value = item.grammar || 'Nom';
+      document.getElementById('fCat').value = item.cat || 'Quotidien';
+      document.getElementById('fDialect').value = item.dialect || '';
+
+      const container = document.getElementById('examplesContainer');
+      container.innerHTML = '';
+      if (Array.isArray(item.examples) && item.examples.length > 0) {
+        item.examples.forEach(ex => addExampleRow(ex.tag, ex.fr));
+      } else if (item.example) {
+        addExampleRow(item.example, '');
+      } else {
+        addExampleRow();
+      }
+
+      const imgPrev = document.getElementById('imagePreview');
+      if (item.image) {
+        uploadedImageBase64 = item.image;
+        imgPrev.src = item.image;
+        imgPrev.style.display = 'block';
+      } else {
+        uploadedImageBase64 = null;
+        imgPrev.style.display = 'none';
+      }
+
+      const audPrev = document.getElementById('audioPreview');
+      if (item.audio) {
+        recordedBase64 = item.audio;
+        audPrev.src = item.audio;
+        audPrev.style.display = 'block';
+        document.getElementById('recStatus').innerHTML = `<span style="color:var(--primary-light); font-weight:700;">✓ Audio existant</span>`;
+      } else {
+        recordedBase64 = null;
+        audPrev.style.display = 'none';
+        document.getElementById('recStatus').innerText = "Appuyez pour enregistrer";
+      }
+
+      document.getElementById('wordModal').style.display = 'flex';
+    }
+
     function closeModal() { document.getElementById('wordModal').style.display = 'none'; }
 
     let uploadedImageBase64 = null;
     function handleImageUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
+
       const reader = new FileReader();
       reader.onload = ev => {
-        uploadedImageBase64 = ev.target.result;
-        const prev = document.getElementById('imagePreview');
-        prev.src = uploadedImageBase64;
-        prev.style.display = 'block';
+        const img = new Image();
+        img.onload = () => {
+          // Compression Canvas automatique à max 800px de large
+          const canvas = document.createElement('canvas');
+          const maxDim = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          uploadedImageBase64 = canvas.toDataURL('image/jpeg', 0.75);
+          const prev = document.getElementById('imagePreview');
+          prev.src = uploadedImageBase64;
+          prev.style.display = 'block';
+        };
+        img.src = ev.target.result;
       };
       reader.readAsDataURL(file);
     }
@@ -1291,8 +2287,9 @@
       e.preventDefault();
       const btn = document.getElementById('saveWordBtn');
       btn.disabled = true;
-      btn.innerText = "Enregistrement...";
+      btn.innerText = "Sauvegarde en cours...";
 
+      const editId = document.getElementById('editWordId').value;
       const exRows = document.querySelectorAll('.example-entry-row');
       const examples = [];
       exRows.forEach(row => {
@@ -1304,21 +2301,31 @@
       const rawSyn = document.getElementById('fSynonyms').value;
       const synonyms = rawSyn ? rawSyn.split(',').map(s => s.trim()).filter(Boolean) : [];
 
+      const docData = {
+        word: document.getElementById('fWord').value.trim(),
+        trans: document.getElementById('fTrans').value.trim(),
+        synonyms: synonyms,
+        phonetic: document.getElementById('fPhonetic').value.trim(),
+        grammar: document.getElementById('fGrammar').value,
+        cat: document.getElementById('fCat').value,
+        dialect: document.getElementById('fDialect').value.trim() || 'Général',
+        elderVerified: document.getElementById('fElderVerified').checked,
+        speaker: document.getElementById('fAudioSpeaker').value.trim() || null,
+        examples: examples,
+        audio: recordedBase64,
+        image: uploadedImageBase64
+      };
+
       try {
-        await wordsCollection.add({
-          word: document.getElementById('fWord').value.trim(),
-          trans: document.getElementById('fTrans').value.trim(),
-          synonyms: synonyms,
-          phonetic: document.getElementById('fPhonetic').value.trim(),
-          grammar: document.getElementById('fGrammar').value,
-          cat: document.getElementById('fCat').value,
-          dialect: document.getElementById('fDialect').value.trim() || 'Général',
-          examples: examples,
-          audio: recordedBase64,
-          image: uploadedImageBase64,
-          mastery: 0,
-          createdAt: Date.now()
-        });
+        if (editId) {
+          await wordsCollection.doc(editId).update(docData);
+        } else {
+          await wordsCollection.add({
+            ...docData,
+            mastery: 0,
+            createdAt: Date.now()
+          });
+        }
         document.getElementById('wordForm').reset();
         closeModal();
       } catch (err) {
@@ -1357,6 +2364,85 @@
         e.target.reset();
       } catch (err) {
         alert("Erreur d'envoi de la suggestion : " + err.message);
+      }
+    }
+
+    async function openAdminSuggestionsModal() {
+      if (!currentAdminUser) return;
+      const container = document.getElementById('suggestionsListContainer');
+      document.getElementById('adminSuggestionsModal').style.display = 'flex';
+      container.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:1rem;">Chargement des propositions...</p>`;
+
+      try {
+        const snap = await suggestionsCollection.orderBy('createdAt', 'desc').get();
+        if (snap.empty) {
+          container.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:1.5rem;">Aucune nouvelle suggestion pour le moment.</p>`;
+          return;
+        }
+
+        container.innerHTML = '';
+        snap.forEach(docSnap => {
+          const s = docSnap.data();
+          const sid = docSnap.id;
+          const synTxt = Array.isArray(s.synonyms) ? s.synonyms.join(', ') : (s.synonyms || '');
+
+          const el = document.createElement('div');
+          el.className = 'suggestion-item-card';
+          el.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:baseline;">
+              <strong style="font-family:'Cinzel', serif; font-size:1.15rem; color:var(--primary-light);">${s.word}</strong>
+              <span style="font-size:0.75rem; color:var(--text-muted);">Par : ${s.author || 'Inconnu'}</span>
+            </div>
+            <div style="font-size:0.9rem;"><strong>Sens :</strong> ${s.trans}</div>
+            ${synTxt ? `<div style="font-size:0.8rem; color:var(--text-muted);"><strong>Synonymes :</strong> ${synTxt}</div>` : ''}
+            ${s.dialect ? `<div style="font-size:0.8rem; color:var(--text-muted);"><strong>Dialecte :</strong> ${s.dialect}</div>` : ''}
+            
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+              <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.75rem; color:#ef4444;" onclick="rejectSuggestion('${sid}')">Rejeter</button>
+              <button class="btn btn-primary" style="padding:4px 10px; font-size:0.75rem;" onclick='approveSuggestion("${sid}", ${JSON.stringify(s).replace(/"/g, '&quot;')})'>✓ Valider & Publier</button>
+            </div>
+          `;
+          container.appendChild(el);
+        });
+      } catch (err) {
+        container.innerHTML = `<p style="color:#ef4444; text-align:center;">Erreur : ${err.message}</p>`;
+      }
+    }
+
+    async function approveSuggestion(sid, sData) {
+      if (!confirm(`Publier « ${sData.word} » dans le dictionnaire officiel ?`)) return;
+      try {
+        const rawSyn = Array.isArray(sData.synonyms) ? sData.synonyms : (sData.synonyms ? sData.synonyms.split(',').map(x=>x.trim()) : []);
+        await wordsCollection.add({
+          word: sData.word,
+          trans: sData.trans,
+          synonyms: rawSyn,
+          dialect: sData.dialect || 'Général',
+          phonetic: '',
+          grammar: 'Nom',
+          cat: 'Quotidien',
+          examples: [],
+          audio: null,
+          image: null,
+          elderVerified: false,
+          mastery: 0,
+          createdAt: Date.now()
+        });
+        await suggestionsCollection.doc(sid).delete();
+        alert("Mot publié avec succès dans le dictionnaire officiel !");
+        openAdminSuggestionsModal();
+      } catch (err) {
+        alert("Erreur lors de la validation : " + err.message);
+      }
+    }
+
+    async function rejectSuggestion(sid) {
+      if (!confirm("Supprimer cette suggestion ?")) return;
+      try {
+        await suggestionsCollection.doc(sid).delete();
+        openAdminSuggestionsModal();
+      } catch (err) {
+        alert("Erreur lors de la suppression : " + err.message);
       }
     }
 
@@ -1407,7 +2493,12 @@
       if (fcIndex >= fcDeck.length) return;
       const current = fcDeck[fcIndex];
       const newMastery = easy ? Math.min(5, (current.mastery || 0) + 1) : Math.max(0, (current.mastery || 0) - 1);
-      if (easy) { xp += 10; updateRank(); }
+      if (easy) {
+        xp += 10;
+        updateRank();
+        const learnedCount = dictionary.filter(w => (w.mastery || 0) >= 2).length;
+        if (learnedCount >= 10) checkBadge('master_10');
+      }
       if (current.id && currentAdminUser) {
         wordsCollection.doc(current.id).update({ mastery: newMastery }).catch(() => {});
       }
@@ -1415,7 +2506,6 @@
       showCard();
     }
 
-    // HUB DE QUÊTES & MODES
     function showQuestHub() {
       document.getElementById('questHub').style.display = 'block';
       const activeCont = document.getElementById('questActiveContainer');
@@ -1439,7 +2529,6 @@
       else if (mode === 'sentences') startSentencesQuest(container);
     }
 
-    // TUILE 1 : Entraînement Quotidien
     let dailyState = { queue: [], idx: 0, checked: false, selected: null };
     function startDailyQuest(c) {
       const shuffled = [...dictionary].sort(() => 0.5 - Math.random()).slice(0, 5);
@@ -1522,8 +2611,8 @@
       }
     }
 
-    // TUILE 2 : Atelier Prononciation
-    let prIndex = 0, prRecorder = null, prChunks = [];
+    // Atelier Prononciation
+    let prIndex = 0;
     function startPronounceQuest(c) {
       prIndex = 0;
       renderPronounceStep(c);
@@ -1539,59 +2628,76 @@
           </div>
 
           <div class="quest-question-card">
-            <div style="font-size:0.85rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Écoutez attentivement le locuteur</div>
+            <div style="font-size:0.85rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Écoutez attentivement le mot</div>
             <div style="font-family:'Cinzel', serif; font-size:2.2rem; font-weight:800; margin:6px 0; color:var(--primary-light);">${item.word}</div>
             <div style="color:var(--text-muted); font-style:italic; margin-bottom:12px;">${item.phonetic || ''}</div>
-            <button class="btn btn-primary" onclick='playAudio(${JSON.stringify(item)})' style="margin:0 auto;">🔊 Écouter la voix de référence</button>
+            <button class="btn btn-primary" onclick='playAudio(${JSON.stringify(item)})' style="margin:0 auto;">🔊 Écouter la référence</button>
           </div>
 
           <div class="quest-question-card" style="border-style:dashed;">
-            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;">À votre tour de parler :</div>
-            <button class="rec-btn" id="prRecBtn" onclick="togglePronounceRecord()" style="margin:0 auto;">
-              🎙️ Enregistrer votre voix
+            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;">Prononcez le mot à voix haute devant le micro :</div>
+            <button class="rec-btn" id="prSpeechBtn" onclick="startSpeechRecognition('${item.word.replace(/'/g, "\\'")}')" style="margin:0 auto;">
+              🎙️ Parler maintenant
             </button>
-            <audio id="prAudioPlayer" controls style="display:none; width:100%; margin-top:12px;"></audio>
+            <div id="speechFeedbackBox" style="margin-top:12px; font-weight:700; font-size:0.95rem;"></div>
           </div>
 
-          <button class="btn btn-primary" style="padding:1rem; justify-content:center;" onclick="nextPronounceWord()">
-            Mot suivant (+10 XP) ➔
+          <button class="btn btn-secondary" style="padding:0.9rem; justify-content:center;" onclick="nextPronounceWord()">
+            Passer au mot suivant ➔
           </button>
         </div>
       `;
     }
 
-    async function togglePronounceRecord() {
-      const btn = document.getElementById('prRecBtn');
-      const player = document.getElementById('prAudioPlayer');
-      if (!prRecorder || prRecorder.state === 'inactive') {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        prRecorder = new MediaRecorder(stream);
-        prChunks = [];
-        prRecorder.ondataavailable = e => { if (e.data.size > 0) prChunks.push(e.data); };
-        prRecorder.onstop = () => {
-          const blob = new Blob(prChunks, { type: 'audio/webm' });
-          player.src = URL.createObjectURL(blob);
-          player.style.display = 'block';
-        };
-        prRecorder.start();
-        btn.classList.add('recording');
-        btn.innerText = "⏹️ Arrêter la prise";
-      } else {
-        prRecorder.stop();
-        prRecorder.stream.getTracks().forEach(t => t.stop());
-        btn.classList.remove('recording');
-        btn.innerText = "🎙️ Réenregistrer";
+    function startSpeechRecognition(targetWord) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const feedback = document.getElementById('speechFeedbackBox');
+      const btn = document.getElementById('prSpeechBtn');
+
+      if (!SpeechRecognition) {
+        feedback.innerHTML = `<span style="color:#ef4444;">Reconnaissance vocale non disponible sur ce navigateur. Répétez à haute voix !</span>`;
+        return;
       }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'fil-PH';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 3;
+
+      btn.classList.add('recording');
+      btn.innerText = "Écoute en cours...";
+      feedback.innerText = "Nous vous écoutons...";
+
+      recognition.onresult = event => {
+        btn.classList.remove('recording');
+        btn.innerText = "🎙️ Parler à nouveau";
+        const spoken = event.results[0][0].transcript.toLowerCase();
+        const target = targetWord.toLowerCase();
+
+        if (spoken.includes(target) || target.includes(spoken)) {
+          feedback.innerHTML = `<span style="color:#4ade80;">✓ Excellente prononciation ! Détecté : « ${spoken} » (+15 XP)</span>`;
+          xp += 15;
+          updateRank();
+        } else {
+          feedback.innerHTML = `<span style="color:var(--primary-light);">Entendu : « ${spoken} ». Réessayez pour parfaire votre accent !</span>`;
+        }
+      };
+
+      recognition.onerror = () => {
+        btn.classList.remove('recording');
+        btn.innerText = "🎙️ Parler à nouveau";
+        feedback.innerText = "Micro non détecté ou temps écoulé. Réessayez.";
+      };
+
+      recognition.start();
     }
 
     function nextPronounceWord() {
-      xp += 10;
-      updateRank();
       prIndex++;
       renderPronounceStep(document.getElementById('questActiveContainer'));
     }
 
-    // TUILE 3 : Course contre la montre
+    // Course contre la montre
     let timeLeft = 60, timerInterval = null, timeScore = 0;
     function startTimeAttackQuest(c) {
       timeLeft = 60;
@@ -1646,7 +2752,7 @@
       renderTimeAttackCard(document.getElementById('questActiveContainer'));
     }
 
-    // TUILE 4 : Phrases & Contexte
+    // Phrases & Contexte
     let sentenceIndex = 0, currentSentencePool = [], currentSentenceTarget = [];
     function startSentencesQuest(c) {
       const available = [];
@@ -1762,7 +2868,20 @@
       `;
     }
 
-    // Export / Import
+    // Sauvegarde Cloud automatique
+    function triggerAutoBackup() {
+      const lastBackup = localStorage.getItem('tagbanan_last_backup');
+      const now = Date.now();
+      if (!lastBackup || (now - parseInt(lastBackup)) > 7 * 24 * 60 * 60 * 1000) {
+        wordsCollection.get().then(snap => {
+          const list = [];
+          snap.forEach(d => list.push({ id: d.id, ...d.data() }));
+          localStorage.setItem('tagbanan_backup_data', JSON.stringify(list));
+          localStorage.setItem('tagbanan_last_backup', now.toString());
+        });
+      }
+    }
+
     function exportData() {
       const blob = new Blob([JSON.stringify(dictionary, null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
