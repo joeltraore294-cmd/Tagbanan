@@ -11,10 +11,10 @@
     }
   </script>
 
-  <link rel="manifest" href="manifest.json?v=6">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=6">
-  <link rel="apple-touch-icon" href="icon.png?v=6">
-  <link rel="shortcut icon" href="icon.png?v=6">
+  <link rel="manifest" href="manifest.json?v=7">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=7">
+  <link rel="apple-touch-icon" href="icon.png?v=7">
+  <link rel="shortcut icon" href="icon.png?v=7">
 
   <meta name="theme-color" content="#1e40af">
   <meta name="mobile-web-app-capable" content="yes">
@@ -84,12 +84,7 @@
       text-align: center;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
     }
-    .auth-card img {
-      width: 76px;
-      height: 76px;
-      border-radius: 18px;
-      margin-bottom: 1rem;
-    }
+    .auth-card img { width: 76px; height: 76px; border-radius: 18px; margin-bottom: 1rem; }
 
     header {
       background: var(--card-bg);
@@ -105,30 +100,10 @@
       gap: 0.75rem;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .brand img {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      object-fit: cover;
-      border: 1px solid var(--border);
-    }
-    .brand h1 {
-      font-size: 1.2rem;
-      font-weight: 800;
-      line-height: 1.1;
-    }
-    .brand span {
-      font-size: 0.75rem;
-      color: var(--accent-cyan);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+    .brand { display: flex; align-items: center; gap: 0.75rem; }
+    .brand img { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; border: 1px solid var(--border); }
+    .brand h1 { font-size: 1.2rem; font-weight: 800; line-height: 1.1; }
+    .brand span { font-size: 0.75rem; color: var(--accent-cyan); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
     .mode-nav {
       display: flex;
@@ -153,11 +128,7 @@
       gap: 5px;
       transition: all 0.2s ease;
     }
-    .mode-btn.active {
-      background: var(--primary);
-      color: #ffffff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
+    .mode-btn.active { background: var(--primary); color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
     .user-profile-badge {
       display: flex;
@@ -171,13 +142,7 @@
       font-weight: 700;
     }
     .streak-badge { color: #f97316; }
-    .admin-pill {
-      background: #064e3b;
-      color: #34d399;
-      padding: 2px 7px;
-      border-radius: 8px;
-      font-size: 0.7rem;
-    }
+    .admin-pill { background: #064e3b; color: #34d399; padding: 2px 7px; border-radius: 8px; font-size: 0.7rem; }
 
     main {
       flex: 1;
@@ -203,11 +168,7 @@
       justify-content: space-between;
       margin-bottom: 1.25rem;
     }
-    .search-box {
-      flex: 1;
-      min-width: 220px;
-      position: relative;
-    }
+    .search-box { flex: 1; min-width: 220px; position: relative; }
     .search-box input {
       width: 100%;
       padding: 0.75rem 1rem 0.75rem 2.5rem;
@@ -218,13 +179,7 @@
       background: var(--card-bg);
       color: var(--text);
     }
-    .search-box svg {
-      position: absolute;
-      left: 0.85rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-    }
+    .search-box svg { position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
     .btn {
       padding: 0.7rem 1.1rem;
@@ -242,13 +197,7 @@
     .btn-secondary { background: var(--card-sub); color: var(--text); border: 1px solid var(--border); }
     .btn-admin { background: #312e81; color: #a5b4fc; }
 
-    .category-chips {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 1.25rem;
-    }
+    .category-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 1.25rem; }
     .chip {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -260,17 +209,9 @@
       cursor: pointer;
       white-space: nowrap;
     }
-    .chip.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
+    .chip.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-    .word-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.2rem;
-    }
+    .word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.2rem; }
     .word-card {
       background: var(--card-bg);
       border-radius: var(--radius);
@@ -280,48 +221,16 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    .card-img-banner {
-      width: 100%;
-      height: 130px;
-      object-fit: cover;
-      background: var(--card-sub);
-      border-bottom: 1px solid var(--border);
-    }
-    .card-body {
-      padding: 1.1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      flex: 1;
-    }
-    .tagbanan-term {
-      font-size: 1.3rem;
-      font-weight: 800;
-    }
-    .phonetic {
-      font-size: 0.82rem;
-      color: var(--accent-cyan);
-      font-style: italic;
-    }
-    .grammar-badge {
-      font-size: 0.68rem;
-      background: #0284c7;
-      color: white;
-      padding: 2px 6px;
-      border-radius: 5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-left: 4px;
-    }
-    .dialect-badge {
-      font-size: 0.68rem;
-      background: #7c3aed;
-      color: white;
-      padding: 2px 6px;
-      border-radius: 5px;
-      font-weight: 700;
-      margin-left: 4px;
-    }
+    .card-img-banner { width: 100%; height: 130px; object-fit: cover; background: var(--card-sub); border-bottom: 1px solid var(--border); }
+    .card-body { padding: 1.1rem; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+    .tagbanan-term { font-size: 1.3rem; font-weight: 800; }
+    .phonetic { font-size: 0.82rem; color: var(--accent-cyan); font-style: italic; }
+    .grammar-badge { font-size: 0.68rem; background: #0284c7; color: white; padding: 2px 6px; border-radius: 5px; font-weight: 700; text-transform: uppercase; margin-left: 4px; }
+    .dialect-badge { font-size: 0.68rem; background: #7c3aed; color: white; padding: 2px 6px; border-radius: 5px; font-weight: 700; margin-left: 4px; }
+    
+    .synonyms-row { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-top: 2px; }
+    .synonym-pill { font-size: 0.72rem; background: var(--card-sub); border: 1px solid var(--border); color: var(--text-muted); padding: 2px 8px; border-radius: 12px; }
+
     .audio-btn {
       background: var(--card-sub);
       color: #38bdf8;
@@ -335,20 +244,25 @@
       justify-content: center;
       font-size: 1.1rem;
     }
-    .audio-btn.has-voice {
-      background: #064e3b;
-      color: #34d399;
-      border-color: #047857;
+    .audio-btn.has-voice { background: #064e3b; color: #34d399; border-color: #047857; }
+    .word-trans { font-size: 1.05rem; font-weight: 700; }
+    
+    .examples-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
     }
-    .word-trans { font-size: 1rem; font-weight: 600; }
-    .word-example {
-      font-size: 0.82rem;
+    .example-item {
+      font-size: 0.8rem;
       background: var(--card-sub);
       border-left: 3px solid var(--primary);
       padding: 6px 10px;
       border-radius: 4px;
-      color: var(--text-muted);
     }
+    .example-tag { font-weight: 600; color: var(--text); }
+    .example-fr { color: var(--text-muted); font-style: italic; margin-top: 2px; }
+
     .word-card-footer {
       display: flex;
       justify-content: space-between;
@@ -361,18 +275,8 @@
     }
 
     /* FLASHCARDS */
-    .flashcard-section {
-      max-width: 520px;
-      margin: 1.5rem auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-    .flashcard-wrapper {
-      perspective: 1000px;
-      width: 100%;
-      height: 340px;
-    }
+    .flashcard-section { max-width: 520px; margin: 1.5rem auto; display: flex; flex-direction: column; gap: 1.25rem; }
+    .flashcard-wrapper { perspective: 1000px; width: 100%; height: 340px; }
     .flashcard {
       width: 100%;
       height: 100%;
@@ -399,84 +303,83 @@
       text-align: center;
       gap: 0.75rem;
     }
-    .flashcard-back {
-      transform: rotateY(180deg);
-      background: var(--card-sub);
-    }
-    .flashcard-hint {
-      position: absolute;
-      bottom: 12px;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .flashcard-controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .fc-btn {
-      padding: 0.9rem;
-      border-radius: 14px;
-      font-weight: 800;
-      font-size: 0.95rem;
-      border: none;
-      cursor: pointer;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
+    .flashcard-back { transform: rotateY(180deg); background: var(--card-sub); }
+    .flashcard-hint { position: absolute; bottom: 12px; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .flashcard-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .fc-btn { padding: 0.9rem; border-radius: 14px; font-weight: 800; font-size: 0.95rem; border: none; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .fc-btn-again { background: var(--danger); }
     .fc-btn-easy { background: var(--success); }
 
-    /* QUÊTES */
-    .quest-container {
-      max-width: 580px;
-      margin: 1.5rem auto;
+    /* HUB QUÊTES */
+    .quest-hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .quest-tile {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+    .quest-tile:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+    }
+    .tile-icon { font-size: 2.2rem; }
+    .tile-title { font-size: 1.15rem; font-weight: 800; color: var(--text); }
+    .tile-desc { font-size: 0.85rem; color: var(--text-muted); flex: 1; }
+    .tile-status {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* VUES EXERCICES */
+    .exercise-box {
+      max-width: 600px;
+      margin: 1rem auto;
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
     }
-    .quest-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .progress-bar {
-      flex: 1;
-      height: 14px;
+    .exercise-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .back-hub-btn {
       background: var(--card-sub);
-      border-radius: 10px;
-      overflow: hidden;
       border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
     }
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: var(--accent-cyan);
-      transition: width 0.3s ease;
-    }
-    .quest-question {
+    .progress-bar { flex: 1; height: 12px; background: var(--card-sub); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+    .progress-fill { height: 100%; width: 0%; background: var(--accent-cyan); transition: width 0.3s ease; }
+    
+    .quest-question-card {
       background: var(--card-bg);
       border: 1.5px solid var(--border);
       border-radius: 20px;
       padding: 1.75rem;
       text-align: center;
     }
-    .options-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-    }
+    .options-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
     .quest-option {
       background: var(--card-bg);
       border: 2px solid var(--border);
       border-bottom: 4px solid var(--border);
       border-radius: 14px;
-      padding: 1.1rem;
+      padding: 1rem;
       font-size: 1rem;
       font-weight: 700;
       text-align: left;
@@ -486,17 +389,39 @@
     .quest-option.selected { border-color: var(--primary); background: rgba(37, 99, 235, 0.2); }
     .quest-option.correct { border-color: var(--success) !important; background: rgba(34, 197, 94, 0.2) !important; }
     .quest-option.wrong { border-color: var(--danger) !important; background: rgba(239, 68, 68, 0.2) !important; }
-    .quest-btn {
-      width: 100%;
-      padding: 1rem;
-      font-size: 1.05rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      border: none;
-      border-radius: 16px;
-      cursor: pointer;
+
+    /* Blocs de mots pour la Tuile 4 */
+    .word-blocks-pool, .word-blocks-target {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-height: 52px;
+      padding: 8px;
+      border-radius: 12px;
+      background: var(--card-sub);
+      border: 1.5px dashed var(--border);
+      align-items: center;
+    }
+    .word-block-chip {
       background: var(--primary);
       color: white;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Chrono Tuile 3 */
+    .timer-badge {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #ef4444;
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 20px;
     }
 
     /* Modales */
@@ -514,20 +439,14 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       width: 100%;
-      max-width: 500px;
+      max-width: 540px;
       border-radius: 20px;
       padding: 1.5rem;
       max-height: 90vh;
       overflow-y: auto;
     }
     .form-group { margin-bottom: 1rem; text-align: left; }
-    .form-group label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 700;
-      margin-bottom: 0.3rem;
-      color: var(--text-muted);
-    }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--text-muted); }
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
       padding: 0.75rem;
@@ -538,6 +457,28 @@
       background: var(--card-sub);
       color: var(--text);
     }
+    
+    .example-entry-row {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+    .remove-ex-btn {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      color: var(--danger);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     .voice-recorder-box {
       border: 2px dashed var(--border);
       border-radius: 12px;
@@ -565,7 +506,6 @@
     @keyframes pulseRec { from { transform: scale(1); } to { transform: scale(1.06); } }
   </style>
 
-  <!-- Firebase SDK Compat -->
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
 </head>
@@ -574,7 +514,7 @@
   <!-- Inscription simple -->
   <div id="authOverlay">
     <div class="auth-card">
-      <img src="icon.png?v=6" alt="Tagbanan Logo">
+      <img src="icon.png?v=7" alt="Tagbanan Logo">
       <h2>Bienvenue sur Tagbanan</h2>
       <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.25rem;">Entrez votre prénom ou pseudonyme pour commencer.</p>
       <form onsubmit="handleRegister(event)">
@@ -590,7 +530,7 @@
 
   <header>
     <div class="brand">
-      <img src="icon.png?v=6" alt="Tagbanan Logo">
+      <img src="icon.png?v=7" alt="Tagbanan Logo">
       <div>
         <h1>Tagbanan App</h1>
         <span id="rankTitle">Apprenti</span>
@@ -604,7 +544,7 @@
     </div>
 
     <div class="user-profile-badge">
-      <button onclick="toggleTheme()" title="Mode Sombre/Clair" style="background:none; border:none; cursor:pointer; font-size:1rem;" id="themeToggleBtn">☀️</button>
+      <button onclick="toggleTheme()" title="Thème" style="background:none; border:none; cursor:pointer; font-size:1rem;" id="themeToggleBtn">☀️</button>
       <span id="userNameDisplay">Profil</span>
       <span class="streak-badge">🔥 <span id="streakCount">0</span>j</span>
       <span id="adminBadge" class="admin-pill" style="display:none;">Admin</span>
@@ -619,7 +559,7 @@
       <div class="actions-bar">
         <div class="search-box">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"></circle><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line></svg>
-          <input type="text" id="searchInput" placeholder="Chercher un mot, dialecte, grammaire..." oninput="renderDict()">
+          <input type="text" id="searchInput" placeholder="Chercher un mot, synonyme, français..." oninput="renderDict()">
         </div>
 
         <button class="btn btn-primary" onclick="requestAdminAuth('add')">🔒 + Ajouter</button>
@@ -650,11 +590,12 @@
               <div style="font-size:2rem; font-weight:800;" id="fcFrontWord">Chargement...</div>
               <div style="color:var(--accent-cyan); font-style:italic;" id="fcFrontPhonetic"></div>
               <button class="audio-btn" id="fcAudioBtn" onclick="event.stopPropagation(); playCurrentFcAudio();" style="margin-top:10px;">🔊</button>
-              <div class="flashcard-hint">Touchez la carte pour révéler</div>
+              <div class="flashcard-hint">Touchez pour retourner</div>
             </div>
             <div class="flashcard-face flashcard-back">
-              <div style="font-size:0.85rem; color:var(--text-muted); text-transform:uppercase;">Signification française</div>
+              <div style="font-size:0.85rem; color:var(--text-muted); text-transform:uppercase;">Traduction française</div>
               <div style="font-size:1.8rem; font-weight:800; color:var(--success);" id="fcBackTrans">Traduction</div>
+              <div id="fcSynonymsRow" class="synonyms-row" style="justify-content:center; margin-top:6px;"></div>
               <div style="font-size:0.85rem; margin-top:8px; color:var(--text-muted);" id="fcBackExample"></div>
               <div class="flashcard-hint">Évaluez votre mémoire ci-dessous</div>
             </div>
@@ -668,20 +609,57 @@
       </div>
     </section>
 
-    <!-- VUE 3 : QUÊTES GAMIFIÉES -->
+    <!-- VUE 3 : QUÊTES (HUB & MODES) -->
     <section id="questView" class="view-panel">
-      <div id="questContent"></div>
+      <!-- Hub Principal -->
+      <div id="questHub">
+        <h2 style="font-size:1.3rem; margin-bottom:0.25rem;">Centre des Quêtes</h2>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Choisissez un mode d'entraînement pour progresser.</p>
+
+        <div class="quest-hub-grid">
+          <div class="quest-tile" onclick="launchQuestMode('daily')">
+            <span class="tile-icon">⚡</span>
+            <div class="tile-title">Entraînement Quotidien</div>
+            <div class="tile-desc">Série mixte de 5 questions (QCM, écoute et sens inverse). Idéal pour entretenir sa flamme.</div>
+            <span class="tile-status">Prêt • +15 XP / rép</span>
+          </div>
+
+          <div class="quest-tile" onclick="launchQuestMode('pronounce')">
+            <span class="tile-icon">🎙️</span>
+            <div class="tile-title">Atelier Prononciation</div>
+            <div class="tile-desc">Écoutez un mot tagbanan, enregistrez votre voix et comparez-vous à la référence.</div>
+            <span class="tile-status">Prêt • Audio interactif</span>
+          </div>
+
+          <div class="quest-tile" onclick="launchQuestMode('timeattack')">
+            <span class="tile-icon">⏱️</span>
+            <div class="tile-title">Course contre la montre</div>
+            <div class="tile-desc">60 secondes chrono pour traduire le maximum de mots sans interruption !</div>
+            <span class="tile-status">Prêt • Défi vitesse</span>
+          </div>
+
+          <div class="quest-tile" onclick="launchQuestMode('sentences')">
+            <span class="tile-icon">🧩</span>
+            <div class="tile-title">Phrases & Contexte</div>
+            <div class="tile-desc">Remettez les mots dans l'ordre pour reconstituer des phrases complètes en Tagbanan.</div>
+            <span class="tile-status">Prêt • Syntaxe & Exemples</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conteneur d'exercice actif -->
+      <div id="questActiveContainer" style="display:none;"></div>
     </section>
   </main>
 
   <!-- Modal Admin -->
   <div class="modal-backdrop" id="adminAuthModal">
     <div class="modal" style="max-width:380px; text-align:center;">
-      <h3 style="margin-bottom:0.5rem;">Accès Créateur</h3>
-      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.2rem;">L'approvisionnement officiel est protégé.</p>
+      <h3 style="margin-bottom:0.5rem;">Accès Administrateur</h3>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.2rem;">L'approvisionnement du dictionnaire est protégé.</p>
       <form onsubmit="verifyAdminPass(event)">
         <div class="form-group">
-          <input type="password" id="adminPassInput" placeholder="Mot de passe créateur" required autofocus>
+          <input type="password" id="adminPassInput" placeholder="Mot de passe" required autofocus>
         </div>
         <div style="display:flex; justify-content:center; gap:8px;">
           <button type="button" class="btn btn-secondary" onclick="closeAdminModal()">Annuler</button>
@@ -691,11 +669,11 @@
     </div>
   </div>
 
-  <!-- Modal Suggérer un mot (Communauté) -->
+  <!-- Modal Suggérer (Communauté) -->
   <div class="modal-backdrop" id="suggestModal">
     <div class="modal">
-      <h3 style="margin-bottom:1rem;">💡 Proposer un nouveau mot</h3>
-      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">Contribuez à enrichir le patrimoine Tagbanan. Votre proposition sera transmise pour vérification.</p>
+      <h3 style="margin-bottom:0.75rem;">💡 Suggérer un mot</h3>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">Votre contribution sera vérifiée par le créateur avant publication.</p>
       <form onsubmit="handleSuggestion(event)">
         <div class="form-group">
           <label>Mot en Tagbanan *</label>
@@ -703,25 +681,25 @@
         </div>
         <div class="form-group">
           <label>Traduction française *</label>
-          <input type="text" id="sugTrans" required placeholder="ex: Or (métal)">
+          <input type="text" id="sugTrans" required placeholder="ex: Or">
         </div>
         <div class="form-group">
-          <label>Dialecte ou région (optionnel)</label>
-          <input type="text" id="sugDialect" placeholder="ex: Aborlan, Coron...">
+          <label>Synonymes ou sens proches</label>
+          <input type="text" id="sugSynonyms" placeholder="ex: lingot, métal précieux">
         </div>
         <div class="form-group">
-          <label>Notes ou exemple</label>
-          <textarea id="sugNotes" rows="2" placeholder="Précisez le contexte..."></textarea>
+          <label>Dialecte ou région</label>
+          <input type="text" id="sugDialect" placeholder="ex: Aborlan">
         </div>
         <div style="display:flex; justify-content:flex-end; gap:8px;">
           <button type="button" class="btn btn-secondary" onclick="document.getElementById('suggestModal').style.display='none'">Fermer</button>
-          <button type="submit" class="btn btn-primary">Envoyer la suggestion</button>
+          <button type="submit" class="btn btn-primary">Envoyer</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Modal Ajout Mot Admin -->
+  <!-- Modal Ajout Mot Admin Enrichi -->
   <div class="modal-backdrop" id="wordModal">
     <div class="modal">
       <h2 style="margin-bottom: 1rem;">Ajouter au dictionnaire officiel</h2>
@@ -731,9 +709,14 @@
           <input type="text" id="fWord" required placeholder="ex: Danum">
         </div>
         <div class="form-group">
-          <label>Traduction en français *</label>
+          <label>Traduction principale en français *</label>
           <input type="text" id="fTrans" required placeholder="ex: Eau">
         </div>
+        <div class="form-group">
+          <label>Synonymes en français (séparés par virgules)</label>
+          <input type="text" id="fSynonyms" placeholder="ex: boisson, flotte, liquide clair">
+        </div>
+
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
           <div class="form-group">
             <label>Phonétique</label>
@@ -764,43 +747,46 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Dialecte / Zone</label>
+            <label>Dialecte</label>
             <input type="text" id="fDialect" placeholder="ex: Central, Calamian...">
           </div>
         </div>
 
+        <!-- EXEMPLES MULTIPLES -->
         <div class="form-group">
-          <label>Illustration / Image</label>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <label style="margin-bottom:0;">Phrases d'exemples</label>
+            <button type="button" class="btn btn-secondary" style="padding:3px 8px; font-size:0.75rem;" onclick="addExampleRow()">+ Ajouter une phrase</button>
+          </div>
+          <div id="examplesContainer"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Illustration (optionnel)</label>
           <input type="file" id="fImageFile" accept="image/*" onchange="handleImageUpload(event)">
           <img id="imagePreview" style="display:none; width:100%; height:110px; object-fit:cover; border-radius:10px; margin-top:8px;">
         </div>
 
         <div class="form-group">
-          <label>Prononciation vocale</label>
+          <label>Enregistrement vocal de référence</label>
           <div class="voice-recorder-box">
             <button type="button" class="rec-btn" id="recordToggleBtn" onclick="toggleRecording()">
               <span id="recIcon">🎙️</span> <span id="recText">Enregistrer au micro</span>
             </button>
-            <div id="recStatus" style="font-size:0.8rem; color:var(--text-muted);">Appuyez pour parler</div>
+            <div id="recStatus" style="font-size:0.8rem; color:var(--text-muted);">Appuyez pour enregistrer</div>
             <audio id="audioPreview" controls style="display:none; width: 100%; margin-top: 6px;"></audio>
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Phrase d'exemple</label>
-          <textarea id="fExample" rows="2" placeholder="Exemple d'utilisation..."></textarea>
-        </div>
-
         <div style="display:flex; justify-content: flex-end; gap: 8px; margin-top: 1.25rem;">
           <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
-          <button type="submit" class="btn btn-primary" id="saveWordBtn">Enregistrer</button>
+          <button type="submit" class="btn btn-primary" id="saveWordBtn">Enregistrer dans le Cloud</button>
         </div>
       </form>
     </div>
   </div>
 
   <script>
-    // Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyDHraE4iQi9zQEs6YII_3HGUF1gyOSsVxE",
       authDomain: "tagbanan-app.firebaseapp.com",
@@ -859,7 +845,7 @@
       if (action === 'import') document.getElementById('fileInput').click();
     }
 
-    // Gestion Utilisateur & Série (Streak)
+    // Gestion Utilisateur & XP
     let currentUser = localStorage.getItem('tagbanan_user') || null;
     let xp = parseInt(localStorage.getItem('tagbanan_xp')) || 0;
 
@@ -924,7 +910,7 @@
       }
     }
 
-    // Dictionnaire & Synchronisation
+    // Données & Synchronisation Cloud
     const soundPlayer = new Audio();
     let dictionary = [];
     let selectedCat = 'ALL';
@@ -941,10 +927,33 @@
 
     async function initDefaultWords() {
       const def = [
-        { word: "Danum", trans: "Eau", phonetic: "[da-noum]", grammar: "Nom", cat: "Nature", dialect: "Général", example: "Mïninum ka et danum.", audio: null, image: null, mastery: 1 },
-        { word: "Apoy", trans: "Feu", phonetic: "[a-poy]", grammar: "Nom", cat: "Nature", dialect: "Général", example: "Kaanen et apoy.", audio: null, image: null, mastery: 2 },
-        { word: "Bagas", trans: "Riz décortiqué", phonetic: "[ba-gas]", grammar: "Nom", cat: "Nourriture", dialect: "Aborlan", example: "Mengkankan aku et bagas.", audio: null, image: null, mastery: 0 },
-        { word: "Balay", trans: "Maison", phonetic: "[ba-lay]", grammar: "Nom", cat: "Quotidien", dialect: "Général", example: "Mag-uli aku sa balay.", audio: null, image: null, mastery: 3 }
+        {
+          word: "Danum", trans: "Eau", synonyms: ["eau claire", "flotte", "boisson"],
+          phonetic: "[da-noum]", grammar: "Nom", cat: "Nature", dialect: "Général",
+          examples: [
+            { tag: "Mïninum ka et danum.", fr: "Bois de l'eau." },
+            { tag: "Mabael et danum dituu.", fr: "Il y a beaucoup d'eau ici." }
+          ],
+          audio: null, image: null, mastery: 1
+        },
+        {
+          word: "Apoy", trans: "Feu", synonyms: ["flamme", "foyer"],
+          phonetic: "[a-poy]", grammar: "Nom", cat: "Nature", dialect: "Général",
+          examples: [{ tag: "Kaanen et apoy.", fr: "Le feu est grand." }],
+          audio: null, image: null, mastery: 2
+        },
+        {
+          word: "Bagas", trans: "Riz décortiqué", synonyms: ["riz", "grain"],
+          phonetic: "[ba-gas]", grammar: "Nom", cat: "Nourriture", dialect: "Aborlan",
+          examples: [{ tag: "Mengkankan aku et bagas.", fr: "Je mange du riz." }],
+          audio: null, image: null, mastery: 0
+        },
+        {
+          word: "Balay", trans: "Maison", synonyms: ["demeure", "habitation", "foyer"],
+          phonetic: "[ba-lay]", grammar: "Nom", cat: "Quotidien", dialect: "Général",
+          examples: [{ tag: "Mag-uli aku sa balay.", fr: "Je rentre à la maison." }],
+          audio: null, image: null, mastery: 3
+        }
       ];
       for (const w of def) await wordsCollection.add(w);
     }
@@ -964,11 +973,11 @@
       } else if (m === 'quest') {
         document.getElementById('questView').classList.add('active');
         document.getElementById('tabQuest').classList.add('active');
-        startQuizSession();
+        showQuestHub();
       }
     }
 
-    // Audio & Enregistreur
+    // Gestion Audio
     let mediaRecorder = null, audioChunks = [], recordedBase64 = null, isRecording = false;
 
     async function toggleRecording() {
@@ -1022,21 +1031,20 @@
       }
     }
 
-    // Partage natif (Point 5)
     function shareWord(word, trans) {
       if (navigator.share) {
         navigator.share({
-          title: `Tagbanan App: ${word}`,
-          text: `Découvre le mot tagbanan « ${word} » qui signifie « ${trans} » sur Tagbanan App !`,
+          title: `Tagbanan: ${word}`,
+          text: `Découvre le mot tagbanan « ${word} » qui veut dire « ${trans} » !`,
           url: window.location.href
         }).catch(() => {});
       } else {
         navigator.clipboard.writeText(`${word} = ${trans} (Tagbanan App)`);
-        alert("Fiche copiée dans le presse-papier !");
+        alert("Copié dans le presse-papier !");
       }
     }
 
-    // Affichage Dictionnaire
+    // Affichage Dictionnaire avec Exemples Multiples & Synonymes
     function renderDict() {
       const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
       const grid = document.getElementById('wordGrid');
@@ -1050,10 +1058,12 @@
       `).join('');
 
       const filtered = dictionary.filter(w => {
+        const syns = Array.isArray(w.synonyms) ? w.synonyms.join(' ') : (w.synonyms || '');
         const matchesQuery = (w.word || '').toLowerCase().includes(q) || 
                              (w.trans || '').toLowerCase().includes(q) || 
                              (w.dialect || '').toLowerCase().includes(q) ||
-                             (w.grammar || '').toLowerCase().includes(q);
+                             (w.grammar || '').toLowerCase().includes(q) ||
+                             syns.toLowerCase().includes(q);
         const matchesCat = selectedCat === 'ALL' || w.cat === selectedCat;
         return matchesQuery && matchesCat;
       });
@@ -1067,6 +1077,17 @@
         const card = document.createElement('div');
         card.className = 'word-card';
         const hasVoice = Boolean(item.audio);
+
+        // Traitement rétrocompatible des exemples
+        let examplesList = [];
+        if (Array.isArray(item.examples) && item.examples.length > 0) {
+          examplesList = item.examples;
+        } else if (item.example) {
+          examplesList = [{ tag: item.example, fr: "" }];
+        }
+
+        // Traitement des synonymes
+        const synList = Array.isArray(item.synonyms) ? item.synonyms : (item.synonyms ? item.synonyms.split(',').map(s=>s.trim()) : []);
 
         card.innerHTML = `
           ${item.image ? `<img src="${item.image}" class="card-img-banner" alt="${item.word}">` : ''}
@@ -1082,8 +1103,26 @@
                 ${hasVoice ? '🗣️' : '🔊'}
               </button>
             </div>
+            
             <div class="word-trans">${item.trans}</div>
-            ${item.example ? `<div class="word-example">${item.example}</div>` : ''}
+
+            ${synList.length > 0 ? `
+              <div class="synonyms-row">
+                <span style="font-size:0.7rem; color:var(--text-muted);">Synonymes:</span>
+                ${synList.map(s => `<span class="synonym-pill">${s}</span>`).join('')}
+              </div>
+            ` : ''}
+
+            ${examplesList.length > 0 ? `
+              <div class="examples-box">
+                ${examplesList.map(ex => `
+                  <div class="example-item">
+                    <div class="example-tag">${ex.tag}</div>
+                    ${ex.fr ? `<div class="example-fr">${ex.fr}</div>` : ''}
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
           </div>
           <div class="word-card-footer">
             <span>🏷️ ${item.cat}</span>
@@ -1097,210 +1136,30 @@
       });
     }
 
-    // FLASHCARDS INTERACTIVES AVEC SRS
-    let fcIndex = 0;
-    let fcDeck = [];
-
-    function startFlashcardsSession() {
-      if (dictionary.length === 0) return;
-      // Répétition espacée : priorité aux mots avec mastery faible
-      fcDeck = [...dictionary].sort((a,b) => (a.mastery || 0) - (b.mastery || 0));
-      fcIndex = 0;
-      showCard();
-    }
-
-    function showCard() {
-      const cardEl = document.getElementById('currentFlashcard');
-      cardEl.classList.remove('flipped');
-      if (fcIndex >= fcDeck.length) {
-        document.getElementById('fcFrontWord').innerText = "Session terminée !";
-        document.getElementById('fcFrontPhonetic').innerText = "Toutes les cartes ont été révisées.";
-        document.getElementById('fcBackTrans').innerText = "🎉 Bravo !";
-        document.getElementById('fcProgress').innerText = `${fcDeck.length} / ${fcDeck.length}`;
-        return;
-      }
-      const item = fcDeck[fcIndex];
-      document.getElementById('fcProgress').innerText = `${fcIndex + 1} / ${fcDeck.length}`;
-      document.getElementById('fcGrammar').innerText = item.grammar || 'Mot';
-      document.getElementById('fcFrontWord').innerText = item.word;
-      document.getElementById('fcFrontPhonetic').innerText = item.phonetic || '';
-      document.getElementById('fcBackTrans').innerText = item.trans;
-      document.getElementById('fcBackExample').innerText = item.example || '';
-
-      const img = document.getElementById('fcImage');
-      if (item.image) {
-        img.src = item.image;
-        img.style.display = 'block';
-      } else {
-        img.style.display = 'none';
-      }
-    }
-
-    function flipFlashcard() {
-      document.getElementById('currentFlashcard').classList.toggle('flipped');
-    }
-
-    function playCurrentFcAudio() {
-      if (fcDeck[fcIndex]) playAudio(fcDeck[fcIndex]);
-    }
-
-    async function rateFlashcard(easy) {
-      if (fcIndex >= fcDeck.length) return;
-      const current = fcDeck[fcIndex];
-      const newMastery = easy ? Math.min(5, (current.mastery || 0) + 1) : Math.max(0, (current.mastery || 0) - 1);
-      
-      if (easy) { xp += 10; updateRank(); }
-      
-      // Sauvegarde du niveau de rétention dans Firebase
-      if (current.id) {
-        wordsCollection.doc(current.id).update({ mastery: newMastery }).catch(() => {});
-      }
-
-      fcIndex++;
-      showCard();
-    }
-
-    // QUÊTES (AUDIO INVERSÉ, SENS INVERSE & SRS)
-    let quizState = { queue: [], currentIndex: 0, selectedAnswer: null, isChecked: false };
-
-    function startQuizSession() {
-      const container = document.getElementById('questContent');
-      if (dictionary.length < 4) {
-        container.innerHTML = `
-          <div style="text-align: center; padding: 3rem 1rem; background: var(--card-bg); border-radius: 24px; border: 2px dashed var(--border);">
-            <h3>Pas assez de mots</h3>
-            <p style="color: var(--text-muted); margin: 0.5rem 0 1.5rem;">Au moins 4 mots requis pour démarrer les quêtes.</p>
-          </div>
-        `;
-        return;
-      }
-
-      const shuffled = [...dictionary].sort(() => 0.5 - Math.random());
-      const selected = shuffled.slice(0, Math.min(5, dictionary.length));
-
-      quizState.queue = selected.map((item, idx) => {
-        // Alterne entre : 0 = QCM Classique, 1 = Écoute pure (Audio-first), 2 = Sens inverse (Français -> Tagbanan)
-        const type = idx % 3; 
-        const wrong = dictionary.filter(w => w.id !== item.id).sort(() => 0.5 - Math.random()).slice(0, 3);
-        
-        if (type === 2) {
-          // Sens inverse
-          const choices = [...wrong.map(w => w.word), item.word].sort(() => 0.5 - Math.random());
-          return { type: 'reverse', item, prompt: `Comment dit-on en Tagbanan :`, display: item.trans, correct: item.word, choices };
-        } else if (type === 1) {
-          // Écoute pure
-          const choices = [...wrong.map(w => w.trans), item.trans].sort(() => 0.5 - Math.random());
-          return { type: 'audio', item, prompt: `🎧 Écoutez et identifiez le sens :`, display: '🔊 Audio', correct: item.trans, choices };
-        } else {
-          // Classique
-          const choices = [...wrong.map(w => w.trans), item.trans].sort(() => 0.5 - Math.random());
-          return { type: 'classic', item, prompt: `Traduction française :`, display: item.word, correct: item.trans, choices };
-        }
-      });
-
-      quizState.currentIndex = 0;
-      quizState.selectedAnswer = null;
-      quizState.isChecked = false;
-      renderQuestQuestion();
-    }
-
-    function renderQuestQuestion() {
-      const container = document.getElementById('questContent');
-      const q = quizState.queue[quizState.currentIndex];
-      const progress = (quizState.currentIndex / quizState.queue.length) * 100;
-
-      container.innerHTML = `
-        <div class="quest-container">
-          <div class="quest-header">
-            <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
-            <span style="font-weight:700; font-size:0.85rem; color:var(--text-muted);">${quizState.currentIndex + 1}/${quizState.queue.length}</span>
-          </div>
-          <div class="quest-question">
-            <div style="font-size:0.85rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:6px;">${q.prompt}</div>
-            
-            ${q.type === 'audio' ? `
-              <button class="audio-btn" style="width:64px; height:64px; font-size:1.8rem; margin:10px auto;" onclick='playAudio(${JSON.stringify(q.item)})'>🗣️</button>
-            ` : `
-              <div style="font-size:2rem; font-weight:800; margin-bottom:4px;">${q.display}</div>${q.item.phonetic && q.type !== 'reverse' ? `<div style="color:var(--accent-cyan); font-style:italic;">${q.item.phonetic}</div>` : ''}
-            `}
-          </div>
-          <div class="options-grid">
-            ${q.choices.map(c => `
-              <button class="quest-option" onclick="selectOption('${c.replace(/'/g, "\\'")}', this)">${c}</button>
-            `).join('')}
-          </div>
-          <button class="quest-btn" id="questActionBtn" disabled onclick="verifyQuestAnswer()">Valider</button>
-        </div>
+    // Gestion du Formulaire d'Exemples Multiples
+    function addExampleRow(tagVal = "", frVal = "") {
+      const container = document.getElementById('examplesContainer');
+      const div = document.createElement('div');
+      div.className = 'example-entry-row';
+      div.innerHTML = `
+        <button type="button" class="remove-ex-btn" onclick="this.parentElement.remove()">✕ Retirer</button>
+        <input type="text" placeholder="Phrase en Tagbanan..." class="ex-tag-input" value="${tagVal.replace(/"/g, '&quot;')}">
+        <input type="text" placeholder="Traduction en français..." class="ex-fr-input" value="${frVal.replace(/"/g, '&quot;')}">
       `;
-
-      if (q.type === 'audio') playAudio(q.item);
+      container.appendChild(div);
     }
 
-    function selectOption(txt, el) {
-      if (quizState.isChecked) return;
-      quizState.selectedAnswer = txt;
-      document.querySelectorAll('.quest-option').forEach(b => b.classList.remove('selected'));
-      el.classList.add('selected');
-      document.getElementById('questActionBtn').disabled = false;
+    function openModal() {
+      recordedBase64 = null;
+      uploadedImageBase64 = null;
+      document.getElementById('audioPreview').style.display = 'none';
+      document.getElementById('imagePreview').style.display = 'none';
+      document.getElementById('examplesContainer').innerHTML = '';
+      addExampleRow(); // Ajoute une première ligne par défaut
+      document.getElementById('wordModal').style.display = 'flex';
     }
+    function closeModal() { document.getElementById('wordModal').style.display = 'none'; }
 
-    function verifyQuestAnswer() {
-      const btn = document.getElementById('questActionBtn');
-      const q = quizState.queue[quizState.currentIndex];
-
-      if (!quizState.isChecked) {
-        quizState.isChecked = true;
-        const isOk = (quizState.selectedAnswer === q.correct);
-        document.querySelectorAll('.quest-option').forEach(b => {
-          if (b.innerText.trim() === q.correct) b.classList.add('correct');
-          else if (b.classList.contains('selected')) b.classList.add('wrong');
-        });
-
-        if (isOk) {
-          xp += 15;
-          updateRank();
-          btn.innerText = "Bien joué ! Continuer 🎉";
-          btn.style.background = "var(--success)";
-        } else {
-          btn.innerText = "Continuer";
-          btn.style.background = "#64748b";
-        }
-      } else {
-        quizState.currentIndex++;
-        quizState.selectedAnswer = null;
-        quizState.isChecked = false;
-        if (quizState.currentIndex < quizState.queue.length) renderQuestQuestion();
-        else {
-          document.getElementById('questContent').innerHTML = `
-            <div style="text-align: center; padding: 3rem 1.5rem; background: var(--card-bg); border-radius: 24px; border: 1.5px solid var(--border);">
-              <div style="font-size:3.5rem;">🏆</div>
-              <h2>Quête validée !</h2>
-              <p style="color:var(--text-muted); margin:0.5rem 0 1.5rem;">Félicitations ${currentUser || ''}, votre maîtrise progresse.</p>
-              <button class="btn btn-primary" onclick="startQuizSession()">Nouvelle quête</button>
-            </div>
-          `;
-        }
-      }
-    }
-
-    // Gestion Suggestion (Point 5)
-    function openSuggestModal() { document.getElementById('suggestModal').style.display = 'flex'; }
-    async function handleSuggestion(e) {
-      e.preventDefault();
-      await suggestionsCollection.add({
-        word: document.getElementById('sugWord').value.trim(),
-        trans: document.getElementById('sugTrans').value.trim(),
-        dialect: document.getElementById('sugDialect').value.trim(),
-        notes: document.getElementById('sugNotes').value.trim(),
-        author: currentUser || 'Anonyme',
-        createdAt: Date.now()
-      });
-      alert("Merci ! Votre suggestion a été transmise.");
-      document.getElementById('suggestModal').style.display = 'none';
-      e.target.reset();
-    }
-
-    // Fonctions CRUD & Modales Admin
     let uploadedImageBase64 = null;
     function handleImageUpload(e) {
       const file = e.target.files[0];
@@ -1315,29 +1174,34 @@
       reader.readAsDataURL(file);
     }
 
-    function openModal() {
-      recordedBase64 = null;
-      uploadedImageBase64 = null;
-      document.getElementById('audioPreview').style.display = 'none';
-      document.getElementById('imagePreview').style.display = 'none';
-      document.getElementById('wordModal').style.display = 'flex';
-    }
-    function closeModal() { document.getElementById('wordModal').style.display = 'none'; }
-
     async function saveWord(e) {
       e.preventDefault();
       const btn = document.getElementById('saveWordBtn');
       btn.disabled = true;
       btn.innerText = "Enregistrement...";
 
+      // Récupération des exemples
+      const exRows = document.querySelectorAll('.example-entry-row');
+      const examples = [];
+      exRows.forEach(row => {
+        const tag = row.querySelector('.ex-tag-input').value.trim();
+        const fr = row.querySelector('.ex-fr-input').value.trim();
+        if (tag) examples.push({ tag, fr });
+      });
+
+      // Récupération des synonymes
+      const rawSyn = document.getElementById('fSynonyms').value;
+      const synonyms = rawSyn ? rawSyn.split(',').map(s => s.trim()).filter(Boolean) : [];
+
       await wordsCollection.add({
         word: document.getElementById('fWord').value.trim(),
         trans: document.getElementById('fTrans').value.trim(),
+        synonyms: synonyms,
         phonetic: document.getElementById('fPhonetic').value.trim(),
         grammar: document.getElementById('fGrammar').value,
         cat: document.getElementById('fCat').value,
         dialect: document.getElementById('fDialect').value.trim() || 'Général',
-        example: document.getElementById('fExample').value.trim(),
+        examples: examples,
         audio: recordedBase64,
         image: uploadedImageBase64,
         mastery: 0,
@@ -1345,17 +1209,437 @@
       });
 
       btn.disabled = false;
-      btn.innerText = "Enregistrer";
+      btn.innerText = "Enregistrer dans le Cloud";
       document.getElementById('wordForm').reset();
       closeModal();
     }
 
     async function deleteWord(id) {
-      if (confirm("Supprimer définitivement ce mot ?")) {
-        await wordsCollection.doc(id).delete();
+      if (confirm("Supprimer ce mot ?")) await wordsCollection.doc(id).delete();
+    }
+
+    function openSuggestModal() { document.getElementById('suggestModal').style.display = 'flex'; }
+    async function handleSuggestion(e) {
+      e.preventDefault();
+      const rawSyn = document.getElementById('sugSynonyms').value;
+      await suggestionsCollection.add({
+        word: document.getElementById('sugWord').value.trim(),
+        trans: document.getElementById('sugTrans').value.trim(),
+        synonyms: rawSyn ? rawSyn.split(',').map(s => s.trim()).filter(Boolean) : [],
+        dialect: document.getElementById('sugDialect').value.trim(),
+        author: currentUser || 'Anonyme',
+        createdAt: Date.now()
+      });
+      alert("Merci ! Votre suggestion a été transmise.");
+      document.getElementById('suggestModal').style.display = 'none';
+      e.target.reset();
+    }
+
+    // FLASHCARDS AVEC SYNONYMES
+    let fcIndex = 0, fcDeck = [];
+    function startFlashcardsSession() {
+      if (dictionary.length === 0) return;
+      fcDeck = [...dictionary].sort((a,b) => (a.mastery || 0) - (b.mastery || 0));
+      fcIndex = 0;
+      showCard();
+    }
+
+    function showCard() {
+      const cardEl = document.getElementById('currentFlashcard');
+      cardEl.classList.remove('flipped');
+      if (fcIndex >= fcDeck.length) {
+        document.getElementById('fcFrontWord').innerText = "Session terminée !";
+        document.getElementById('fcFrontPhonetic').innerText = "Toutes les cartes ont été révisées.";
+        document.getElementById('fcBackTrans').innerText = "🎉 Bravo !";
+        document.getElementById('fcProgress').innerText = `${fcDeck.length} / ${fcDeck.length}`;
+        document.getElementById('fcSynonymsRow').innerHTML = '';
+        return;
+      }
+      const item = fcDeck[fcIndex];
+      document.getElementById('fcProgress').innerText = `${fcIndex + 1} / ${fcDeck.length}`;
+      document.getElementById('fcGrammar').innerText = item.grammar || 'Mot';
+      document.getElementById('fcFrontWord').innerText = item.word;
+      document.getElementById('fcFrontPhonetic').innerText = item.phonetic || '';
+      document.getElementById('fcBackTrans').innerText = item.trans;
+
+      // Synonymes sur la face arrière
+      const synList = Array.isArray(item.synonyms) ? item.synonyms : [];
+      document.getElementById('fcSynonymsRow').innerHTML = synList.map(s => `<span class="synonym-pill">${s}</span>`).join('');
+
+      let exText = "";
+      if (Array.isArray(item.examples) && item.examples.length > 0) exText = item.examples[0].tag + (item.examples[0].fr ? ` (${item.examples[0].fr})` : "");
+      else if (item.example) exText = item.example;
+      document.getElementById('fcBackExample').innerText = exText;
+
+      const img = document.getElementById('fcImage');
+      if (item.image) { img.src = item.image; img.style.display = 'block'; }
+      else img.style.display = 'none';
+    }
+
+    function flipFlashcard() { document.getElementById('currentFlashcard').classList.toggle('flipped'); }
+    function playCurrentFcAudio() { if (fcDeck[fcIndex]) playAudio(fcDeck[fcIndex]); }
+
+    async function rateFlashcard(easy) {
+      if (fcIndex >= fcDeck.length) return;
+      const current = fcDeck[fcIndex];
+      const newMastery = easy ? Math.min(5, (current.mastery || 0) + 1) : Math.max(0, (current.mastery || 0) - 1);
+      if (easy) { xp += 10; updateRank(); }
+      if (current.id) wordsCollection.doc(current.id).update({ mastery: newMastery }).catch(() => {});
+      fcIndex++;
+      showCard();
+    }
+
+    // -------------------------------------------------------------
+    // HUB & NOUVEAUX MODES DE QUÊTES (TUILES 1, 2, 3, 4)
+    // -------------------------------------------------------------
+    function showQuestHub() {
+      document.getElementById('questHub').style.display = 'block';
+      const activeCont = document.getElementById('questActiveContainer');
+      activeCont.style.display = 'none';
+      activeCont.innerHTML = '';
+      if (timerInterval) clearInterval(timerInterval);
+    }
+
+    function launchQuestMode(mode) {
+      if (dictionary.length < 4) {
+        alert("Au moins 4 mots requis dans le dictionnaire pour lancer une quête.");
+        return;
+      }
+      document.getElementById('questHub').style.display = 'none';
+      const container = document.getElementById('questActiveContainer');
+      container.style.display = 'block';
+
+      if (mode === 'daily') startDailyQuest(container);
+      else if (mode === 'pronounce') startPronounceQuest(container);
+      else if (mode === 'timeattack') startTimeAttackQuest(container);
+      else if (mode === 'sentences') startSentencesQuest(container);
+    }
+
+    // TUILE 1 : Entraînement Quotidien (Mix QCM, Audio & Inverse)
+    let dailyState = { queue: [], idx: 0, checked: false, selected: null };
+    function startDailyQuest(c) {
+      const shuffled = [...dictionary].sort(() => 0.5 - Math.random()).slice(0, 5);
+      dailyState.queue = shuffled.map((item, i) => {
+        const type = i % 3;
+        const wrong = dictionary.filter(w => w.id !== item.id).sort(() => 0.5 - Math.random()).slice(0, 3);
+        if (type === 2) {
+          const choices = [...wrong.map(w => w.word), item.word].sort(() => 0.5 - Math.random());
+          return { type: 'reverse', item, prompt: "Comment dit-on en Tagbanan :", display: item.trans, correct: item.word, choices };
+        } else if (type === 1) {
+          const choices = [...wrong.map(w => w.trans), item.trans].sort(() => 0.5 - Math.random());
+          return { type: 'audio', item, prompt: "🎧 Écoutez et identifiez le sens :", display: "🔊 Audio", correct: item.trans, choices };
+        } else {
+          const choices = [...wrong.map(w => w.trans), item.trans].sort(() => 0.5 - Math.random());
+          return { type: 'classic', item, prompt: "Traduction française :", display: item.word, correct: item.trans, choices };
+        }
+      });
+      dailyState.idx = 0;
+      dailyState.checked = false;
+      dailyState.selected = null;
+      renderDailyQuestion(c);
+    }
+
+    function renderDailyQuestion(c) {
+      const q = dailyState.queue[dailyState.idx];
+      const prog = (dailyState.idx / dailyState.queue.length) * 100;
+      c.innerHTML = `
+        <div class="exercise-box">
+          <div class="exercise-header">
+            <button class="back-hub-btn" onclick="showQuestHub()">← Hub</button>
+            <div class="progress-bar"><div class="progress-fill" style="width:${prog}%;"></div></div>
+            <span style="font-size:0.85rem; font-weight:700;">${dailyState.idx + 1}/${dailyState.queue.length}</span>
+          </div>
+          <div class="quest-question-card">
+            <div style="font-size:0.85rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">${q.prompt}</div>
+            ${q.type === 'audio' ? `
+              <button class="audio-btn" style="width:64px; height:64px; font-size:1.8rem; margin:10px auto;" onclick='playAudio(${JSON.stringify(q.item)})'>🗣️</button>
+            ` : `
+              <div style="font-size:2rem; font-weight:800; margin:6px 0;">${q.display}</div>
+              ${q.item.phonetic && q.type !== 'reverse' ? `<div style="color:var(--accent-cyan); font-style:italic;">${q.item.phonetic}</div>` : ''}
+            `}
+          </div>
+          <div class="options-grid">
+            ${q.choices.map(choice => `
+              <button class="quest-option" onclick="handleDailySelect('${choice.replace(/'/g, "\\'")}', this)">${choice}</button>
+            `).join('')}
+          </div>
+          <button class="btn btn-primary" id="dailyActionBtn" disabled style="padding:1rem; justify-content:center; font-size:1rem;" onclick="checkDailyAnswer()">Vérifier</button>
+        </div>
+      `;
+      if (q.type === 'audio') playAudio(q.item);
+    }
+
+    function handleDailySelect(txt, el) {
+      if (dailyState.checked) return;
+      dailyState.selected = txt;
+      document.querySelectorAll('.quest-option').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('dailyActionBtn').disabled = false;
+    }
+
+    function checkDailyAnswer() {
+      const q = dailyState.queue[dailyState.idx];
+      const btn = document.getElementById('dailyActionBtn');
+      if (!dailyState.checked) {
+        dailyState.checked = true;
+        const isOk = (dailyState.selected === q.correct);
+        document.querySelectorAll('.quest-option').forEach(b => {
+          if (b.innerText.trim() === q.correct) b.classList.add('correct');
+          else if (b.classList.contains('selected')) b.classList.add('wrong');
+        });
+        if (isOk) { xp += 15; updateRank(); btn.innerText = "Bien joué ! 🎉"; btn.style.background = "var(--success)"; }
+        else { btn.innerText = "Continuer"; btn.style.background = "#64748b"; }
+      } else {
+        dailyState.idx++;
+        dailyState.checked = false;
+        dailyState.selected = null;
+        if (dailyState.idx < dailyState.queue.length) renderDailyQuestion(document.getElementById('questActiveContainer'));
+        else renderVictory("Entraînement Quotidien Validé !", 50);
       }
     }
 
+    // TUILE 2 : Atelier Prononciation
+    let prIndex = 0, prRecorder = null, prChunks = [], prUserAudioUrl = null;
+    function startPronounceQuest(c) {
+      prIndex = 0;
+      renderPronounceStep(c);
+    }
+
+    function renderPronounceStep(c) {
+      const item = dictionary[prIndex % dictionary.length];
+      prUserAudioUrl = null;
+      c.innerHTML = `
+        <div class="exercise-box">
+          <div class="exercise-header">
+            <button class="back-hub-btn" onclick="showQuestHub()">← Hub</button>
+            <span style="font-weight:700;">Atelier Prononciation (${(prIndex % dictionary.length) + 1}/${dictionary.length})</span>
+          </div>
+
+          <div class="quest-question-card">
+            <div style="font-size:0.85rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Écoutez attentivement le locuteur</div>
+            <div style="font-size:2.2rem; font-weight:800; margin:6px 0;">${item.word}</div>
+            <div style="color:var(--accent-cyan); font-style:italic; margin-bottom:12px;">${item.phonetic || ''}</div>
+            <button class="btn btn-primary" onclick='playAudio(${JSON.stringify(item)})' style="margin:0 auto;">🔊 Écouter la voix de référence</button>
+          </div>
+
+          <div class="quest-question-card" style="border-style:dashed;">
+            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;">À votre tour de parler :</div>
+            <button class="rec-btn" id="prRecBtn" onclick="togglePronounceRecord()" style="margin:0 auto;">
+              🎙️ Enregistrer votre voix
+            </button>
+            <audio id="prAudioPlayer" controls style="display:none; width:100%; margin-top:12px;"></audio>
+          </div>
+
+          <button class="btn btn-primary" style="padding:1rem; justify-content:center;" onclick="nextPronounceWord()">
+            Mot suivant (+10 XP) ➔
+          </button>
+        </div>
+      `;
+    }
+
+    async function togglePronounceRecord() {
+      const btn = document.getElementById('prRecBtn');
+      const player = document.getElementById('prAudioPlayer');
+      if (!prRecorder || prRecorder.state === 'inactive') {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        prRecorder = new MediaRecorder(stream);
+        prChunks = [];
+        prRecorder.ondataavailable = e => { if (e.data.size > 0) prChunks.push(e.data); };
+        prRecorder.onstop = () => {
+          const blob = new Blob(prChunks, { type: 'audio/webm' });
+          player.src = URL.createObjectURL(blob);
+          player.style.display = 'block';
+        };
+        prRecorder.start();
+        btn.classList.add('recording');
+        btn.innerText = "⏹️ Arrêter la prise";
+      } else {
+        prRecorder.stop();
+        prRecorder.stream.getTracks().forEach(t => t.stop());
+        btn.classList.remove('recording');
+        btn.innerText = "🎙️ Réenregistrer";
+      }
+    }
+
+    function nextPronounceWord() {
+      xp += 10;
+      updateRank();
+      prIndex++;
+      renderPronounceStep(document.getElementById('questActiveContainer'));
+    }
+
+    // TUILE 3 : Course contre la montre (Time Attack 60s)
+    let timeLeft = 60, timerInterval = null, timeScore = 0;
+    function startTimeAttackQuest(c) {
+      timeLeft = 60;
+      timeScore = 0;
+      renderTimeAttackCard(c);
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        const badge = document.getElementById('taTimer');
+        if (badge) badge.innerText = `${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          xp += timeScore * 5;
+          updateRank();
+          renderVictory(`Temps écoulé ! Score : ${timeScore} bonnes réponses`, timeScore * 5);
+        }
+      }, 1000);
+    }
+
+    function renderTimeAttackCard(c) {
+      const item = dictionary[Math.floor(Math.random() * dictionary.length)];
+      const isTagToFr = Math.random() > 0.5;
+      const prompt = isTagToFr ? item.word : item.trans;
+      const correct = isTagToFr ? item.trans : item.word;
+      const wrong = dictionary.filter(w => w.id !== item.id).sort(() => 0.5 - Math.random()).slice(0, 3).map(w => isTagToFr ? w.trans : w.word);
+      const choices = [...wrong, correct].sort(() => 0.5 - Math.random());
+
+      c.innerHTML = `
+        <div class="exercise-box">
+          <div class="exercise-header">
+            <button class="back-hub-btn" onclick="clearInterval(timerInterval); showQuestHub();">← Quitter</button>
+            <span class="timer-badge" id="taTimer">${timeLeft}s</span>
+            <span style="font-weight:800; color:var(--success);">Score : ${timeScore}</span>
+          </div>
+
+          <div class="quest-question-card">
+            <div style="font-size:0.85rem; color:var(--text-muted); text-transform:uppercase;">Traduction éclair</div>
+            <div style="font-size:2.2rem; font-weight:800; margin:10px 0;">${prompt}</div>
+          </div>
+
+          <div class="options-grid">
+            ${choices.map(ch => `
+              <button class="quest-option" onclick="handleTimeAttackAnswer('${ch.replace(/'/g, "\\'")}', '${correct.replace(/'/g, "\\'")}')">${ch}</button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function handleTimeAttackAnswer(chosen, correct) {
+      if (chosen === correct) timeScore++;
+      renderTimeAttackCard(document.getElementById('questActiveContainer'));
+    }
+
+    // TUILE 4 : Phrases & Contexte (Blocs de mots à reconstituer)
+    let sentenceIndex = 0, currentSentencePool = [], currentSentenceTarget = [];
+    function startSentencesQuest(c) {
+      // Filtrer les mots qui ont des exemples avec traduction
+      const available = [];
+      dictionary.forEach(w => {
+        if (Array.isArray(w.examples)) {
+          w.examples.forEach(ex => { if (ex.tag && ex.fr) available.push(ex); });
+        } else if (w.example) {
+          available.push({ tag: w.example, fr: "" });
+        }
+      });
+
+      if (available.length === 0) {
+        alert("Ajoutez d'abord des phrases d'exemples dans le dictionnaire pour débloquer cet atelier !");
+        showQuestHub();
+        return;
+      }
+
+      sentenceIndex = 0;
+      renderSentencePuzzle(c, available);
+    }
+
+    function renderSentencePuzzle(c, list) {
+      const current = list[sentenceIndex % list.length];
+      const correctWords = current.tag.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"").split(/\s+/).filter(Boolean);
+      currentSentencePool = [...correctWords].sort(() => 0.5 - Math.random());
+      currentSentenceTarget = [];
+
+      c.innerHTML = `
+        <div class="exercise-box">
+          <div class="exercise-header">
+            <button class="back-hub-btn" onclick="showQuestHub()">← Hub</button>
+            <span style="font-weight:700;">Reconstituer la phrase</span>
+          </div>
+
+          <div class="quest-question-card">
+            <div style="font-size:0.85rem; color:var(--text-muted); text-transform:uppercase;">Signification en français</div>
+            <div style="font-size:1.35rem; font-weight:700; margin-top:6px; color:var(--accent-cyan);">${current.fr || 'Traduisez cette phrase en Tagbanan :'}</div>
+          </div>
+
+          <div>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;">Votre phrase constituée :</div>
+            <div class="word-blocks-target" id="puzzleTarget"></div>
+          </div>
+
+          <div>
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;">Mots disponibles :</div>
+            <div class="word-blocks-pool" id="puzzlePool"></div>
+          </div>
+
+          <button class="btn btn-primary" id="validateSentenceBtn" style="padding:1rem; justify-content:center;" onclick="validateSentence('${current.tag.replace(/'/g, "\\'")}', ${JSON.stringify(list).replace(/"/g, '&quot;')})">Vérifier</button>
+        </div>
+      `;
+      refreshPuzzleBlocks();
+    }
+
+    function refreshPuzzleBlocks() {
+      const pPool = document.getElementById('puzzlePool');
+      const pTarget = document.getElementById('puzzleTarget');
+      pPool.innerHTML = '';
+      pTarget.innerHTML = '';
+
+      currentSentencePool.forEach((w, i) => {
+        const span = document.createElement('span');
+        span.className = 'word-block-chip';
+        span.innerText = w;
+        span.onclick = () => {
+          currentSentenceTarget.push(w);
+          currentSentencePool.splice(i, 1);
+          refreshPuzzleBlocks();
+        };
+        pPool.appendChild(span);
+      });
+
+      currentSentenceTarget.forEach((w, i) => {
+        const span = document.createElement('span');
+        span.className = 'word-block-chip';
+        span.style.background = '#0284c7';
+        span.innerText = w;
+        span.onclick = () => {
+          currentSentencePool.push(w);
+          currentSentenceTarget.splice(i, 1);
+          refreshPuzzleBlocks();
+        };
+        pTarget.appendChild(span);
+      });
+    }
+
+    function validateSentence(fullTag, list) {
+      const cleanUser = currentSentenceTarget.join(' ').toLowerCase();
+      const cleanTarget = fullTag.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"").toLowerCase();
+
+      if (cleanUser === cleanTarget) {
+        xp += 20;
+        updateRank();
+        alert("Parfait ! Phrase correctement ordonnée 🎉 (+20 XP)");
+        sentenceIndex++;
+        renderSentencePuzzle(document.getElementById('questActiveContainer'), list);
+      } else {
+        alert("Ce n'est pas tout à fait le bon ordre. Réessayez !");
+      }
+    }
+
+    function renderVictory(msg, earnedXP) {
+      const c = document.getElementById('questActiveContainer');
+      c.innerHTML = `
+        <div style="text-align: center; padding: 3rem 1.5rem; background: var(--card-bg); border-radius: 24px; border: 1.5px solid var(--border); max-width:540px; margin:2rem auto;">
+          <div style="font-size:3.5rem;">🏆</div>
+          <h2 style="margin:8px 0;">${msg}</h2>
+          <p style="color:var(--text-muted); margin-bottom:1.5rem;">Félicitations ${currentUser || ''}, vous gagnez +${earnedXP} XP !</p>
+          <button class="btn btn-primary" onclick="showQuestHub()">Retour au Centre des Quêtes</button>
+        </div>
+      `;
+    }
+
+    // Export / Import
     function exportData() {
       const blob = new Blob([JSON.stringify(dictionary, null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
@@ -1365,9 +1649,10 @@
     }
 
     function exportCSV() {
-      let csv = "Mot;Traduction;Grammaire;Dialecte;Phonétique;Catégorie\n";
+      let csv = "Mot;Traduction;Synonymes;Grammaire;Dialecte;Phonétique;Catégorie\n";
       dictionary.forEach(w => {
-        csv += `"${w.word}";"${w.trans}";"${w.grammar || 'Nom'}";"${w.dialect || ''}";"${w.phonetic || ''}";"${w.cat}"\n`;
+        const syn = Array.isArray(w.synonyms) ? w.synonyms.join(', ') : '';
+        csv += `"${w.word}";"${w.trans}";"${syn}";"${w.grammar || 'Nom'}";"${w.dialect || ''}";"${w.phonetic || ''}";"${w.cat}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const a = document.createElement('a');
