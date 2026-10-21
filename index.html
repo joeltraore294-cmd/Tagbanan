@@ -7,7 +7,7 @@
 
   <meta property="og:title" content="Tagbanan App — Dictionnaire & Apprentissage">
   <meta property="og:description" content="Découvrez, apprenez et préservez la langue Tagbanan. Dictionnaire interactif, prononciations et quêtes d'apprentissage.">
-  <meta property="og:image" content="https://joeltraore294-cmd.github.io/Tagbanan/icon.png?v=14">
+  <meta property="og:image" content="https://joeltraore294-cmd.github.io/Tagbanan/icon.png?v=15">
   <meta property="og:url" content="https://joeltraore294-cmd.github.io/Tagbanan/">
   <meta property="og:type" content="website">
 
@@ -17,10 +17,10 @@
     }
   </script>
 
-  <link rel="manifest" href="manifest.json?v=14">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=14">
-  <link rel="apple-touch-icon" href="icon.png?v=14">
-  <link rel="shortcut icon" href="icon.png?v=14">
+  <link rel="manifest" href="manifest.json?v=15">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=15">
+  <link rel="apple-touch-icon" href="icon.png?v=15">
+  <link rel="shortcut icon" href="icon.png?v=15">
 
   <meta name="theme-color" content="#000000">
   <meta name="mobile-web-app-capable" content="yes">
@@ -240,30 +240,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* BANNIÈRE LE MOT DU JOUR */
-    .mot-du-jour-card {
-      background: linear-gradient(135deg, rgba(200, 150, 62, 0.15) 0%, rgba(26, 20, 15, 0.8) 100%);
-      border: 1.5px solid var(--primary);
-      border-radius: 20px;
-      padding: 1.25rem;
-      margin-bottom: 1.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .mot-du-jour-title {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.75px;
-      color: var(--primary-light);
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
     .actions-bar {
       display: flex;
       flex-wrap: wrap;
@@ -349,6 +325,29 @@
       font-size: 0.72rem;
       font-weight: 700;
       cursor: pointer;
+    }
+
+    .mot-du-jour-card {
+      background: linear-gradient(135deg, rgba(200, 150, 62, 0.15) 0%, rgba(26, 20, 15, 0.8) 100%);
+      border: 1.5px solid var(--primary);
+      border-radius: 20px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .mot-du-jour-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.75px;
+      color: var(--primary-light);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.2rem; }
@@ -528,7 +527,7 @@
     .dialogue-tag { font-weight: 600; font-size: 0.95rem; }
     .dialogue-fr { font-size: 0.82rem; color: var(--text-muted); font-style: italic; margin-top: 2px; }
 
-    /* LEADERBOARD & STATS GLOBALES */
+    /* LEADERBOARD & STATS */
     .family-stats-banner {
       background: var(--card-sub);
       border: 1.5px solid var(--border);
@@ -830,23 +829,32 @@
       justify-content: center;
     }
 
+    /* NOTIFICATION BADGE CORRIGÉE (MASQUÉE COMPLÈTEMENT HORS ÉCRAN) */
     #badgeNotificationToast {
       position: fixed;
       bottom: 24px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
+      transform: translateX(-50%) translateY(200px);
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
       background: var(--card-bg);
       border: 2px solid var(--primary);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
       border-radius: 18px;
       padding: 12px 20px;
       display: flex;
       align-items: center;
       gap: 12px;
       z-index: 500;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    #badgeNotificationToast.show { transform: translateX(-50%) translateY(0); }
+    #badgeNotificationToast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
 
     .stats-grid {
       display: grid;
@@ -894,7 +902,7 @@
       font-weight: 600;
     }
 
-    /* FORMAT LIVRET PLIABLE (A4 2 COLONNES) */
+    /* FORMAT LIVRET PLIABLE */
     #bookletPrintContainer { display: none; }
     @media print {
       body * { visibility: hidden; }
@@ -931,7 +939,7 @@
 
   <div id="authOverlay">
     <div class="auth-card">
-      <img src="icon.png?v=14" alt="Tagbanan Logo">
+      <img src="icon.png?v=15" alt="Tagbanan Logo">
       <h2>Tagbanan App</h2>
       <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.25rem;">Entrez votre nom pour ouvrir votre carnet d'apprentissage.</p>
       <form onsubmit="handleRegister(event)">
@@ -947,7 +955,7 @@
 
   <header>
     <div class="brand">
-      <img src="icon.png?v=14" alt="Tagbanan Logo">
+      <img src="icon.png?v=15" alt="Tagbanan Logo">
       <div>
         <div style="display:flex; align-items:center;">
           <h1>Tagbanan</h1>
@@ -1016,7 +1024,7 @@
         <button class="chip" id="sortToggleBtn" onclick="toggleSortOrder()" style="margin-left:auto; font-weight:700;">🔤 A ➔ Z</button>
       </div>
 
-      <!-- BANNIÈRE LE MOT DU JOUR (REPOSITIONNÉE ICI) -->
+      <!-- BANNIÈRE LE MOT DU JOUR -->
       <div class="mot-du-jour-card" id="motDuJourBanner" style="display:none;">
         <div>
           <div class="mot-du-jour-title">✨ Le mot du jour</div>
@@ -1792,7 +1800,7 @@
         if (permission === 'granted') {
           new Notification("Tagbanan App", {
             body: "Rappels quotidiens activés ! Venez entretenir votre flamme.",
-            icon: "icon.png?v=14"
+            icon: "icon.png?v=15"
           });
           document.getElementById('notifBellBtn').innerText = '🔕';
         }
