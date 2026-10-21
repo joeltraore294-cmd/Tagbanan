@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr" data-theme="dark" data-font="normal">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
 
   <meta property="og:title" content="Tagbanan App — Dictionnaire & Apprentissage">
   <meta property="og:description" content="Découvrez, apprenez et préservez la langue Tagbanan. Dictionnaire interactif, prononciations et quêtes d'apprentissage.">
-  <meta property="og:image" content="https://joeltraore294-cmd.github.io/Tagbanan/icon.png?v=13">
+  <meta property="og:image" content="https://joeltraore294-cmd.github.io/Tagbanan/icon.png?v=14">
   <meta property="og:url" content="https://joeltraore294-cmd.github.io/Tagbanan/">
   <meta property="og:type" content="website">
 
@@ -17,12 +17,12 @@
     }
   </script>
 
-  <link rel="manifest" href="manifest.json?v=13">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=13">
-  <link rel="apple-touch-icon" href="icon.png?v=13">
-  <link rel="shortcut icon" href="icon.png?v=13">
+  <link rel="manifest" href="manifest.json?v=14">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=14">
+  <link rel="apple-touch-icon" href="icon.png?v=14">
+  <link rel="shortcut icon" href="icon.png?v=14">
 
-  <meta name="theme-color" content="#18130e">
+  <meta name="theme-color" content="#000000">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -40,13 +40,14 @@
       --accent-gold: #d4a359;
       --success: #2e7d32;
       --danger: #b91c1c;
-      --bg: #14100c;
-      --card-bg: #201712;
-      --card-sub: #19120e;
+      --bg: #000000;
+      --card-bg: #120e0a;
+      --card-sub: #1a140f;
       --text: #f6f1ea;
       --text-muted: #bdafa0;
-      --border: #3b2c21;
+      --border: #33251a;
       --radius: 16px;
+      --font-scale: 1rem;
     }
 
     [data-theme="light"] {
@@ -61,9 +62,14 @@
       --primary-light: #b08133;
     }
 
+    [data-font="large"] {
+      --font-scale: 1.15rem;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: var(--font-scale);
       background-color: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -75,7 +81,7 @@
     #authOverlay {
       position: fixed;
       inset: 0;
-      background: rgba(18, 14, 10, 0.96);
+      background: rgba(0, 0, 0, 0.96);
       backdrop-filter: blur(10px);
       z-index: 300;
       display: none;
@@ -91,7 +97,7 @@
       max-width: 420px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
     }
     .auth-card img {
       width: 88px;
@@ -234,6 +240,30 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* BANNIÈRE LE MOT DU JOUR */
+    .mot-du-jour-card {
+      background: linear-gradient(135deg, rgba(200, 150, 62, 0.15) 0%, rgba(26, 20, 15, 0.8) 100%);
+      border: 1.5px solid var(--primary);
+      border-radius: 20px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .mot-du-jour-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.75px;
+      color: var(--primary-light);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .actions-bar {
       display: flex;
       flex-wrap: wrap;
@@ -308,6 +338,17 @@
       color: #14100c;
       border-color: var(--primary);
       font-weight: 700;
+    }
+
+    .speed-btn {
+      background: var(--card-sub);
+      border: 1px solid var(--border);
+      color: var(--primary-light);
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
     }
 
     .word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.2rem; }
@@ -487,7 +528,17 @@
     .dialogue-tag { font-weight: 600; font-size: 0.95rem; }
     .dialogue-fr { font-size: 0.82rem; color: var(--text-muted); font-style: italic; margin-top: 2px; }
 
-    /* LEADERBOARD */
+    /* LEADERBOARD & STATS GLOBALES */
+    .family-stats-banner {
+      background: var(--card-sub);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+    }
     .leaderboard-table {
       width: 100%;
       border-collapse: collapse;
@@ -661,7 +712,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(18, 14, 10, 0.85);
+      background: rgba(0, 0, 0, 0.88);
       backdrop-filter: blur(4px);
       display: none;
       align-items: center;
@@ -797,7 +848,6 @@
     }
     #badgeNotificationToast.show { transform: translateX(-50%) translateY(0); }
 
-    /* Statistiques */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -823,7 +873,6 @@
       margin-top: 4px;
     }
 
-    /* Onboarding */
     .onboarding-step { display: none; }
     .onboarding-step.active { display: block; }
     .onboarding-dots { display: flex; justify-content: center; gap: 8px; margin: 1.2rem 0; }
@@ -845,32 +894,32 @@
       font-weight: 600;
     }
 
-    /* Planche mémo imprimable */
-    #memoPrintContainer { display: none; }
+    /* FORMAT LIVRET PLIABLE (A4 2 COLONNES) */
+    #bookletPrintContainer { display: none; }
     @media print {
       body * { visibility: hidden; }
-      #memoPrintContainer, #memoPrintContainer * { visibility: visible; }
-      #memoPrintContainer {
-        display: grid !important;
+      #bookletPrintContainer, #bookletPrintContainer * { visibility: visible; }
+      #bookletPrintContainer {
+        display: block !important;
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        padding: 10px;
-      }
-      .memo-tag-label {
-        border: 2px dashed #444;
-        padding: 14px;
-        text-align: center;
-        page-break-inside: avoid;
+        column-count: 2;
+        column-gap: 24px;
+        padding: 15mm;
         color: #000;
         background: #fff;
       }
-      .memo-tag-word { font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; }
-      .memo-tag-trans { font-size: 1rem; font-weight: 600; color: #444; }
-      .memo-tag-ph { font-size: 0.8rem; font-style: italic; color: #666; margin-top: 2px; }
+      .booklet-entry {
+        break-inside: avoid;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 8px;
+      }
+      .booklet-term { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 800; color: #000; }
+      .booklet-trans { font-size: 0.95rem; font-weight: 600; }
+      .booklet-ex { font-size: 0.8rem; font-style: italic; color: #555; }
     }
   </style>
 
@@ -882,7 +931,7 @@
 
   <div id="authOverlay">
     <div class="auth-card">
-      <img src="icon.png?v=13" alt="Tagbanan Logo">
+      <img src="icon.png?v=14" alt="Tagbanan Logo">
       <h2>Tagbanan App</h2>
       <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.25rem;">Entrez votre nom pour ouvrir votre carnet d'apprentissage.</p>
       <form onsubmit="handleRegister(event)">
@@ -898,7 +947,7 @@
 
   <header>
     <div class="brand">
-      <img src="icon.png?v=13" alt="Tagbanan Logo">
+      <img src="icon.png?v=14" alt="Tagbanan Logo">
       <div>
         <div style="display:flex; align-items:center;">
           <h1>Tagbanan</h1>
@@ -917,6 +966,7 @@
     </div>
 
     <div class="user-profile-badge">
+      <button onclick="toggleFontSize()" title="Taille du texte" style="background:none; border:none; cursor:pointer; font-size:0.9rem; font-weight:800;" id="fontToggleBtn">aA</button>
       <button onclick="toggleTheme()" title="Thème" style="background:none; border:none; cursor:pointer; font-size:1rem;" id="themeToggleBtn">☀️</button>
       <button onclick="requestNotificationReminder()" title="Rappels quotidiens" style="background:none; border:none; cursor:pointer; font-size:1rem;" id="notifBellBtn">🔔</button>
       <button onclick="openStatsModal()" title="Mes Statistiques" style="background:none; border:none; cursor:pointer; font-size:1rem;">📊</button>
@@ -937,18 +987,33 @@
   <main>
     <!-- VUE 1 : DICTIONNAIRE -->
     <section id="dictView" class="view-panel active">
+      <!-- BANNIÈRE LE MOT DU JOUR -->
+      <div class="mot-du-jour-card" id="motDuJourBanner" style="display:none;">
+        <div>
+          <div class="mot-du-jour-title">✨ Le mot du jour</div>
+          <div style="font-family:'Cinzel', serif; font-size:1.6rem; font-weight:800; color:var(--primary-light); margin-top:4px;" id="mdjWord">---</div>
+          <div style="font-weight:600; font-size:1rem;" id="mdjTrans">---</div>
+          <div style="font-size:0.82rem; color:var(--text-muted); font-style:italic; margin-top:4px;" id="mdjExample"></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="btn btn-primary" id="mdjAudioBtn">🔊 Écouter</button>
+          <button class="btn btn-secondary" id="mdjShareBtn">🖼️ Statut</button>
+        </div>
+      </div>
+
       <div class="actions-bar">
         <div class="search-box">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"></circle><line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line></svg>
           <input type="text" id="searchInput" placeholder="Chercher en tagbanan, français ou synonyme..." oninput="handleSearchInput(event)">
         </div>
 
+        <button class="speed-btn" id="globalSpeedBtn" onclick="togglePlaybackSpeed()" title="Vitesse de lecture audio">Vitesse : 1x</button>
         <button class="btn btn-primary" onclick="requestAdminAuth('add')">🔒 + Ajouter</button>
         <button class="btn btn-secondary" id="adminSuggestionsBtn" style="display:none;" onclick="openAdminSuggestionsModal()">📥 Suggestions</button>
         <button class="btn btn-secondary" onclick="openSuggestModal()">💡 Suggérer</button>
-        <button class="btn btn-secondary" onclick="printMemoLabels()" title="Imprimer des étiquettes autocollantes pour la maison">🏷️ Planche Mémo</button>
-        <button class="btn btn-secondary" onclick="shareInviteLink()" title="Inviter un membre de la famille sur WhatsApp">📲 Inviter</button>
-        <button class="btn btn-secondary" onclick="exportData()">💾 Exporter JSON</button>
+        <button class="btn btn-secondary" onclick="printBooklet()" title="Imprimer le livret deux colonnes pliable">📖 Livret Pliable</button>
+        <button class="btn btn-secondary" onclick="shareInviteLink()" title="Inviter un proche sur WhatsApp">📲 Inviter</button>
+        <button class="btn btn-secondary" onclick="exportData()">💾 JSON</button>
         <button class="btn btn-secondary" onclick="exportCSV()">📊 CSV</button>
         <button class="btn btn-admin" onclick="requestAdminAuth('import')">🔒 Importer</button>
         <input type="file" id="fileInput" accept=".json" style="display:none" onchange="importData(event)">
@@ -1013,7 +1078,7 @@
           <div class="quest-tile" onclick="launchQuestMode('daily')">
             <span class="tile-icon">⚡</span>
             <div class="tile-title">Entraînement Quotidien</div>
-            <div class="tile-desc">Série mixte de 5 questions (QCM, écoute et sens inverse).</div>
+            <div class="tile-desc">Série mixte de 5 questions (QCM, écoute et sens inverse). Prise en charge hors-ligne.</div>
             <span class="tile-status">Prêt • +15 XP / rép</span>
           </div>
 
@@ -1021,7 +1086,7 @@
             <span class="tile-icon">🎙️</span>
             <div class="tile-title">Atelier Prononciation</div>
             <div class="tile-desc">Écoutez un mot, répétez-le et laissez la reconnaissance vocale vérifier votre diction !</div>
-            <span class="tile-status">Prêt • Détection automatique</span>
+            <span class="tile-status">Prêt • Détection vocale</span>
           </div>
 
           <div class="quest-tile" onclick="launchQuestMode('timeattack')">
@@ -1059,7 +1124,19 @@
     <!-- VUE 5 : CLASSEMENT FAMILIAL -->
     <section id="leaderboardView" class="view-panel">
       <h2 style="font-family:'Cinzel', serif; font-size:1.35rem; margin-bottom:0.25rem;">🏆 Classement Familial</h2>
-      <p style="font-size:0.85rem; color:var(--text-muted);">Émulation amicale entre tous les membres de la famille.</p>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Émulation amicale entre tous les membres de la famille.</p>
+
+      <div class="family-stats-banner">
+        <div>
+          <div style="font-family:'Cinzel', serif; font-size:1.6rem; font-weight:800; color:var(--primary-light);" id="famTotalXp">0</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Points cumulés par la famille</div>
+        </div>
+        <div style="border-left:1px solid var(--border); margin:0 10px;"></div>
+        <div>
+          <div style="font-family:'Cinzel', serif; font-size:1.6rem; font-weight:800; color:var(--primary-light);" id="famTotalMembers">0</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Membres actifs</div>
+        </div>
+      </div>
 
       <table class="leaderboard-table">
         <thead>
@@ -1085,7 +1162,7 @@
     </p>
   </footer>
 
-  <!-- MODALE ONBOARDING (ACCUEIL 3 ÉTAPES) -->
+  <!-- MODALE ONBOARDING -->
   <div class="modal-backdrop" id="onboardingModal">
     <div class="modal" style="text-align:center; max-width:440px;">
       <div class="onboarding-step active" id="obStep1">
@@ -1367,11 +1444,10 @@
     </div>
   </div>
 
-  <!-- CANVAS CACHÉ POUR STATUTS WHATSAPP -->
   <canvas id="statusShareCanvas" width="800" height="800" style="display:none;"></canvas>
 
-  <!-- CONTENEUR D'IMPRESSION DES ÉTIQUETTES MÉMO -->
-  <div id="memoPrintContainer"></div>
+  <!-- CONTENEUR POUR IMPRESSION DU LIVRET PLIABLE -->
+  <div id="bookletPrintContainer"></div>
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -1397,6 +1473,17 @@
     const profilesCollection = db.collection('profiles');
     const dialoguesCollection = db.collection('dialogues');
 
+    // Accessibilité police
+    let currentFontSize = localStorage.getItem('tagbanan_font') || 'normal';
+    document.documentElement.setAttribute('data-font', currentFontSize);
+
+    function toggleFontSize() {
+      currentFontSize = currentFontSize === 'normal' ? 'large' : 'normal';
+      document.documentElement.setAttribute('data-font', currentFontSize);
+      localStorage.setItem('tagbanan_font', currentFontSize);
+    }
+
+    // Thème Sombre OLED / Clair
     function toggleTheme() {
       const current = document.documentElement.getAttribute('data-theme') || 'dark';
       const target = current === 'dark' ? 'light' : 'dark';
@@ -1406,6 +1493,13 @@
     }
     const savedTheme = localStorage.getItem('tagbanan_theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
+
+    // Vitesse de lecture audio
+    let audioPlaybackRate = 1.0;
+    function togglePlaybackSpeed() {
+      audioPlaybackRate = audioPlaybackRate === 1.0 ? 0.75 : 1.0;
+      document.getElementById('globalSpeedBtn').innerText = `Vitesse : ${audioPlaybackRate}x`;
+    }
 
     let currentAdminUser = null;
     let pendingAction = null;
@@ -1481,7 +1575,6 @@
       if (action === 'import') document.getElementById('fileInput').click();
     }
 
-    // Gestion Utilisateur & Favoris
     let currentUser = localStorage.getItem('tagbanan_user') || null;
     let xp = parseInt(localStorage.getItem('tagbanan_xp')) || 0;
     let unlockedBadges = JSON.parse(localStorage.getItem('tagbanan_badges') || '[]');
@@ -1507,7 +1600,6 @@
       renderDict();
     }
 
-    // Historique de recherche
     function handleSearchInput(e) {
       renderDict();
     }
@@ -1539,7 +1631,6 @@
       renderDict();
     }
 
-    // Onboarding guidé
     let currentObStep = 1;
     function checkOnboarding() {
       if (!localStorage.getItem('tagbanan_onboarded')) {
@@ -1567,7 +1658,6 @@
       document.getElementById('onboardingModal').style.display = 'none';
     }
 
-    // Statistiques personnelles
     function openStatsModal() {
       document.getElementById('stWordsLearned').innerText = dictionary.filter(w => (w.mastery || 0) >= 2).length;
       document.getElementById('stFavoritesCount').innerText = favorites.length;
@@ -1576,7 +1666,6 @@
       document.getElementById('statsModal').style.display = 'flex';
     }
 
-    // Invitation WhatsApp
     function shareInviteLink() {
       const url = "https://joeltraore294-cmd.github.io/Tagbanan/";
       const text = `🌟 Rejoins-moi sur Tagbanan App ! Découvre notre dictionnaire interactif, écoute les voix de la famille et apprends notre langue : ${url}`;
@@ -1588,21 +1677,25 @@
       }
     }
 
-    // Planche d'étiquettes mémo imprimables
-    function printMemoLabels() {
-      const container = document.getElementById('memoPrintContainer');
-      const list = favorites.length > 0 ? dictionary.filter(w => favorites.includes(w.id)) : dictionary.slice(0, 24);
-      container.innerHTML = list.map(item => `
-        <div class="memo-tag-label">
-          <div class="memo-tag-word">${item.word}</div>
-          <div class="memo-tag-trans">${item.trans}</div>
-          ${item.phonetic ? `<div class="memo-tag-ph">${item.phonetic}</div>` : ''}
+    // Impression du livret pliable 2 colonnes
+    function printBooklet() {
+      const container = document.getElementById('bookletPrintContainer');
+      const list = [...dictionary].sort((a,b) => (a.word || '').localeCompare(b.word || ''));
+      container.innerHTML = `
+        <div style="column-span:all; text-align:center; margin-bottom:1.5rem; border-bottom:2px solid #000; padding-bottom:0.75rem;">
+          <h1 style="font-family:'Cinzel', serif; font-size:2rem; margin-bottom:4px;">TAGBANAN</h1>
+          <p style="font-size:0.9rem; font-style:italic;">Livret de Vocabulaire de Poche — Préservation du Patrimoine</p>
+        </div>
+      ` + list.map(item => `
+        <div class="booklet-entry">
+          <div class="booklet-term">${item.word} ${item.phonetic ? `<span style="font-size:0.8rem; font-style:italic;">${item.phonetic}</span>` : ''}</div>
+          <div class="booklet-trans">${item.trans} (${item.grammar || 'Nom'})</div>
+          ${item.examples && item.examples.length > 0 ? `<div class="booklet-ex">« ${item.examples[0].tag} » — ${item.examples[0].fr}</div>` : ''}
         </div>
       `).join('');
       window.print();
     }
 
-    // Badges
     const BADGES_CONFIG = [
       { id: 'first_audio', title: 'Première Écoute', icon: '🎧', desc: 'Avoir écouté au moins une prononciation.' },
       { id: 'daily_hero', title: 'Flamme Tagbanan', icon: '🔥', desc: 'Maintenir une série de 3 jours d\'apprentissage.' },
@@ -1703,7 +1796,7 @@
         if (permission === 'granted') {
           new Notification("Tagbanan App", {
             body: "Rappels quotidiens activés ! Venez entretenir votre flamme.",
-            icon: "icon.png?v=13"
+            icon: "icon.png?v=14"
           });
           document.getElementById('notifBellBtn').innerText = '🔕';
         }
@@ -1756,10 +1849,33 @@
       dictionary = [];
       snapshot.forEach(doc => dictionary.push({ id: doc.id, ...doc.data() }));
       document.getElementById('totalWordsBadge').innerText = `${dictionary.length} mots`;
+      localStorage.setItem('tagbanan_offline_words', JSON.stringify(dictionary)); // Cache hors-ligne des questions
+      initMotDuJour();
       renderDict();
     });
 
-    // Chargement & Mise en cache hors-ligne des Dialogues
+    // Sélection déterministe du mot du jour
+    function initMotDuJour() {
+      if (dictionary.length === 0) return;
+      const today = new Date();
+      const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+      const index = seed % dictionary.length;
+      const item = dictionary[index];
+
+      document.getElementById('mdjWord').innerText = item.word;
+      document.getElementById('mdjTrans').innerText = item.trans;
+      
+      let ex = "";
+      if (item.examples && item.examples.length > 0) {
+        ex = `« ${item.examples[0].tag} » — ${item.examples[0].fr}`;
+      }
+      document.getElementById('mdjExample').innerText = ex;
+
+      document.getElementById('mdjAudioBtn').onclick = () => playAudio(item);
+      document.getElementById('mdjShareBtn').onclick = () => generateStatusCard(item.word, item.trans, item.phonetic || '');
+      document.getElementById('motDuJourBanner').style.display = 'flex';
+    }
+
     function loadDialogues() {
       const cachedDialogues = localStorage.getItem('tagbanan_cached_dialogues');
       if (cachedDialogues) {
@@ -1873,11 +1989,12 @@
       const audioToPlay = specificSrc || (w && w.audio);
       if (audioToPlay) {
         soundPlayer.src = audioToPlay;
+        soundPlayer.playbackRate = audioPlaybackRate;
         soundPlayer.play().catch(e => console.error(e));
       } else if ('speechSynthesis' in window && w && w.word) {
         window.speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(w.word);
-        u.rate = 0.85;
+        u.rate = 0.85 * audioPlaybackRate;
         window.speechSynthesis.speak(u);
       }
     }
@@ -1895,19 +2012,18 @@
       }
     }
 
-    // GÉNÉRATEUR D'IMAGE DE STATUT WHATSAPP
     function generateStatusCard(word, trans, phonetic) {
       const canvas = document.getElementById('statusShareCanvas');
       const ctx = canvas.getContext('2d');
 
-      ctx.fillStyle = '#18130e';
+      ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, 800, 800);
 
       ctx.strokeStyle = '#c8963e';
       ctx.lineWidth = 12;
       ctx.strokeRect(30, 30, 740, 740);
 
-      ctx.strokeStyle = '#3b2c21';
+      ctx.strokeStyle = '#33251a';
       ctx.lineWidth = 2;
       ctx.strokeRect(44, 44, 712, 712);
 
@@ -2069,7 +2185,6 @@
       });
     }
 
-    // Affichage des Dialogues
     function renderDialogues() {
       const cont = document.getElementById('dialoguesContainer');
       if (dialoguesList.length === 0) {
@@ -2131,18 +2246,22 @@
       }
     }
 
-    // Classement familial
     function renderLeaderboard() {
       const tbody = document.getElementById('leaderboardTbody');
-      profilesCollection.orderBy('xp', 'desc').limit(15).get().then(snap => {
+      profilesCollection.orderBy('xp', 'desc').limit(20).get().then(snap => {
         if (snap.empty) {
           tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Aucun score enregistré pour l'instant.</td></tr>`;
           return;
         }
         let rows = '';
         let rank = 1;
+        let cumulativeXp = 0;
+        let membersCount = 0;
+
         snap.forEach(doc => {
           const u = doc.data();
+          cumulativeXp += (u.xp || 0);
+          membersCount++;
           const medal = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : (rank === 3 ? '🥉' : `${rank}.`));
           rows += `
             <tr>
@@ -2155,6 +2274,9 @@
           `;
           rank++;
         });
+
+        document.getElementById('famTotalXp').innerText = `${cumulativeXp} XP`;
+        document.getElementById('famTotalMembers').innerText = membersCount;
         tbody.innerHTML = rows;
       }).catch(err => {
         tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ef4444;">Erreur : ${err.message}</td></tr>`;
@@ -2252,7 +2374,6 @@
       reader.onload = ev => {
         const img = new Image();
         img.onload = () => {
-          // Compression Canvas automatique à max 800px de large
           const canvas = document.createElement('canvas');
           const maxDim = 800;
           let width = img.width;
@@ -2506,6 +2627,7 @@
       showCard();
     }
 
+    // HUB DE QUÊTES & MODES (AVEC SECOURS HORS-LIGNE)
     function showQuestHub() {
       document.getElementById('questHub').style.display = 'block';
       const activeCont = document.getElementById('questActiveContainer');
@@ -2514,27 +2636,38 @@
       if (timerInterval) clearInterval(timerInterval);
     }
 
+    function getQuestionPool() {
+      if (dictionary.length >= 4) return dictionary;
+      const cached = localStorage.getItem('tagbanan_offline_words');
+      if (cached) {
+        const arr = JSON.parse(cached);
+        if (arr.length >= 4) return arr;
+      }
+      return [];
+    }
+
     function launchQuestMode(mode) {
-      if (dictionary.length < 4) {
-        alert("Au moins 4 mots requis dans le dictionnaire pour lancer une quête.");
+      const pool = getQuestionPool();
+      if (pool.length < 4) {
+        alert("Au moins 4 mots requis pour lancer l'entraînement (en ligne ou en cache hors-ligne).");
         return;
       }
       document.getElementById('questHub').style.display = 'none';
       const container = document.getElementById('questActiveContainer');
       container.style.display = 'block';
 
-      if (mode === 'daily') startDailyQuest(container);
-      else if (mode === 'pronounce') startPronounceQuest(container);
-      else if (mode === 'timeattack') startTimeAttackQuest(container);
-      else if (mode === 'sentences') startSentencesQuest(container);
+      if (mode === 'daily') startDailyQuest(container, pool);
+      else if (mode === 'pronounce') startPronounceQuest(container, pool);
+      else if (mode === 'timeattack') startTimeAttackQuest(container, pool);
+      else if (mode === 'sentences') startSentencesQuest(container, pool);
     }
 
     let dailyState = { queue: [], idx: 0, checked: false, selected: null };
-    function startDailyQuest(c) {
-      const shuffled = [...dictionary].sort(() => 0.5 - Math.random()).slice(0, 5);
+    function startDailyQuest(c, pool) {
+      const shuffled = [...pool].sort(() => 0.5 - Math.random()).slice(0, 5);
       dailyState.queue = shuffled.map((item, i) => {
         const type = i % 3;
-        const wrong = dictionary.filter(w => w.id !== item.id).sort(() => 0.5 - Math.random()).slice(0, 3);
+        const wrong = pool.filter(w => (w.id || w.word) !== (item.id || item.word)).sort(() => 0.5 - Math.random()).slice(0, 3);
         if (type === 2) {
           const choices = [...wrong.map(w => w.word), item.word].sort(() => 0.5 - Math.random());
           return { type: 'reverse', item, prompt: "Comment dit-on en Tagbanan :", display: item.trans, correct: item.word, choices };
@@ -2611,20 +2744,19 @@
       }
     }
 
-    // Atelier Prononciation
     let prIndex = 0;
-    function startPronounceQuest(c) {
+    function startPronounceQuest(c, pool) {
       prIndex = 0;
-      renderPronounceStep(c);
+      renderPronounceStep(c, pool);
     }
 
-    function renderPronounceStep(c) {
-      const item = dictionary[prIndex % dictionary.length];
+    function renderPronounceStep(c, pool) {
+      const item = pool[prIndex % pool.length];
       c.innerHTML = `
         <div class="exercise-box">
           <div class="exercise-header">
             <button class="back-hub-btn" onclick="showQuestHub()">← Hub</button>
-            <span style="font-weight:700;">Atelier Prononciation (${(prIndex % dictionary.length) + 1}/${dictionary.length})</span>
+            <span style="font-weight:700;">Atelier Prononciation (${(prIndex % pool.length) + 1}/${pool.length})</span>
           </div>
 
           <div class="quest-question-card">
@@ -2694,15 +2826,14 @@
 
     function nextPronounceWord() {
       prIndex++;
-      renderPronounceStep(document.getElementById('questActiveContainer'));
+      renderPronounceStep(document.getElementById('questActiveContainer'), getQuestionPool());
     }
 
-    // Course contre la montre
     let timeLeft = 60, timerInterval = null, timeScore = 0;
-    function startTimeAttackQuest(c) {
+    function startTimeAttackQuest(c, pool) {
       timeLeft = 60;
       timeScore = 0;
-      renderTimeAttackCard(c);
+      renderTimeAttackCard(c, pool);
       if (timerInterval) clearInterval(timerInterval);
       timerInterval = setInterval(() => {
         timeLeft--;
@@ -2717,12 +2848,12 @@
       }, 1000);
     }
 
-    function renderTimeAttackCard(c) {
-      const item = dictionary[Math.floor(Math.random() * dictionary.length)];
+    function renderTimeAttackCard(c, pool) {
+      const item = pool[Math.floor(Math.random() * pool.length)];
       const isTagToFr = Math.random() > 0.5;
       const prompt = isTagToFr ? item.word : item.trans;
       const correct = isTagToFr ? item.trans : item.word;
-      const wrong = dictionary.filter(w => w.id !== item.id).sort(() => 0.5 - Math.random()).slice(0, 3).map(w => isTagToFr ? w.trans : w.word);
+      const wrong = pool.filter(w => (w.id || w.word) !== (item.id || item.word)).sort(() => 0.5 - Math.random()).slice(0, 3).map(w => isTagToFr ? w.trans : w.word);
       const choices = [...wrong, correct].sort(() => 0.5 - Math.random());
 
       c.innerHTML = `
@@ -2740,23 +2871,22 @@
 
           <div class="options-grid">
             ${choices.map(ch => `
-              <button class="quest-option" onclick="handleTimeAttackAnswer('${ch.replace(/'/g, "\\'")}', '${correct.replace(/'/g, "\\'")}')">${ch}</button>
+              <button class="quest-option" onclick="handleTimeAttackAnswer('${ch.replace(/'/g, "\\'")}', '${correct.replace(/'/g, "\\'")}', ${JSON.stringify(pool).replace(/"/g, '&quot;')})">${ch}</button>
             `).join('')}
           </div>
         </div>
       `;
     }
 
-    function handleTimeAttackAnswer(chosen, correct) {
+    function handleTimeAttackAnswer(chosen, correct, pool) {
       if (chosen === correct) timeScore++;
-      renderTimeAttackCard(document.getElementById('questActiveContainer'));
+      renderTimeAttackCard(document.getElementById('questActiveContainer'), pool);
     }
 
-    // Phrases & Contexte
     let sentenceIndex = 0, currentSentencePool = [], currentSentenceTarget = [];
-    function startSentencesQuest(c) {
+    function startSentencesQuest(c, pool) {
       const available = [];
-      dictionary.forEach(w => {
+      pool.forEach(w => {
         if (Array.isArray(w.examples)) {
           w.examples.forEach(ex => { if (ex.tag && ex.fr) available.push(ex); });
         } else if (w.example) {
@@ -2868,7 +2998,6 @@
       `;
     }
 
-    // Sauvegarde Cloud automatique
     function triggerAutoBackup() {
       const lastBackup = localStorage.getItem('tagbanan_last_backup');
       const now = Date.now();
