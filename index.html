@@ -7,7 +7,7 @@
 
   <meta property="og:title" content="Tagbanan App — Dictionnaire & Apprentissage">
   <meta property="og:description" content="Découvrez, apprenez et préservez la langue Tagbanan. Dictionnaire interactif, prononciations et quêtes d'apprentissage.">
-  <meta property="og:image" content="https://joeltraore294-cmd.github.io/Tagbanan/icon.png?v=15">
+  <meta property="og:image" content="https://joeltraore294-cmd.github.io/Tagbanan/icon.png?v=17">
   <meta property="og:url" content="https://joeltraore294-cmd.github.io/Tagbanan/">
   <meta property="og:type" content="website">
 
@@ -17,10 +17,10 @@
     }
   </script>
 
-  <link rel="manifest" href="manifest.json?v=15">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=15">
-  <link rel="apple-touch-icon" href="icon.png?v=15">
-  <link rel="shortcut icon" href="icon.png?v=15">
+  <link rel="manifest" href="manifest.json?v=17">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon.png?v=17">
+  <link rel="apple-touch-icon" href="icon.png?v=17">
+  <link rel="shortcut icon" href="icon.png?v=17">
 
   <meta name="theme-color" content="#000000">
   <meta name="mobile-web-app-capable" content="yes">
@@ -829,7 +829,7 @@
       justify-content: center;
     }
 
-    /* NOTIFICATION BADGE CORRIGÉE (MASQUÉE COMPLÈTEMENT HORS ÉCRAN) */
+    /* NOTIFICATION BADGE */
     #badgeNotificationToast {
       position: fixed;
       bottom: 24px;
@@ -939,7 +939,7 @@
 
   <div id="authOverlay">
     <div class="auth-card">
-      <img src="icon.png?v=15" alt="Tagbanan Logo">
+      <img src="icon.png?v=17" alt="Tagbanan Logo">
       <h2>Tagbanan App</h2>
       <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.25rem;">Entrez votre nom pour ouvrir votre carnet d'apprentissage.</p>
       <form onsubmit="handleRegister(event)">
@@ -955,7 +955,7 @@
 
   <header>
     <div class="brand">
-      <img src="icon.png?v=15" alt="Tagbanan Logo">
+      <img src="icon.png?v=17" alt="Tagbanan Logo">
       <div>
         <div style="display:flex; align-items:center;">
           <h1>Tagbanan</h1>
@@ -1001,6 +1001,7 @@
           <input type="text" id="searchInput" placeholder="Chercher en tagbanan, français ou synonyme..." oninput="handleSearchInput(event)">
         </div>
 
+        <button class="btn btn-primary" id="installPwaBtn" style="display:none;" onclick="triggerPwaInstall()">📲 Installer</button>
         <button class="speed-btn" id="globalSpeedBtn" onclick="togglePlaybackSpeed()" title="Vitesse de lecture audio">Vitesse : 1x</button>
         <button class="btn btn-primary" onclick="requestAdminAuth('add')">🔒 + Ajouter</button>
         <button class="btn btn-secondary" id="adminSuggestionsBtn" style="display:none;" onclick="openAdminSuggestionsModal()">📥 Suggestions</button>
@@ -1170,6 +1171,23 @@
     </p>
   </footer>
 
+  <!-- MODALE INSTALLATION IPHONE -->
+  <div class="modal-backdrop" id="iosInstallModal">
+    <div class="modal" style="max-width:380px; text-align:center;">
+      <div style="font-size:2.5rem; margin-bottom:8px;">📲</div>
+      <h3 style="margin-bottom:8px;">Installer sur iPhone</h3>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem; text-align:left;">
+        Pour installer l'application sur votre écran d'accueil sans passer par l'App Store :
+      </p>
+      <ol style="font-size:0.85rem; text-align:left; padding-left:1.2rem; margin-bottom:1.2rem; color:var(--text); line-height:1.6;">
+        <li>Touchez le bouton de partage <strong>⎋</strong> en bas de Safari.</li>
+        <li>Faites défiler vers le bas et sélectionnez <strong>« Sur l'écran d'accueil » ➕</strong>.</li>
+        <li>Confirmez en touchant <strong>Ajouter</strong> en haut à droite.</li>
+      </ol>
+      <button type="button" class="btn btn-primary" style="width:100%; justify-content:center;" onclick="document.getElementById('iosInstallModal').style.display='none'">Compris</button>
+    </div>
+  </div>
+
   <!-- MODALE ONBOARDING -->
   <div class="modal-backdrop" id="onboardingModal">
     <div class="modal" style="text-align:center; max-width:440px;">
@@ -1244,7 +1262,8 @@
         </div>
         <div class="form-group">
           <label>Répliques (Format : Intervenant | Tagbanan | Français)</label>
-          <textarea id="dlgLines" rows="5" required placeholder="Aîné | Kumusta ka ? | Comment vas-tu ?&#10;Jeune | Mapiya aku ! | Je vais bien !"></textarea>
+          <textarea id="dlgLines" rows="5" required placeholder="Aîné | Kumusta ka ? | Comment vas-tu ?
+Jeune | Mapiya aku ! | Je vais bien !"></textarea>
         </div>
         <div style="display:flex; justify-content:flex-end; gap:8px;">
           <button type="button" class="btn btn-secondary" onclick="document.getElementById('addDialogueModal').style.display='none'">Annuler</button>
@@ -1259,9 +1278,9 @@
     <div class="modal" style="max-height:85vh; overflow-y:auto; text-align:left;">
       <h3 style="margin-bottom:1rem; font-family:'Cinzel', serif;">Conditions Générales d'Utilisation</h3>
       <p style="font-size:0.85rem; margin-bottom:0.8rem;"><strong>1. Vocation & Gratuité :</strong> Tagbanan App est un projet bénévole, familial et éducatif conçu pour préserver, documenter et faire vivre la langue Tagbanan. L'accès à tous les outils d'apprentissage est entièrement libre et gratuit.</p>
-      <p style="font-size:0.85rem; margin-bottom:0.8rem;"><strong>2. Contributions & Suggestions :</strong> En transmettant un mot, une traduction ou une phrase par le formulaire « Suggérer », l'utilisateur consent à ce que sa contribution intègre gracieusement le patrimoine commun de l'application. L'administrateur se réserve le droit de vérifier l'exactitude lexicale avant toute publication officielle.</p>
-      <p style="font-size:0.85rem; margin-bottom:0.8rem;"><strong>3. Données personnelles :</strong> L'application n'exploite ni ne revend aucune donnée à des tiers. Les pseudonymes de visiteur, la progression en XP et les séries de révision sont partagés sur le classement d'émulation familiale sans collecte d'e-mail ou de traceur publicitaire.</p>
-      <p style="font-size:0.85rem; margin-bottom:1.2rem;"><strong>4. Usage du micro :</strong> Dans l'Atelier de Prononciation, le microphone sert strictement à la reconnaissance et l'écoute immédiate de sa voix pour progresser. Aucun enregistrement de visiteur n'est conservé ni diffusé.</p>
+      <p style="font-size:0.85rem; margin-bottom:0.8rem;"><strong>2. Contributions & Suggestions :</strong> En transmettant un mot, une traduction ou une note vocale par le formulaire « Suggérer », l'utilisateur consent à ce que sa contribution intègre gracieusement le patrimoine commun de l'application. L'administrateur valide l'exactitude lexicale avant toute publication officielle.</p>
+      <p style="font-size:0.85rem; margin-bottom:0.8rem;"><strong>3. Données personnelles :</strong> L'application n'exploite ni ne revend aucune donnée à des tiers. Les pseudonymes de visiteur, la progression en XP et les séries de révision sont partagés sur le classement d'émulation familiale sans traceur publicitaire.</p>
+      <p style="font-size:0.85rem; margin-bottom:1.2rem;"><strong>4. Usage du micro :</strong> Le micro sert à la reconnaissance de l'accent ou à l'enregistrement bénévole des suggestions transmises au créateur.</p>
       <div style="display:flex; justify-content:flex-end;">
         <button type="button" class="btn btn-primary" onclick="document.getElementById('cguModal').style.display='none'">Fermer</button>
       </div>
@@ -1293,7 +1312,7 @@
   <div class="modal-backdrop" id="adminAuthModal">
     <div class="modal" style="max-width:380px; text-align:center;">
       <h3 style="margin-bottom:0.5rem;">Connexion Administrateur</h3>
-      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1.2rem;">Authentification officielle requise pour modifier la base Cloud.</p>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1.2rem;">Authentification requise pour modifier la base Cloud.</p>
       <form onsubmit="handleAdminLogin(event)">
         <div class="form-group">
           <label>Adresse e-mail</label>
@@ -1316,7 +1335,7 @@
   <div class="modal-backdrop" id="adminSuggestionsModal">
     <div class="modal" style="max-width:620px;">
       <h3 style="margin-bottom:0.5rem;">📥 Suggestions reçues</h3>
-      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">Validez pour ajouter directement au dictionnaire ou supprimez les entrées non retenues.</p>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">Écoutez l'enregistrement de l'expéditeur et validez pour publier.</p>
       <div id="suggestionsListContainer" style="max-height:55vh; overflow-y:auto;">
         <p style="text-align:center; color:var(--text-muted); padding:1rem;">Chargement des propositions...</p>
       </div>
@@ -1326,11 +1345,11 @@
     </div>
   </div>
 
-  <!-- MODALE SUGGERER (VISITEUR) -->
+  <!-- MODALE SUGGERER (AVEC ENREGISTREUR VOCAL FAMILIAL) -->
   <div class="modal-backdrop" id="suggestModal">
     <div class="modal">
       <h3 style="margin-bottom:0.75rem;">💡 Suggérer un mot</h3>
-      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">Votre contribution sera vérifiée par le créateur avant publication.</p>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">Partagez un mot ou une phrase et enregistrez votre prononciation !</p>
       <form onsubmit="handleSuggestion(event)">
         <div class="form-group">
           <label>Mot en Tagbanan *</label>
@@ -1342,15 +1361,27 @@
         </div>
         <div class="form-group">
           <label>Synonymes ou sens proches</label>
-          <input type="text" id="sugSynonyms" placeholder="ex: lingot, métal précieux">
+          <input type="text" id="sugSynonyms" placeholder="ex: lingot, précieux">
         </div>
         <div class="form-group">
-          <label>Dialecte ou région</label>
+          <label>Dialecte ou village d'origine</label>
           <input type="text" id="sugDialect" placeholder="ex: Aborlan">
         </div>
+
+        <div class="form-group">
+          <label>Votre prononciation vocale (optionnelle)</label>
+          <div class="voice-recorder-box" style="padding:0.75rem;">
+            <button type="button" class="rec-btn" id="sugRecordBtn" onclick="toggleSugRecording()">
+              <span id="sugRecIcon">🎙️</span> <span id="sugRecText">Enregistrer ma voix</span>
+            </button>
+            <div id="sugRecStatus" style="font-size:0.75rem; color:var(--text-muted);">Touchez pour démarrer</div>
+            <audio id="sugAudioPreview" controls style="display:none; width: 100%; margin-top: 6px;"></audio>
+          </div>
+        </div>
+
         <div style="display:flex; justify-content:flex-end; gap:8px;">
-          <button type="button" class="btn btn-secondary" onclick="document.getElementById('suggestModal').style.display='none'">Fermer</button>
-          <button type="submit" class="btn btn-primary">Envoyer</button>
+          <button type="button" class="btn btn-secondary" onclick="closeSuggestModal()">Fermer</button>
+          <button type="submit" class="btn btn-primary" id="sugSubmitBtn">Envoyer la contribution</button>
         </div>
       </form>
     </div>
@@ -1458,11 +1489,52 @@
   <div id="bookletPrintContainer"></div>
 
   <script>
+    let serviceWorkerRegistration = null;
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW fail', err));
+        navigator.serviceWorker.register('./sw.js?v=17').then(reg => {
+          serviceWorkerRegistration = reg;
+        }).catch(err => console.log('SW fail', err));
       });
     }
+
+    // PWA Install
+    let deferredPrompt = null;
+    const installBtn = document.getElementById('installPwaBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (installBtn) installBtn.style.display = 'inline-flex';
+    });
+
+    const isIos = () => /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+    const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+    window.addEventListener('load', () => {
+      if (isIos() && !isInStandaloneMode() && installBtn) {
+        installBtn.style.display = 'inline-flex';
+      }
+    });
+
+    function triggerPwaInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            installBtn.style.display = 'none';
+          }
+          deferredPrompt = null;
+        });
+      } else if (isIos()) {
+        document.getElementById('iosInstallModal').style.display = 'flex';
+      }
+    }
+
+    window.addEventListener('appinstalled', () => {
+      if (installBtn) installBtn.style.display = 'none';
+      deferredPrompt = null;
+    });
 
     const firebaseConfig = {
       apiKey: "AIzaSyDHraE4iQi9zQEs6YII_3HGUF1gyOSsVxE",
@@ -1791,18 +1863,32 @@
       syncProfileToLeaderboard();
     }
 
+    // ÉTAPE 4 : RAPPEL & NOTIFICATION QUOTIDIENNE VIA SERVICE WORKER
     function requestNotificationReminder() {
       if (!('Notification' in window)) {
-        alert("Notifications non supportées sur ce navigateur.");
+        alert("Les notifications ne sont pas supportées par ce navigateur.");
         return;
       }
-      Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-          new Notification("Tagbanan App", {
-            body: "Rappels quotidiens activés ! Venez entretenir votre flamme.",
-            icon: "icon.png?v=15"
-          });
-          document.getElementById('notifBellBtn').innerText = '🔕';
+
+      Notification.requestPermission().then(perm => {
+        if (perm === 'granted') {
+          localStorage.setItem('tagbanan_notif_enabled', 'true');
+          document.getElementById('notifBellBtn').innerText = '🔔';
+          
+          // Récupérer le mot du jour actuel
+          const w = document.getElementById('mdjWord').innerText;
+          const t = document.getElementById('mdjTrans').innerText;
+
+          if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+              type: 'SCHEDULE_DAILY_NOTIFICATION',
+              word: w !== '---' ? w : 'Tagbanan',
+              trans: t !== '---' ? t : 'Venez apprendre un mot aujourd\'hui !'
+            });
+          }
+          alert("✓ Rappel quotidien activé ! Vous recevrez un mot par jour.");
+        } else {
+          alert("Permission pour les notifications refusée.");
         }
       });
     }
@@ -1946,6 +2032,7 @@
       }
     }
 
+    // ENREGISTREUR VOCAL ADMIN (FICHE MOT)
     let mediaRecorder = null, audioChunks = [], recordedBase64 = null, isRecording = false;
 
     async function toggleRecording() {
@@ -1984,6 +2071,48 @@
         btn.classList.remove('recording');
         document.getElementById('recIcon').innerText = '🎙️';
         document.getElementById('recText').innerText = 'Réenregistrer';
+      }
+    }
+
+    // ÉTAPE 4 : ENREGISTREUR VOCAL POUR LES SUGGESTIONS (PROCHES/FAMILLE)
+    let sugRecorder = null, sugChunks = [], sugAudioBase64 = null, isSugRecording = false;
+
+    async function toggleSugRecording() {
+      const btn = document.getElementById('sugRecordBtn');
+      const status = document.getElementById('sugRecStatus');
+      const preview = document.getElementById('sugAudioPreview');
+
+      if (!isSugRecording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          sugRecorder = new MediaRecorder(stream);
+          sugChunks = [];
+          sugRecorder.ondataavailable = e => { if (e.data.size > 0) sugChunks.push(e.data); };
+          sugRecorder.onstop = () => {
+            const blob = new Blob(sugChunks, { type: 'audio/webm' });
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = () => {
+              sugAudioBase64 = reader.result;
+              preview.src = sugAudioBase64;
+              preview.style.display = 'block';
+              status.innerHTML = `<span style="color:var(--primary-light); font-weight:700;">✓ Votre voix a été capturée !</span>`;
+            };
+          };
+          sugRecorder.start();
+          isSugRecording = true;
+          btn.classList.add('recording');
+          document.getElementById('sugRecIcon').innerText = '⏹️';
+          document.getElementById('sugRecText').innerText = 'Arrêter';
+          status.innerText = "Enregistrement de votre prononciation...";
+        } catch (err) { alert("Micro inaccessible : " + err.message); }
+      } else {
+        sugRecorder.stop();
+        sugRecorder.stream.getTracks().forEach(t => t.stop());
+        isSugRecording = false;
+        btn.classList.remove('recording');
+        document.getElementById('sugRecIcon').innerText = '🎙️';
+        document.getElementById('sugRecText').innerText = 'Réenregistrer';
       }
     }
 
@@ -2292,8 +2421,8 @@
       div.className = 'example-entry-row';
       div.innerHTML = `
         <button type="button" class="remove-ex-btn" onclick="this.parentElement.remove()">✕ Retirer</button>
-        <input type="text" placeholder="Phrase en Tagbanan..." class="ex-tag-input" value="${tagVal.replace(/"/g, '&quot;')}">
-        <input type="text" placeholder="Traduction en français..." class="ex-fr-input" value="${frVal.replace(/"/g, '&quot;')}">
+        <input type="text" placeholder="Phrase en Tagbanan..." class="ex-tag-input" value="${tagVal.replace(/"/g, '"')}">
+        <input type="text" placeholder="Traduction en français..." class="ex-fr-input" value="${frVal.replace(/"/g, '"')}">
       `;
       container.appendChild(div);
     }
@@ -2470,27 +2599,50 @@
       }
     }
 
-    function openSuggestModal() { document.getElementById('suggestModal').style.display = 'flex'; }
+    // ÉTAPE 4 : FORMULAIRE DE SUGGESTION AVEC AUDIO INCLUS
+    function openSuggestModal() {
+      sugAudioBase64 = null;
+      document.getElementById('sugAudioPreview').style.display = 'none';
+      document.getElementById('sugRecStatus').innerText = "Touchez pour démarrer";
+      document.getElementById('sugRecordBtn').classList.remove('recording');
+      document.getElementById('sugRecIcon').innerText = '🎙️';
+      document.getElementById('sugRecText').innerText = 'Enregistrer ma voix';
+      document.getElementById('suggestModal').style.display = 'flex';
+    }
+
+    function closeSuggestModal() {
+      document.getElementById('suggestModal').style.display = 'none';
+    }
+
     async function handleSuggestion(e) {
       e.preventDefault();
+      const btn = document.getElementById('sugSubmitBtn');
+      btn.disabled = true;
+      btn.innerText = "Envoi...";
+
       const rawSyn = document.getElementById('sugSynonyms').value;
       try {
         await suggestionsCollection.add({
           word: document.getElementById('sugWord').value.trim(),
           trans: document.getElementById('sugTrans').value.trim(),
           synonyms: rawSyn ? rawSyn.split(',').map(s => s.trim()).filter(Boolean) : [],
-          dialect: document.getElementById('sugDialect').value.trim(),
+          dialect: document.getElementById('sugDialect').value.trim() || 'Général',
           author: currentUser || 'Anonyme',
+          audio: sugAudioBase64,
           createdAt: Date.now()
         });
-        alert("Merci ! Votre suggestion a été transmise.");
-        document.getElementById('suggestModal').style.display = 'none';
+        alert("Merci infiniment ! Votre suggestion avec voix a été transmise à Joel.");
+        closeSuggestModal();
         e.target.reset();
       } catch (err) {
-        alert("Erreur d'envoi de la suggestion : " + err.message);
+        alert("Erreur d'envoi : " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Envoyer la contribution";
       }
     }
 
+    // MODALE ADMIN AVEC LECTEUR AUDIO DES SUGGESTIONS
     async function openAdminSuggestionsModal() {
       if (!currentAdminUser) return;
       const container = document.getElementById('suggestionsListContainer');
@@ -2515,15 +2667,22 @@
           el.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:baseline;">
               <strong style="font-family:'Cinzel', serif; font-size:1.15rem; color:var(--primary-light);">${s.word}</strong>
-              <span style="font-size:0.75rem; color:var(--text-muted);">Par : ${s.author || 'Inconnu'}</span>
+              <span style="font-size:0.75rem; color:var(--text-muted);">De : <strong>${s.author || 'Inconnu'}</strong></span>
             </div>
             <div style="font-size:0.9rem;"><strong>Sens :</strong> ${s.trans}</div>
             ${synTxt ? `<div style="font-size:0.8rem; color:var(--text-muted);"><strong>Synonymes :</strong> ${synTxt}</div>` : ''}
             ${s.dialect ? `<div style="font-size:0.8rem; color:var(--text-muted);"><strong>Dialecte :</strong> ${s.dialect}</div>` : ''}
             
+            ${s.audio ? `
+              <div style="margin-top:6px;">
+                <span style="font-size:0.75rem; color:var(--primary-light); font-weight:700;">🗣️ Audio envoyé :</span>
+                <audio controls src="${s.audio}" style="width:100%; height:32px; margin-top:4px;"></audio>
+              </div>
+            ` : ''}
+
             <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
               <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.75rem; color:#ef4444;" onclick="rejectSuggestion('${sid}')">Rejeter</button>
-              <button class="btn btn-primary" style="padding:4px 10px; font-size:0.75rem;" onclick='approveSuggestion("${sid}", ${JSON.stringify(s).replace(/"/g, '&quot;')})'>✓ Valider & Publier</button>
+              <button class="btn btn-primary" style="padding:4px 10px; font-size:0.75rem;" onclick='approveSuggestion("${sid}", ${JSON.stringify(s).replace(/"/g, '"')})'>✓ Valider & Intégrer</button>
             </div>
           `;
           container.appendChild(el);
@@ -2534,7 +2693,7 @@
     }
 
     async function approveSuggestion(sid, sData) {
-      if (!confirm(`Publier « ${sData.word} » dans le dictionnaire officiel ?`)) return;
+      if (!confirm(`Publier « ${sData.word} » dans le dictionnaire officiel avec cet audio ?`)) return;
       try {
         const rawSyn = Array.isArray(sData.synonyms) ? sData.synonyms : (sData.synonyms ? sData.synonyms.split(',').map(x=>x.trim()) : []);
         await wordsCollection.add({
@@ -2546,7 +2705,8 @@
           grammar: 'Nom',
           cat: 'Quotidien',
           examples: [],
-          audio: null,
+          audio: sData.audio || null,
+          speaker: sData.author || null,
           image: null,
           elderVerified: false,
           mastery: 0,
@@ -2872,7 +3032,7 @@
 
           <div class="options-grid">
             ${choices.map(ch => `
-              <button class="quest-option" onclick="handleTimeAttackAnswer('${ch.replace(/'/g, "\\'")}', '${correct.replace(/'/g, "\\'")}', ${JSON.stringify(pool).replace(/"/g, '&quot;')})">${ch}</button>
+              <button class="quest-option" onclick="handleTimeAttackAnswer('${ch.replace(/'/g, "\\'")}', '${correct.replace(/'/g, "\\'")}', ${JSON.stringify(pool).replace(/"/g, '"')})">${ch}</button>
             `).join('')}
           </div>
         </div>
@@ -2933,7 +3093,7 @@
             <div class="word-blocks-pool" id="puzzlePool"></div>
           </div>
 
-          <button class="btn btn-primary" id="validateSentenceBtn" style="padding:1rem; justify-content:center;" onclick="validateSentence('${current.tag.replace(/'/g, "\\'")}', ${JSON.stringify(list).replace(/"/g, '&quot;')})">Vérifier</button>
+          <button class="btn btn-primary" id="validateSentenceBtn" style="padding:1rem; justify-content:center;" onclick="validateSentence('${current.tag.replace(/'/g, "\\'")}', ${JSON.stringify(list).replace(/"/g, '"')})">Vérifier</button>
         </div>
       `;
       refreshPuzzleBlocks();
