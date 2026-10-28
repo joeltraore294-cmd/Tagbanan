@@ -1,10 +1,9 @@
-const CACHE_NAME = 'tagbanan-cache-v11';
+const CACHE_NAME = 'tagbanan-v17';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  './manifest.json?v=11',
-  './icon.png?v=11',
-  'https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap'
+  './manifest.json',
+  './icon.png'
 ];
 
 self.addEventListener('install', event => {
@@ -24,27 +23,33 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  const url = new URL(event.request.url);
-
-  // Mise en cache dynamique des polices et fichiers audio en ligne
-  if (url.origin.includes('fonts.gstatic.com') || url.pathname.endsWith('.webm') || url.pathname.endsWith('.mp3')) {
-    event.respondWith(
-      caches.open(CACHE_NAME).then(async cache => {
-        const cached = await cache.match(event.request);
-        if (cached) return cached;
-        try {
-          const res = await fetch(event.request);
-          if (res.status === 200) cache.put(event.request, res.clone());
-          return res;
-        } catch {
-          return cached;
-        }
-      })
-    );
-    return;
-  }
-
+  if (event.request.url.includes('firestore.googleapis.com')) return;
   event.respondWith(
-    caches.match(event.request).then(cached => cached || fetch(event.request).catch(() => caches.match('./index.html')))
+    caches.match(event.request).then(res => res || fetch(event.request).catch(() => caches.match('./index.html')))
+  );
+});
+
+// Réception des rappels de notification
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SCHEDULE_DAILY_NOTIFICATION') {
+    const { word, trans } = event.data;
+    self.registration.showNotification("✨ Le mot Tagbanan du jour", {
+      body: `« ${word} » signifie « ${trans} ». Venez entretenir votre série !`,
+      icon: 'icon.png?v=17',
+      badge: 'icon.png?v=17',
+      data: { url: './' }
+    });
+  }
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+      for (const client of clientList) {
+        if (client.url.includes('Tagbanan') && 'focus' in client) return client.focus();
+      }
+      if (clients.openWindow) return clients.openWindow('./');
+    })
   );
 });
